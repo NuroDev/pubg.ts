@@ -6,13 +6,6 @@ export interface ClientOptions {
   shard?: Shard;
 }
 
-export interface FetchOptions extends WithShard {
-  /**
-   *  Endpoint to hit of the api
-   */
-  endpoint: string;
-}
-
 export interface GetCurrentSeasonOptions extends WithShard {}
 
 export interface GetManyPlayerSeasonOptions extends WithShard {}

@@ -3,4 +3,6 @@ export enum ErrorCode {
   INVALID_API_KEY = "An invalid API key has been provided. Please check the key is valid",
 
   INVALID_SHARD = "The shard argument provided is invalid. Please validate you have passed the correct shard value",
+
+  FETCH_STATUS = "Failed to fetch API status",
 }

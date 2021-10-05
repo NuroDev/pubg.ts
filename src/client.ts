@@ -2,11 +2,12 @@ import got from "got";
 
 import { BASE_HEADERS, BASE_URL } from "./constants";
 
+import type { Got } from "got";
+
 import { ErrorCode, Shard } from "./types";
 
 import type {
   ClientOptions,
-  FetchOptions,
   GetCurrentSeasonOptions,
   GetManyPlayerSeasonOptions,
   GetMatchOptions,
@@ -19,40 +20,37 @@ import type {
 } from "./types";
 
 export class Client {
+  /**
+   * PUBG App API access token
+   */
   private _apiKey: string;
+  /**
+   * Default shard to use if none provided in methods
+   */
   private _shard: Shard;
+  /**
+   * Base PUBG API instance
+   */
+  private _fetch: Got;
 
   constructor({ apiKey, shard = Shard.STEAM }: ClientOptions) {
     this._apiKey = apiKey;
     this._shard = shard;
 
+    this._fetch = got.extend({
+      prefixUrl: BASE_URL,
+      responseType: "json",
+      headers: {
+        ...BASE_HEADERS,
+        Authorization: `Bearer ${this._apiKey}`,
+      },
+    });
+
     if (!this._apiKey) throw new Error(ErrorCode.NO_API_KEY);
 
     if (this._apiKey.length <= 0) throw new Error(ErrorCode.INVALID_API_KEY);
-  }
 
-  /**
-   * Performs a basic HTTP request to the PUBG API
-   *
-   * @param _options
-   */
-  private async fetch<T>({ endpoint, shard = this._shard }: FetchOptions) {
-    if (!shard.includes(typeof Shard)) throw new Error(ErrorCode.INVALID_SHARD);
-
-    const url = `${BASE_URL}/shards/${shard}/${endpoint}`;
-
-    try {
-      const response = await got<T>(url, {
-        headers: {
-          ...BASE_HEADERS,
-          Authorization: `Bearer ${this._apiKey}`,
-        },
-        responseType: "json",
-      });
-      console.log("response", response);
-    } catch (error) {
-      throw error;
-    }
+    console.log(this._shard);
   }
 
   /**
@@ -110,7 +108,13 @@ export class Client {
   /**
    * Gets the status of the API
    */
-  public async getStatus() {}
+  public async getStatus() {
+    try {
+      return await this._fetch("status");
+    } catch (error) {
+      throw new Error(`${ErrorCode.FETCH_STATUS}: ${error}`);
+    }
+  }
 
   /**
    * Fetches telemetry data object

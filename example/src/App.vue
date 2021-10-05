@@ -2,9 +2,11 @@
   import { Client } from "../../src";
 
   const client = new Client({
-    apiKey: "",
+    apiKey: "ABC",
   });
-  console.log("client", client);
+
+  const status = await client.getStatus();
+  console.log(status);
 </script>
 
 <template>
