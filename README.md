@@ -14,17 +14,21 @@
     <br />
     A lightweight PUBG TypeScript API Wrapper</em>
     <br />
+    <br />
     <a href="https://www.npmjs.com/package/pubg.ts">
-       <img src="https://img.shields.io/npm/v/pubg.ts?label=%20&style=for-the-badge" alt="npm package" />
+       <img src="https://img.shields.io/npm/v/pubg.ts?label=%20&style=for-the-badge" alt="Package Version" />
     </a>
     <a href="https://www.npmjs.com/package/pubg.ts">
-      <img src="https://img.shields.io/npm/dm/pubg.ts?label=%20&style=for-the-badge" alt="npm downloads" />
+      <img src="https://img.shields.io/npm/dm/pubg.ts?label=%20&style=for-the-badge" alt="Package Monthly Downloads" />
     </a>
     <a href="https://github.com/nurodev/pubg.ts">
-      <img src="https://img.shields.io/badge/-Docs%20-blue.svg?style=for-the-badge" alt="Docs" />
+      <img src="https://img.shields.io/badge/-Docs-blue.svg?style=for-the-badge" alt="Docs" />
+    </a>
+    <a href="https://documentation.pubg.com/">
+      <img src="https://img.shields.io/badge/-API-yellow.svg?style=for-the-badge" alt="API" />
     </a>
     <a href="https://github.com/nurodev/pubg.ts">
-      <img src="https://img.shields.io/badge/-Example%20-white.svg?style=for-the-badge" alt="Example" />
+      <img src="https://img.shields.io/badge/-Example-white.svg?style=for-the-badge" alt="Example" />
     </a>
   </sup>
   <br />
