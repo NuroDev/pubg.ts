@@ -15,10 +15,10 @@
     A lightweight PUBG TypeScript API Wrapper</em>
     <br />
     <a href="https://www.npmjs.com/package/pubg.ts">
-       <img src="https://img.shields.io/npm/v/vite-plugin-splitbee?label=%20&style=for-the-badge" alt="npm package" />
+       <img src="https://img.shields.io/npm/v/pubg.ts?label=%20&style=for-the-badge" alt="npm package" />
     </a>
     <a href="https://www.npmjs.com/package/pubg.ts">
-      <img src="https://img.shields.io/npm/dm/vite-plugin-splitbee?label=%20&style=for-the-badge" alt="npm downloads" />
+      <img src="https://img.shields.io/npm/dm/pubg.ts?label=%20&style=for-the-badge" alt="npm downloads" />
     </a>
     <a href="https://github.com/nurodev/pubg.ts">
       <img src="https://img.shields.io/badge/-Docs%20-blue.svg?style=for-the-badge" alt="Docs" />
