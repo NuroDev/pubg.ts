@@ -1,7 +1,12 @@
-import { Shard } from "./types";
+import got from "got";
+
+import { BASE_HEADERS, BASE_URL } from "./constants";
+
+import { ErrorCode, Shard } from "./types";
 
 import type {
   ClientOptions,
+  FetchOptions,
   GetCurrentSeasonOptions,
   GetManyPlayerSeasonOptions,
   GetMatchOptions,
@@ -9,25 +14,45 @@ import type {
   GetPlayerSeasonsOptions,
   GetSamplesOptions,
   GetSeasonsOptions,
-  GetTournamentOptions,
   GetTelemetryOptions,
+  GetTournamentOptions,
 } from "./types";
 
 export class Client {
-  private _apiKey: string | null = null;
-  private _shard: Shard | null = Shard.STEAM;
+  private _apiKey: string;
+  private _shard: Shard;
 
   constructor({ apiKey, shard = Shard.STEAM }: ClientOptions) {
     this._apiKey = apiKey;
     this._shard = shard;
 
-    if (!this._apiKey)
-      throw new Error(
-        "No API has been provided. An API key is required to use `pubg.ts`"
-      );
+    if (!this._apiKey) throw new Error(ErrorCode.NO_API_KEY);
 
-    console.log("apiKey", this._apiKey);
-    console.log("shard", this._shard);
+    if (this._apiKey.length <= 0) throw new Error(ErrorCode.INVALID_API_KEY);
+  }
+
+  /**
+   * Performs a basic HTTP request to the PUBG API
+   *
+   * @param _options
+   */
+  private async fetch<T>({ endpoint, shard = this._shard }: FetchOptions) {
+    if (!shard.includes(typeof Shard)) throw new Error(ErrorCode.INVALID_SHARD);
+
+    const url = `${BASE_URL}/shards/${shard}/${endpoint}`;
+
+    try {
+      const response = await got<T>(url, {
+        headers: {
+          ...BASE_HEADERS,
+          Authorization: `Bearer ${this._apiKey}`,
+        },
+        responseType: "json",
+      });
+      console.log("response", response);
+    } catch (error) {
+      throw error;
+    }
   }
 
   /**
