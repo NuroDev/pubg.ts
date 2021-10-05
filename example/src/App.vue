@@ -1,4 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { Client } from "../../src";
+
+  const client = new Client({
+    apiKey: "",
+  });
+  console.log("client", client);
+</script>
 
 <template>
   <div class="container">
