@@ -1,17 +1,18 @@
-import got from "got";
+import axios from "axios";
 
 import { BASE_HEADERS, BASE_URL } from "./constants";
-
-import type { Got } from "got";
-
 import { ErrorCode, Shard } from "./types";
+
+import type { AxiosResponse } from "axios";
 
 import type {
   ClientOptions,
+  FetchOptions,
   GetCurrentSeasonOptions,
   GetManyPlayerSeasonOptions,
   GetMatchOptions,
   GetPlayerOptions,
+  PlayerResponse,
   GetPlayerSeasonsOptions,
   GetSamplesOptions,
   GetSeasonsOptions,
@@ -28,29 +29,48 @@ export class Client {
    * Default shard to use if none provided in methods
    */
   private _shard: Shard;
-  /**
-   * Base PUBG API instance
-   */
-  private _fetch: Got;
 
   constructor({ apiKey, shard = Shard.STEAM }: ClientOptions) {
     this._apiKey = apiKey;
     this._shard = shard;
 
-    this._fetch = got.extend({
-      prefixUrl: BASE_URL,
-      responseType: "json",
-      headers: {
-        ...BASE_HEADERS,
-        Authorization: `Bearer ${this._apiKey}`,
-      },
-    });
-
     if (!this._apiKey) throw new Error(ErrorCode.NO_API_KEY);
 
     if (this._apiKey.length <= 0) throw new Error(ErrorCode.INVALID_API_KEY);
+  }
 
-    console.log(this._shard);
+  /**
+   * Performs a basic HTTP request to the PUBG API
+   *
+   * @param {FetchOptions} options - Fetch options
+   */
+  private async _fetch<T = never>({
+    endpoint,
+    headers,
+    params,
+    shard = this._shard,
+  }: FetchOptions) {
+    if (!Object.values(Shard).includes(shard))
+      throw new Error(ErrorCode.INVALID_SHARD);
+
+    const url = `${BASE_URL}/shards/${shard}/${endpoint}`;
+
+    try {
+      const { data }: AxiosResponse<T> = await axios(url, {
+        headers: {
+          ...BASE_HEADERS,
+          Authorization: `Bearer ${this._apiKey}`,
+          ...headers,
+        },
+        params,
+        responseType: "json",
+      });
+
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   /**
@@ -76,9 +96,36 @@ export class Client {
   /**
    * Get player by the given id or name
    *
-   * @param _options {GetPlayerOptions}
+   * @param {Object} options - Player Options
    */
-  public async getPlayer(_options: GetPlayerOptions) {}
+  public async getPlayer({ shard = this._shard, ...rest }: GetPlayerOptions) {
+    switch (rest.type) {
+      case "id":
+        const isIdArray = Array.isArray(rest.id);
+        const playerIds = rest.id as Array<string>;
+
+        return await this._fetch<PlayerResponse>({
+          endpoint: isIdArray ? "players" : `players/${rest.id}`,
+          params: isIdArray
+            ? { "filter[playerIds]": playerIds.join(",") }
+            : undefined,
+        });
+      case "name":
+        const isNameArray = Array.isArray(rest.name);
+        const playerNames = rest.name as Array<string>;
+
+        return await this._fetch<PlayerResponse>({
+          endpoint: "players",
+          params: {
+            "filter[playerNames]": isNameArray
+              ? playerNames.join(",")
+              : rest.name,
+          },
+        });
+      default:
+        throw new Error(ErrorCode.INVALID_PLAYER_FETCH_TYPE);
+    }
+  }
 
   /**
    * Get a player season object
@@ -108,13 +155,7 @@ export class Client {
   /**
    * Gets the status of the API
    */
-  public async getStatus() {
-    try {
-      return await this._fetch("status");
-    } catch (error) {
-      throw new Error(`${ErrorCode.FETCH_STATUS}: ${error}`);
-    }
-  }
+  public async getStatus() {}
 
   /**
    * Fetches telemetry data object

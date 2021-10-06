@@ -5,8 +5,11 @@
     apiKey: "ABC",
   });
 
-  const status = await client.getStatus();
-  console.log(status);
+  const player = await client.getPlayer({
+    name: "ElonMusk",
+    type: "name",
+  });
+  console.log("player", player);
 </script>
 
 <template>
