@@ -1,9 +1,10 @@
 import { defineConfig } from "vite";
 import Vue from "@vitejs/plugin-vue";
 import WindiCSS from "vite-plugin-windicss";
+import { join } from "path";
 
 export default defineConfig({
-  root: "example",
+  envDir: join(process.cwd()),
   plugins: [
     Vue(),
     WindiCSS({

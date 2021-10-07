@@ -1,17 +1,17 @@
 <script setup lang="ts">
   import { useMatch, usePlayer, useSeason, useSeasons } from "../../src";
 
-  const apiKey = "ABC123";
+  const apiKey = import.meta.env.VITE_PUBG_API_KEY;
 
   const player = await usePlayer({
     apiKey,
-    value: ["ElonMusk"],
+    value: import.meta.env.VITE_PUBG_PLAYER_NAME,
   });
   console.log("player", player);
 
   const match = await useMatch({
     apiKey,
-    id: "SOME_RANDOM_MATCH_ID",
+    id: import.meta.env.VITE_PUBG_MATCH_ID,
   });
   console.log("match", match);
 
