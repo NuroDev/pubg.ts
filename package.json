@@ -31,8 +31,9 @@
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "rimraf dist && tsup",
+    "example:build": "vite build ./example/",
     "example:dev": "vite ./example/",
-    "example:build": "vite build ./example/"
+    "example:preview": "vite preview ./example/"
   },
   "devDependencies": {
     "@types/node": "^16.10.2",
