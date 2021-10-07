@@ -1,6 +1,7 @@
+import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import { BaseResponse, ErrorCode } from "..";
+import type { BaseResponse } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SamplesOptions extends WithApiShard {}

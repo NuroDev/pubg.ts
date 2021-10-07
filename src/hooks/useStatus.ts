@@ -1,6 +1,6 @@
+import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import { ErrorCode } from "..";
 import type { WithApiKey } from "../types/util";
 
 export interface StatusOptions extends WithApiKey {}

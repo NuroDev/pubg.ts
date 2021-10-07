@@ -1,6 +1,7 @@
+import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import { BaseResponse, ErrorCode, Match, Participant, Roster } from "..";
+import type { BaseResponse, Match, Participant, Roster } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface MatchOptions extends WithApiShard {

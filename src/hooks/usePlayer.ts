@@ -1,6 +1,7 @@
+import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import { BaseResponse, ErrorCode, Player } from "..";
+import type { BaseResponse, Player } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface PlayerOptions extends WithApiShard {

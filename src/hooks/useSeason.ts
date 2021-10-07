@@ -1,6 +1,7 @@
+import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import { BaseResponse, ErrorCode, Season } from "..";
+import type { BaseResponse, Season } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SeasonOptions extends WithApiShard {

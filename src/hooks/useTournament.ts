@@ -1,5 +1,5 @@
-import { fetch } from "../util";
 import { ErrorCode } from "..";
+import { fetch } from "../util";
 
 import type { BaseResponse, Tournament } from "..";
 import type { WithApiShard } from "../types/util";
