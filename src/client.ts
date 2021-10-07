@@ -20,9 +20,9 @@ import type {
   TelemetryOptions,
   TournamentOptions,
 } from ".";
-import type { WithApiKey, WithShard } from "./types/util";
+import type { WithApiShard } from "./types/util";
 
-interface ClientOptions extends WithApiKey, WithShard {}
+interface ClientOptions extends WithApiShard {}
 
 export class Client {
   /**
