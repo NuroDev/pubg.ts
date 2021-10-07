@@ -64,25 +64,26 @@ With an account created, you can [create a new developer application](https://de
 Here's a few small examples of what you can do with this library
 
 ```typescript
-import { Client } from "pubg.ts";
+import { Shard, usePlayer, useMatch, useSeason } from "pubg.ts";
 
-// Create a new client instance
-const client = new Client({
+// Get a single or multiple player(s) using their name or ID
+const player = await usePlayer({
   apiKey: "your_key_goes_here",
-  shard: "optionally_provide_a_custom_shard",
-});
+  value: "single_name_or_id_or_array_of_such",
 
-// Get a single player using their name
-const player = await client.getPlayer({
-  name: "PUBG_Username",
+  // Optional for all hooks (Default: Steam)
+  shard: Shard.STEAM,
 });
-
-// Retrieve thousands of recent matches & get stats for any of them
-const samples = await client.getSamples();
 
 // Fetch a data from a single match
-const match = await client.getMatch({
+const match = await useMatch({
+  apiKey: "your_key_goes_here",
   id: "a036c694-be29-4dea-833d-b6ff84323de7",
+});
+
+// Get the current active season
+const activeSeason = await useSeason({
+  apiKey: "your_key_goes_here",
 });
 ```
 
