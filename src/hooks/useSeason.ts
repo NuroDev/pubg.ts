@@ -3,7 +3,12 @@ import { fetch } from "../util";
 import { BaseResponse, ErrorCode, Season } from "..";
 import type { WithApiShard } from "../types/util";
 
-export interface SeasonOptions extends WithApiShard {}
+export interface SeasonOptions extends WithApiShard {
+  /**
+   * Season ID
+   */
+  id?: string;
+}
 
 /**
  * Get data on a specified season. Whether current or a player(s)
@@ -11,13 +16,15 @@ export interface SeasonOptions extends WithApiShard {}
  *
  * @param {Object} options - Season Options
  */
-export async function useSeason({ ...rest }: SeasonOptions) {
+export async function useSeason({ id, ...rest }: SeasonOptions) {
   try {
     const allSeasons = await useSeasons({
       ...rest,
     });
 
-    return allSeasons.data.find((season) => season.attributes.isCurrentSeason);
+    return allSeasons.data.find((season) =>
+      id ? id === season.id : season.attributes.isCurrentSeason
+    );
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_SEASON, error);
     throw error;
