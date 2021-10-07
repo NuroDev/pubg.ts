@@ -1,34 +1,94 @@
+import { useMatch, usePlayer } from ".";
+import { ErrorCode, Shard } from "./types";
+
 import type {
+  ClientOptions,
   GetCurrentSeasonOptions,
   GetManyPlayerSeasonOptions,
-  GetMatchOptions,
   GetPlayerSeasonsOptions,
   GetSamplesOptions,
   GetSeasonsOptions,
   GetTelemetryOptions,
   GetTournamentOptions,
 } from "./types";
+import type { MatchOptions, PlayerOptions } from ".";
 
 export class Client {
   /**
+   * PUBG Developer API access token
+   */
+  private _apiKey: string;
+  /**
+   * Default shard to use if none provided in methods
+   */
+  private _shard: Shard;
+
+  constructor({ apiKey, shard = Shard.STEAM }: ClientOptions) {
+    this._apiKey = apiKey;
+    this._shard = shard;
+
+    if (!this._apiKey) throw new Error(ErrorCode.NO_API_KEY);
+    if (this._apiKey.length <= 0) throw new Error(ErrorCode.INVALID_API_KEY);
+  }
+
+  /**
    * Get a Season Object with the info of the current season
    *
-   * @param _options {GetSeasonsOptions}
+   * @param {Object} options - Get Seasons Options
    */
-  public async getCurrentSeason(_options: GetCurrentSeasonOptions) {}
+  public async getCurrentSeason({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: GetCurrentSeasonOptions) {
+    return {};
+  }
 
   /**
    *
-   * @param _options {GetManyPlayerSeasonOptions}
+   * @param {Object} options - Get Player Season Options
    */
-  public async getManyPlayerSeason(_options: GetManyPlayerSeasonOptions) {}
+  public async getManyPlayerSeason({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: GetManyPlayerSeasonOptions) {
+    return {};
+  }
 
   /**
    * Get a match from a match id
    *
-   * @param _options {GetMatchOptions}
+   * @param {Object} options - Match Options
    */
-  public async getMatch(_options: GetMatchOptions) {}
+  public async getMatch({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: MatchOptions) {
+    return await useMatch({
+      apiKey,
+      shard,
+      ...rest,
+    });
+  }
+
+  /**
+   * Get player by the given id or name
+   *
+   * @param {Object} options - Player Options
+   */
+  public async getPlayer({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: PlayerOptions) {
+    return await usePlayer({
+      apiKey,
+      shard,
+      ...rest,
+    });
+  }
 
   /**
    * Get a player season object
@@ -37,23 +97,41 @@ export class Client {
    * full fetched player in relationships.player. Otherwise, it will just be a
    * reference to the player id and will need .fetch() for its info to be complete.
    *
-   * @param _options {GetPlayerSeasonsOptions}
+   * @param {Object} options - Player Seasons Options
    */
-  public async getPlayerSeason(_options: GetPlayerSeasonsOptions) {}
+  public async getPlayerSeason({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: GetPlayerSeasonsOptions) {
+    return {};
+  }
 
   /**
    * Gets a list of all past matches from the api
    *
-   * @param _options {GetSamplesOptions}
+   * @param {Object} options - Samples Options
    */
-  public async getSamples(_options: GetSamplesOptions) {}
+  public async getSamples({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: GetSamplesOptions) {
+    return {};
+  }
 
   /**
    * Get an array of all seasons of a provided shard
    *
-   * @param _options {GetSeasonsOptions}
+   * @param {Object} options - Seasons Options
    */
-  public async getSeasons(_options: GetSeasonsOptions) {}
+  public async getSeasons({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: GetSeasonsOptions) {
+    return {};
+  }
 
   /**
    * Gets the status of the API
@@ -63,16 +141,28 @@ export class Client {
   /**
    * Fetches telemetry data object
    *
-   * @param _options {GetTelemetryOptions}
+   * @param {Object} options - Telemetry Options
    */
-  public async getTelemetry(_options: GetTelemetryOptions) {}
+  public async getTelemetry({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: GetTelemetryOptions) {
+    return {};
+  }
 
   /**
    * Gets the tournament with the matching id
    *
-   * @param _options {GetTournamentOptions}
+   * @param {Object} options - Tournament Options
    */
-  public async getTournament(_options: GetTournamentOptions) {}
+  public async getTournament({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: GetTournamentOptions) {
+    return {};
+  }
 
   /**
    * Gets a list of all tournaments

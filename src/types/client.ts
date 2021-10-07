@@ -1,10 +1,6 @@
-import type { Shard } from ".";
-import type { WithShard } from "./util";
+import type { WithApiKey, WithShard } from "./util";
 
-export interface ClientOptions {
-  apiKey: string;
-  shard?: Shard;
-}
+export interface ClientOptions extends WithApiKey, WithShard {}
 
 export interface FetchOptions extends WithShard {
   /**
