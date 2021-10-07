@@ -87,6 +87,32 @@ const activeSeason = await useSeason({
 });
 ```
 
+Or you can use the Client class API instead
+
+```typescript
+import { Client, Shard } from "pubg.ts";
+
+const client = new Client({
+  apiKey: "your_key_goes_here",
+
+  // Optional (Default: Steam)
+  shard: Shard.STEAM,
+});
+
+// Get a single or multiple player(s) using their name or ID
+const player = await api.getPlayer({
+  value: "single_name_or_id_or_array_of_such",
+});
+
+// Fetch a data from a single match
+const match = await client.getMatch({
+  id: "a036c694-be29-4dea-833d-b6ff84323de7",
+});
+
+// Get the current active season
+const activeSeason = await client.getCurrentSeason();
+```
+
 ## ❤️ Credits
 
 - [ickerio](https://github.com/ickerio): This project was heavily inspired by [pubg.js](https://github.com/ickerio/pubg.js)
