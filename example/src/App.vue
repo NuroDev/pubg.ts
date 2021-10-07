@@ -1,15 +1,29 @@
 <script setup lang="ts">
-  import { Client } from "../../src";
+  import { useMatch, usePlayer, useSeason, useSeasons } from "../../src";
 
-  const client = new Client({
-    apiKey: "ABC",
-  });
+  const apiKey = "ABC123";
 
-  const player = await client.getPlayer({
-    name: "ElonMusk",
-    type: "name",
+  const player = await usePlayer({
+    apiKey,
+    value: ["ElonMusk"],
   });
   console.log("player", player);
+
+  const match = await useMatch({
+    apiKey,
+    id: "SOME_RANDOM_MATCH_ID",
+  });
+  console.log("match", match);
+
+  const seasons = await useSeasons({
+    apiKey,
+  });
+  console.log("seasons", seasons);
+
+  const currentSeason = await useSeason({
+    apiKey,
+  });
+  console.log("currentSeason", currentSeason);
 </script>
 
 <template>

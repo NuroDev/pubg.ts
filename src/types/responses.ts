@@ -1,4 +1,5 @@
-import type { Player, ResponseError } from ".";
+import type { ResponseError } from ".";
+import type { WithLinks } from "./util";
 
 export interface Links {
   /**
@@ -11,15 +12,36 @@ export interface Links {
   self: string;
 }
 
-export interface PlayerResponse {
+export interface Asset {
+  attributes?: {
+    /**
+     * Time of telemetry creation
+     */
+    createdAt: Date;
+    /**
+     * Telemetry
+     */
+    name: string;
+    /**
+     * Link to the telemetry.json file
+     */
+    url: string;
+  };
   /**
-   * Data about a player & their recent matches (Up to 14 days old)
+   * A randomly generated ID assigned to this resource object for linking elsewhere in the match response
    */
-  data: Array<Player>;
+  id: string;
   /**
-   * Link to the current object
+   * Identifier for this object type
    */
-  links: Links;
+  type: string;
+}
+
+export interface Assets {
+  data: Array<Asset | {}>;
+}
+
+export interface BaseResponse extends WithLinks {
   /**
    * Unknown
    */

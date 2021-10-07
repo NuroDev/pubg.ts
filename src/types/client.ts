@@ -1,5 +1,5 @@
 import type { Shard } from ".";
-import type { WithShard } from "./common";
+import type { WithShard } from "./util";
 
 export interface ClientOptions {
   apiKey: string;
