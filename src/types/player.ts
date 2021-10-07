@@ -1,6 +1,6 @@
 import { Shard } from ".";
 
-import type { Links, Match, ResponseError } from ".";
+import type { Links, Match } from ".";
 
 enum PlayerType {
   PLAYER = "player",
@@ -66,16 +66,3 @@ export interface Player {
    */
   type: PlayerType;
 }
-
-enum PlayerError {
-  NOT_FOUND = "not-found",
-}
-
-export const PlayerErrors: {
-  [Error in PlayerError]: ResponseError;
-} = {
-  [PlayerError.NOT_FOUND]: {
-    detail: "No Players Found Matching the Criteria",
-    title: "Not Found",
-  },
-};

@@ -1,4 +1,3 @@
-export * from "./client";
 export * from "./error";
 export * from "./game";
 export * from "./match";
