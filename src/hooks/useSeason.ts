@@ -26,7 +26,7 @@ export async function useSeason({ ...rest }: SeasonOptions) {
 
 export interface SeasonsOptions extends WithApiShard {}
 
-interface SeasonsResponse extends BaseResponse {
+export interface SeasonsResponse extends BaseResponse {
   /**
    * An array of available seasons
    */

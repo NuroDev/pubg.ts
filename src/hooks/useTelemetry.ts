@@ -5,7 +5,7 @@ import type { WithApiShard } from "../types/util";
 
 export interface TelemetryOptions extends WithApiShard {}
 
-interface TelemetryResponse extends BaseResponse {}
+export interface TelemetryResponse extends BaseResponse {}
 
 /**
  * Fetches telemetry data

@@ -5,7 +5,7 @@ import type { WithApiShard } from "../types/util";
 
 export interface TournamentOptions extends WithApiShard {}
 
-interface TournamentResponse extends BaseResponse {}
+export interface TournamentResponse extends BaseResponse {}
 
 /**
  * Gets all or a specific tournament using a provided match id

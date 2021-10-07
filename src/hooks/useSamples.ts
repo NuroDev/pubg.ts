@@ -5,7 +5,7 @@ import type { WithApiShard } from "../types/util";
 
 export interface SamplesOptions extends WithApiShard {}
 
-interface SamplesResponse extends BaseResponse {}
+export interface SamplesResponse extends BaseResponse {}
 
 /**
  * Get a list of all past matches from the api

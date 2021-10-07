@@ -5,7 +5,7 @@ import type { WithApiShard } from "../types/util";
 
 export interface PlayerSeasonOptions extends WithApiShard {}
 
-interface PlayerSeasonResponse extends BaseResponse {}
+export interface PlayerSeasonResponse extends BaseResponse {}
 
 /**
  * Get data for a single season of a player(s) by a given id or name

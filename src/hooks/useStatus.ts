@@ -5,7 +5,7 @@ import type { WithApiKey } from "../types/util";
 
 export interface StatusOptions extends WithApiKey {}
 
-interface StatusResponse {
+export interface StatusResponse {
   data: {
     id: string;
     type: "status";

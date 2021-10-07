@@ -14,7 +14,7 @@ export interface PlayerOptions extends WithApiShard {
   value: string | Array<string>;
 }
 
-interface PlayerResponse extends BaseResponse {
+export interface PlayerResponse extends BaseResponse {
   /**
    * Data about a player & their recent matches (Up to 14 days old)
    *
