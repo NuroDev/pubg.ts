@@ -1,19 +1,27 @@
 <script setup lang="ts">
-  import { useMatch, usePlayer, useSeason, useSeasons } from "../../src";
+  import {
+    useMatch,
+    usePlayer,
+    useSeason,
+    useSeasons,
+    useStatus,
+  } from "../../src";
 
   const apiKey = import.meta.env.VITE_PUBG_API_KEY;
 
-  const [player, match, seasons, currentSeason] = await Promise.all([
+  const [player, match, seasons, currentSeason, status] = await Promise.all([
     usePlayer({ apiKey, value: import.meta.env.VITE_PUBG_PLAYER_NAME }),
     useMatch({ apiKey, id: import.meta.env.VITE_PUBG_MATCH_ID }),
     useSeasons({ apiKey }),
     useSeason({ apiKey }),
+    useStatus({ apiKey }),
   ]);
 
   console.log("player", player);
   console.log("match", match);
   console.log("seasons", seasons);
   console.log("currentSeason", currentSeason);
+  console.log("status", status);
 </script>
 
 <template>

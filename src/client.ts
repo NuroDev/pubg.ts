@@ -5,6 +5,7 @@ import {
   useSamples,
   useSeason,
   useSeasons,
+  useStatus,
   useTelemetry,
   useTournament,
 } from ".";
@@ -17,6 +18,7 @@ import type {
   SamplesOptions,
   SeasonOptions,
   SeasonsOptions,
+  StatusOptions,
   TelemetryOptions,
   TournamentOptions,
 } from ".";
@@ -147,8 +149,12 @@ export class Client {
 
   /**
    * Gets the status of the API
+   *
+   * @param {Object} options - Status opto
    */
-  public async getStatus() {}
+  public async getStatus({ apiKey = this._apiKey }: StatusOptions) {
+    return await useStatus({ apiKey });
+  }
 
   /**
    * Fetches telemetry data object

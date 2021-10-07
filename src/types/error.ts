@@ -19,6 +19,7 @@ export enum ErrorCode {
   HOOK_FETCH_SAMPLES = "Failed to fetch data for useSampels hook",
   HOOK_FETCH_SEASON = "Failed to fetch data for useSeason hook",
   HOOK_FETCH_SEASONS = "Failed to fetch data for useSeasons hook",
+  HOOK_FETCH_STATUS = "Failed to fetch the status of the API",
   HOOK_FETCH_TELEMETRY = "Failed to fetch data for useTelemetry hook",
   HOOK_FETCH_TOURNAMENT = "Failed to fetch data for useTournament hook",
 }
