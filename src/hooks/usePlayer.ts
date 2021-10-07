@@ -1,6 +1,6 @@
 import { fetch } from "../util";
 
-import type { BaseResponse, Player } from "..";
+import { BaseResponse, ErrorCode, Player } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface PlayerOptions extends WithApiShard {
@@ -48,7 +48,7 @@ export async function usePlayer({ id = false, value, ...rest }: PlayerOptions) {
       params,
     });
   } catch (error) {
-    console.error(error);
+    console.error(ErrorCode.HOOK_FETCH_PLAYER, error);
     throw error;
   }
 }

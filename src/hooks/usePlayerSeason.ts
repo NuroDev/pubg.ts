@@ -1,6 +1,6 @@
 import { fetch } from "../util";
 
-import type { BaseResponse } from "..";
+import { BaseResponse, ErrorCode } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface PlayerSeasonOptions extends WithApiShard {}
@@ -19,7 +19,7 @@ export async function usePlayerSeason({ ...rest }: PlayerSeasonOptions) {
       endpoint: "",
     });
   } catch (error) {
-    console.error(error);
+    console.error(ErrorCode.HOOK_FETCH_PLAYER_SEASON, error);
     throw error;
   }
 }

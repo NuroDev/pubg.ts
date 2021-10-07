@@ -1,6 +1,6 @@
 import { fetch } from "../util";
 
-import type { BaseResponse } from "..";
+import { BaseResponse, ErrorCode } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SamplesOptions extends WithApiShard {}
@@ -19,7 +19,7 @@ export async function useSamples({ ...rest }: SamplesOptions) {
       endpoint: "",
     });
   } catch (error) {
-    console.error(error);
+    console.error(ErrorCode.HOOK_FETCH_SAMPLES, error);
     throw error;
   }
 }

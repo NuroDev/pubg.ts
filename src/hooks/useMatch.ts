@@ -1,6 +1,6 @@
 import { fetch } from "../util";
 
-import type { BaseResponse, Match, Participant, Roster } from "..";
+import { BaseResponse, ErrorCode, Match, Participant, Roster } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface MatchOptions extends WithApiShard {
@@ -33,7 +33,7 @@ export async function useMatch({ id, ...rest }: MatchOptions) {
       endpoint: `matches/${id}`,
     });
   } catch (error) {
-    console.error(error);
+    console.error(ErrorCode.HOOK_FETCH_MATCH, error);
     throw error;
   }
 }

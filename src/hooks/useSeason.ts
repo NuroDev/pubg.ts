@@ -1,6 +1,6 @@
 import { fetch } from "../util";
 
-import type { BaseResponse, Season } from "..";
+import { BaseResponse, ErrorCode, Season } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SeasonOptions extends WithApiShard {}
@@ -19,7 +19,7 @@ export async function useSeason({ ...rest }: SeasonOptions) {
 
     return allSeasons.data.find((season) => season.attributes.isCurrentSeason);
   } catch (error) {
-    console.error(error);
+    console.error(ErrorCode.HOOK_FETCH_SEASON, error);
     throw error;
   }
 }
@@ -45,7 +45,7 @@ export async function useSeasons(options: SeasonsOptions) {
       endpoint: "seasons",
     });
   } catch (error) {
-    console.error(error);
+    console.error(ErrorCode.HOOK_FETCH_SEASONS, error);
     throw error;
   }
 }
