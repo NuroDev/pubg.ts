@@ -4,10 +4,9 @@ import { BASE_HEADERS, BASE_URL } from "../constants";
 import { ErrorCode, Shard } from "../types";
 
 import type { AxiosResponse } from "axios";
+import type { WithApiShard } from "../types/util";
 
-import type { WithApiKey, WithShard } from "../types/util";
-
-interface FetchOptions extends WithApiKey, WithShard {
+interface FetchOptions extends WithApiShard {
   /**
    * Endpoint to hit of the api
    */
