@@ -1,11 +1,19 @@
 import { fetch } from "../util";
+import { ErrorCode } from "..";
 
-import { BaseResponse, ErrorCode } from "..";
+import type { BaseResponse, Tournament } from "..";
 import type { WithApiShard } from "../types/util";
 
-export interface TournamentOptions extends WithApiShard {}
+export interface TournamentOptions extends WithApiShard {
+  /**
+   * Tournament ID
+   */
+  id?: string;
+}
 
-export interface TournamentResponse extends BaseResponse {}
+export interface TournamentResponse extends BaseResponse {
+  data: Array<Tournament>;
+}
 
 /**
  * Gets all or a specific tournament using a provided match id
@@ -14,11 +22,16 @@ export interface TournamentResponse extends BaseResponse {}
  *
  * @param {Object} options - Tournament Options
  */
-export async function useTournament({ ...rest }: TournamentOptions) {
+export async function useTournament({ id, ...rest }: TournamentOptions) {
   try {
+    const endpoint = id ? `tournaments/${id}` : "tournaments";
+
+    /**
+     * @todo Validate response types
+     */
     return await fetch<TournamentResponse>({
       ...rest,
-      endpoint: "",
+      endpoint,
     });
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_TOURNAMENT, error);

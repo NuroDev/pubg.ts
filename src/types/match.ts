@@ -305,3 +305,42 @@ export interface Match extends WithLinks {
    */
   type: string;
 }
+
+export interface Tournament {
+  /**
+   * Tournament specific attributes / metadata
+   */
+  attributes: {
+    /**
+     * Time the match object was stored in the API
+     */
+    createdAt: Date;
+  };
+  /**
+   * The ID of the tournament itself
+   */
+  id: string;
+  /**
+   * References to resource objects related to this tournament
+   */
+  relationships: {
+    matches: {
+      data: Array<{
+        /**
+         * Match ID
+         *
+         * Used to lookup the full match object on the /matches endpoint
+         */
+        id: string;
+        /**
+         * Identifier for this object type
+         */
+        type: string;
+      }>;
+    };
+  };
+  /**
+   * Identifier for this object type
+   */
+  type: string;
+}
