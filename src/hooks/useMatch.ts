@@ -1,9 +1,9 @@
 import { fetch } from "../util";
 
 import type { BaseResponse, Match, Participant, Roster } from "..";
-import type { WithApiKey, WithShard } from "../types/util";
+import type { WithApiShard } from "../types/util";
 
-export interface MatchOptions extends WithApiKey, WithShard {
+export interface MatchOptions extends WithApiShard {
   /**
    * The match ID
    */

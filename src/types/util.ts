@@ -1,13 +1,10 @@
 import type { Links, Shard } from "./index";
 
-export type WithApiKey<T = {}> = T & {
+export type WithApiShard<T = {}> = T & {
   /**
    * PUBG Developer App API access token
    */
   apiKey: string;
-};
-
-export type WithShard<T = {}> = T & {
   /**
    * The server shard to send the request to
    */

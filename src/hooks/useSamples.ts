@@ -1,9 +1,9 @@
 import { fetch } from "../util";
 
 import type { BaseResponse } from "..";
-import type { WithApiKey, WithShard } from "../types/util";
+import type { WithApiShard } from "../types/util";
 
-export interface SamplesOptions extends WithApiKey, WithShard {}
+export interface SamplesOptions extends WithApiShard {}
 
 interface SamplesResponse extends BaseResponse {}
 

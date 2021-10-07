@@ -1,9 +1,9 @@
 import { fetch } from "../util";
 
 import type { BaseResponse, Season } from "..";
-import type { WithApiKey, WithShard } from "../types/util";
+import type { WithApiShard } from "../types/util";
 
-export interface SeasonOptions extends WithApiKey, WithShard {}
+export interface SeasonOptions extends WithApiShard {}
 
 /**
  * Get data on a specified season. Whether current or a player(s)
@@ -24,7 +24,7 @@ export async function useSeason({ ...rest }: SeasonOptions) {
   }
 }
 
-export interface SeasonsOptions extends WithApiKey, WithShard {}
+export interface SeasonsOptions extends WithApiShard {}
 
 interface SeasonsResponse extends BaseResponse {
   /**

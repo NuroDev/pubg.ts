@@ -1,9 +1,9 @@
 import { fetch } from "../util";
 
 import type { BaseResponse, Player } from "..";
-import type { WithApiKey, WithShard } from "../types/util";
+import type { WithApiShard } from "../types/util";
 
-export interface PlayerOptions extends WithApiKey, WithShard {
+export interface PlayerOptions extends WithApiShard {
   /**
    * Whether the provided value(s) are ID's, not player names
    */
