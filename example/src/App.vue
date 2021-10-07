@@ -3,26 +3,16 @@
 
   const apiKey = import.meta.env.VITE_PUBG_API_KEY;
 
-  const player = await usePlayer({
-    apiKey,
-    value: import.meta.env.VITE_PUBG_PLAYER_NAME,
-  });
+  const [player, match, seasons, currentSeason] = await Promise.all([
+    usePlayer({ apiKey, value: import.meta.env.VITE_PUBG_PLAYER_NAME }),
+    useMatch({ apiKey, id: import.meta.env.VITE_PUBG_MATCH_ID }),
+    useSeasons({ apiKey }),
+    useSeason({ apiKey }),
+  ]);
+
   console.log("player", player);
-
-  const match = await useMatch({
-    apiKey,
-    id: import.meta.env.VITE_PUBG_MATCH_ID,
-  });
   console.log("match", match);
-
-  const seasons = await useSeasons({
-    apiKey,
-  });
   console.log("seasons", seasons);
-
-  const currentSeason = await useSeason({
-    apiKey,
-  });
   console.log("currentSeason", currentSeason);
 </script>
 
