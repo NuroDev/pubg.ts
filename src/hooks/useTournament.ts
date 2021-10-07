@@ -21,7 +21,7 @@ export interface TournamentResponse extends BaseResponse {
 /**
  * Gets all or a specific tournament using a provided match id
  *
- * @todo
+ * @todo Test this functions correctly
  *
  * @param {Object} options - Tournament Options
  */
