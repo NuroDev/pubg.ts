@@ -1,17 +1,28 @@
-import { useMatch, usePlayer } from ".";
+import {
+  useMatch,
+  usePlayer,
+  usePlayerSeason,
+  useSamples,
+  useSeason,
+  useSeasons,
+  useTelemetry,
+  useTournament,
+} from ".";
 import { ErrorCode, Shard } from "./types";
 
 import type {
-  ClientOptions,
-  GetCurrentSeasonOptions,
-  GetManyPlayerSeasonOptions,
-  GetPlayerSeasonsOptions,
-  GetSamplesOptions,
-  GetSeasonsOptions,
-  GetTelemetryOptions,
-  GetTournamentOptions,
-} from "./types";
-import type { MatchOptions, PlayerOptions } from ".";
+  MatchOptions,
+  PlayerOptions,
+  PlayerSeasonOptions,
+  SamplesOptions,
+  SeasonOptions,
+  SeasonsOptions,
+  TelemetryOptions,
+  TournamentOptions,
+} from ".";
+import type { WithApiKey, WithShard } from "./types/util";
+
+interface ClientOptions extends WithApiKey, WithShard {}
 
 export class Client {
   /**
@@ -29,31 +40,6 @@ export class Client {
 
     if (!this._apiKey) throw new Error(ErrorCode.NO_API_KEY);
     if (this._apiKey.length <= 0) throw new Error(ErrorCode.INVALID_API_KEY);
-  }
-
-  /**
-   * Get a Season Object with the info of the current season
-   *
-   * @param {Object} options - Get Seasons Options
-   */
-  public async getCurrentSeason({
-    apiKey = this._apiKey,
-    shard = this._shard,
-    ...rest
-  }: GetCurrentSeasonOptions) {
-    return {};
-  }
-
-  /**
-   *
-   * @param {Object} options - Get Player Season Options
-   */
-  public async getManyPlayerSeason({
-    apiKey = this._apiKey,
-    shard = this._shard,
-    ...rest
-  }: GetManyPlayerSeasonOptions) {
-    return {};
   }
 
   /**
@@ -91,24 +77,24 @@ export class Client {
   }
 
   /**
-   * Get a player season object
+   * Get data for a single season of a player(s) by a given id or name
    *
-   * When providing a Player Object for a player, the PlayerSeason will include the
-   * full fetched player in relationships.player. Otherwise, it will just be a
-   * reference to the player id and will need .fetch() for its info to be complete.
-   *
-   * @param {Object} options - Player Seasons Options
+   * @param {Object} options - Player Season Options
    */
   public async getPlayerSeason({
     apiKey = this._apiKey,
     shard = this._shard,
     ...rest
-  }: GetPlayerSeasonsOptions) {
-    return {};
+  }: PlayerSeasonOptions) {
+    return await usePlayerSeason({
+      apiKey,
+      shard,
+      ...rest,
+    });
   }
 
   /**
-   * Gets a list of all past matches from the api
+   * Get a list of all past matches from the api
    *
    * @param {Object} options - Samples Options
    */
@@ -116,8 +102,30 @@ export class Client {
     apiKey = this._apiKey,
     shard = this._shard,
     ...rest
-  }: GetSamplesOptions) {
-    return {};
+  }: SamplesOptions) {
+    return await useSamples({
+      apiKey,
+      shard,
+      ...rest,
+    });
+  }
+
+  /**
+   * Get data on a specified season. Whether current or a player(s)
+   * By default will fetch the current season
+   *
+   * @param {Object} options - Season Options
+   */
+  public async getSeason({
+    apiKey = this._apiKey,
+    shard = this._shard,
+    ...rest
+  }: SeasonOptions) {
+    return await useSeason({
+      apiKey,
+      shard,
+      ...rest,
+    });
   }
 
   /**
@@ -129,8 +137,12 @@ export class Client {
     apiKey = this._apiKey,
     shard = this._shard,
     ...rest
-  }: GetSeasonsOptions) {
-    return {};
+  }: SeasonsOptions) {
+    return await useSeasons({
+      apiKey,
+      shard,
+      ...rest,
+    });
   }
 
   /**
@@ -147,8 +159,12 @@ export class Client {
     apiKey = this._apiKey,
     shard = this._shard,
     ...rest
-  }: GetTelemetryOptions) {
-    return {};
+  }: TelemetryOptions) {
+    return await useTelemetry({
+      apiKey,
+      shard,
+      ...rest,
+    });
   }
 
   /**
@@ -160,12 +176,11 @@ export class Client {
     apiKey = this._apiKey,
     shard = this._shard,
     ...rest
-  }: GetTournamentOptions) {
-    return {};
+  }: TournamentOptions) {
+    return await useTournament({
+      apiKey,
+      shard,
+      ...rest,
+    });
   }
-
-  /**
-   * Gets a list of all tournaments
-   */
-  public async getTournaments() {}
 }
