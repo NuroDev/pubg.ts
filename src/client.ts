@@ -163,12 +163,10 @@ export class Client {
    */
   public async getTelemetry({
     apiKey = this._apiKey,
-    shard = this._shard,
     ...rest
   }: TelemetryOptions) {
     return await useTelemetry({
       apiKey,
-      shard,
       ...rest,
     });
   }
