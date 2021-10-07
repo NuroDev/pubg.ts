@@ -37,6 +37,8 @@ export interface SeasonsOptions extends WithApiShard {}
 export interface SeasonsResponse extends BaseResponse {
   /**
    * An array of available seasons
+   *
+   * @see https://documentation.pubg.com/en/seasons-endpoint.html
    */
   data: Array<Season>;
 }

@@ -6,6 +6,9 @@ import type { WithApiKey } from "../types/util";
 export interface StatusOptions extends WithApiKey {}
 
 export interface StatusResponse {
+  /**
+   * @see https://documentation.pubg.com/en/samples-endpoint.html
+   */
   data: {
     id: string;
     type: "status";

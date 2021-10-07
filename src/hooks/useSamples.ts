@@ -14,6 +14,9 @@ export interface SamplesOptions extends WithApiShard {
 }
 
 export interface SamplesResponse {
+  /**
+   * @see https://documentation.pubg.com/en/samples-endpoint.html
+   */
   data: {
     /**
      * Time of samples list creation

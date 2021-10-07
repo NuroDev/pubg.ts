@@ -13,7 +13,8 @@ export interface MatchOptions extends WithApiShard {
 
 export interface MatchResponse extends BaseResponse {
   /**
-   * Data about a complete match.
+   * Data about a complete match
+   *
    * This includes data such as the gamemode played, duration, participated players, etc
    *
    * @see https://documentation.pubg.com/en/matches-endpoint.html

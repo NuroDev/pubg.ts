@@ -12,6 +12,9 @@ export interface TournamentOptions extends WithApiShard {
 }
 
 export interface TournamentResponse extends BaseResponse {
+  /**
+   * @see https://documentation.pubg.com/en/tournaments-endpoint.html
+   */
   data: Array<Tournament>;
 }
 
