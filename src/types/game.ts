@@ -132,6 +132,9 @@ export enum MatchType {
  * @see https://documentation.pubg.com/en/seasons-endpoint.html
  */
 export interface Season {
+  /**
+   * Season specific attributes / metadata
+   */
   attributes: {
     /**
      * Indicates if the season is active

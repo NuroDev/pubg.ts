@@ -11,7 +11,7 @@ export interface MatchOptions extends WithApiShard {
   id: string;
 }
 
-export interface ApiMatchResponse extends BaseResponse {
+interface ApiMatchResponse extends BaseResponse {
   /**
    * Data about a complete match
    *
