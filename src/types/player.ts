@@ -1,55 +1,56 @@
-import { Shard } from ".";
+import { ResponseObjectType, Shard } from ".";
 
-import type { Links, Match } from ".";
-
-enum PlayerType {
-  PLAYER = "player",
-}
+import type { Match } from ".";
+import type { WithLinks } from "./util";
 
 interface PlayerAttributes {
   /**
-   * @deprecated N/A
+   * @deprecated Date the attribute was first created
    */
   createdAt: Date;
+
   /**
    * PUBG in-game name
    */
   name: string;
+
   /**
    * Version of the game
    */
   patchVersion: string;
+
   /**
    * Platform shard
    */
   shardId: Shard;
+
   /**
    * Player statistics
    */
   stats: unknown | null;
+
   /**
    * Identifies the studio & game
    */
   titleId: unknown;
+
   /**
-   * @deprecated N/A
+   * @deprecated Date the attribute was last updated or modified
    */
   updatedAt: Date;
 }
 
-export interface Player {
+export interface Player extends WithLinks {
   /**
    * Player specific attributes / metadata
    */
   attributes: PlayerAttributes;
+
   /**
    * Player ID
    */
   id: string;
-  /**
-   * Links to relevant / current objects
-   */
-  links: Links;
+
   /**
    * References to resource objects related to this player
    */
@@ -61,8 +62,9 @@ export interface Player {
       data: Array<Match>;
     };
   };
+
   /**
    * Identifier for this object type
    */
-  type: PlayerType;
+  type: ResponseObjectType.PLAYER;
 }

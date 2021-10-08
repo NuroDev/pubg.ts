@@ -5,7 +5,9 @@ export enum ResponseObjectType {
   ASSET = "asset",
   MATCH = "match",
   PARTICIPANT = "participant",
+  PLAYER = "player",
   ROSTER = "roster",
+  SEASON = "season",
   TOURNAMENT = "tournament",
 }
 
