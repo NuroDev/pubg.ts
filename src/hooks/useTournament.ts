@@ -11,12 +11,14 @@ export interface TournamentOptions extends WithApiShard {
   id?: string;
 }
 
-export interface TournamentResponse extends BaseResponse {
+interface ApiTournamentResponse extends BaseResponse {
   /**
    * @see https://documentation.pubg.com/en/tournaments-endpoint.html
    */
   data: Array<Tournament>;
 }
+
+export type TournamentResponse = Array<Tournament>;
 
 /**
  * Gets all or a specific tournament using a provided match id
@@ -24,18 +26,26 @@ export interface TournamentResponse extends BaseResponse {
  * @todo Test this functions correctly
  *
  * @param {Object} options - Tournament Options
+ * @param {string} options.apiKey - PUBG Developer API key
+ * @param {string | undefined} [options.shard] - Platform Shard
+ * @param {string | undefined} [options.id] - Tournament ID
  */
-export async function useTournament({ id, ...rest }: TournamentOptions) {
+export async function useTournament({
+  id,
+  ...rest
+}: TournamentOptions): Promise<TournamentResponse> {
   try {
     const endpoint = id ? `tournaments/${id}` : "tournaments";
 
     /**
      * @todo Validate response types
      */
-    return await fetch<TournamentResponse>({
+    const { data } = await fetch<ApiTournamentResponse>({
       ...rest,
       endpoint,
     });
+
+    return data;
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_TOURNAMENT, error);
     throw error;

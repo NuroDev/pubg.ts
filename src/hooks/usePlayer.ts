@@ -9,15 +9,16 @@ export interface PlayerOptions extends WithApiShard {
    * Whether the provided value(s) are ID's, not player names
    */
   id?: boolean;
+
   /**
-   * Value or array of values to fetch
+   * Player or array of players to fetch
    */
   value: string | Array<string>;
 }
 
-export interface PlayerResponse extends BaseResponse {
+interface ApiPlayerResponse extends BaseResponse {
   /**
-   * Data about a player & their recent matches (Up to 14 days old)
+   * Player(s) data & their recent matches (Up to 14 days old)
    *
    * @see https://documentation.pubg.com/en/players-endpoint.html/
    */
@@ -25,11 +26,26 @@ export interface PlayerResponse extends BaseResponse {
 }
 
 /**
+ * Player(s) data & their recent matches (Up to 14 days old)
+ *
+ * @see https://documentation.pubg.com/en/players-endpoint.html/
+ */
+export type PlayerResponse = Promise<Player | Array<Player>>;
+
+/**
  * Get player(s) by a given name(s) or id(s)
  *
  * @param {Object} options - Player Options
+ * @param {string} options.apiKey - PUBG Developer API key
+ * @param {boolean} options.id - Whether the provided value(s) are ID's, not player names
+ * @param {string | undefined} [options.shard] - Platform Shard
+ * @param {string | Array} - Player or array of players to fetch
  */
-export async function usePlayer({ id = false, value, ...rest }: PlayerOptions) {
+export async function usePlayer({
+  id = false,
+  value,
+  ...rest
+}: PlayerOptions): PlayerResponse {
   const isArray = Array.isArray(value);
 
   const endpoint = !isArray && id ? `players/${value}` : "players";
@@ -43,11 +59,13 @@ export async function usePlayer({ id = false, value, ...rest }: PlayerOptions) {
       };
 
   try {
-    return await fetch<PlayerResponse>({
+    const { data } = await fetch<ApiPlayerResponse>({
       ...rest,
       endpoint,
       params,
     });
+
+    return data;
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_PLAYER, error);
     throw error;

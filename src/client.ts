@@ -48,6 +48,9 @@ export class Client {
    * Get a match from a match id
    *
    * @param {Object} options - Match Options
+   * @param {string} options.apiKey - PUBG Developer API key
+   * @param {string} options.id - Match ID
+   * @param {string | undefined} [options.shard] - Platform Shard
    */
   public async getMatch({
     apiKey = this._apiKey,
@@ -65,6 +68,10 @@ export class Client {
    * Get player by the given id or name
    *
    * @param {Object} options - Player Options
+   * @param {string} options.apiKey - PUBG Developer API key
+   * @param {boolean} options.id - Whether the provided value(s) are ID's, not player names
+   * @param {string | undefined} [options.shard] - Platform Shard
+   * @param {string | Array} - Player or array of players to fetch
    */
   public async getPlayer({
     apiKey = this._apiKey,
@@ -82,6 +89,8 @@ export class Client {
    * Get data for a single season of a player(s) by a given id or name
    *
    * @param {Object} options - Player Season Options
+   * @param {string} options.apiKey - PUBG Developer API key
+   * @param {string | undefined} [options.shard] - Platform Shard
    */
   public async getPlayerSeason({
     apiKey = this._apiKey,
@@ -99,6 +108,9 @@ export class Client {
    * Get a list of all past matches from the api
    *
    * @param {Object} options - Samples Options
+   * @param {string} options.apiKey - PUBG Developer API key
+   * @param {Date | undefined} options.createdAt - The starting search date for the matches in UTC
+   * @param {string | undefined} [options.shard] - Platform Shard
    */
   public async getSamples({
     apiKey = this._apiKey,
@@ -117,6 +129,9 @@ export class Client {
    * By default will fetch the current season
    *
    * @param {Object} options - Season Options
+   * @param {string} options.apiKey - PUBG Developer API key
+   * @param {string | undefined} [options.id] - Season ID
+   * @param {string | undefined} [options.shard] - Platform Shard
    */
   public async getSeason({
     apiKey = this._apiKey,
@@ -134,6 +149,8 @@ export class Client {
    * Get an array of all seasons of a provided shard
    *
    * @param {Object} options - Seasons Options
+   * @param {string} options.apiKey - PUBG Developer API key
+   * @param {string | undefined} [options.shard] - Platform Shard
    */
   public async getSeasons({
     apiKey = this._apiKey,
@@ -150,7 +167,8 @@ export class Client {
   /**
    * Gets the status of the API
    *
-   * @param {Object} options - Status opto
+   * @param {Object} options - Status Options
+   * @param {string} options.apiKey - PUBG Developer API key
    */
   public async getStatus({ apiKey = this._apiKey }: StatusOptions) {
     return await useStatus({ apiKey });
@@ -160,6 +178,9 @@ export class Client {
    * Fetches telemetry data object
    *
    * @param {Object} options - Telemetry Options
+   * @param {string} options.apiKey - PUBG Developer API key
+   * @param {string | undefined} [options.shard] - Platform Shard
+   * @param {string} options.url - URL of the telemetry object
    */
   public async getTelemetry({
     apiKey = this._apiKey,
@@ -175,6 +196,9 @@ export class Client {
    * Gets the tournament with the matching id
    *
    * @param {Object} options - Tournament Options
+   * @param {string} options.apiKey - PUBG Developer API key
+   * @param {string | undefined} [options.shard] - Platform Shard
+   * @param {string | undefined} [options.id] - Tournament ID
    */
   public async getTournament({
     apiKey = this._apiKey,

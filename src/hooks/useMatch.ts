@@ -6,7 +6,7 @@ import type { WithApiShard } from "../types/util";
 
 export interface MatchOptions extends WithApiShard {
   /**
-   * The ID of the match
+   * Match ID
    */
   id: string;
 }
@@ -27,23 +27,24 @@ interface ApiMatchResponse extends BaseResponse {
   included: Array<Roster | Participant>;
 }
 
-export interface MatchResponse extends Match {
-  /**
-   * An array of all participants & rosters who took part in the game
-   */
-  included: Array<Roster | Participant>;
-}
+export type MatchResponse = Promise<
+  Match & {
+    /**
+     * An array of all participants & rosters who took part in the game
+     */
+    included: Array<Roster | Participant>;
+  }
+>;
 
 /**
  * Get a match from a specificed match id
  *
  * @param {Object} options - Match Options
- * @param {string} options.id - The ID of the match
+ * @param {string} options.apiKey - PUBG Developer API key
+ * @param {string} options.id - Match ID
+ * @param {string | undefined} [options.shard] - Platform Shard
  */
-export async function useMatch({
-  id,
-  ...rest
-}: MatchOptions): Promise<MatchResponse> {
+export async function useMatch({ id, ...rest }: MatchOptions): MatchResponse {
   try {
     const { data, included } = await fetch<ApiMatchResponse>({
       ...rest,

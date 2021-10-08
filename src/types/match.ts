@@ -379,3 +379,38 @@ export interface Tournament {
    */
   type: ResponseObjectType.TOURNAMENT;
 }
+
+export interface Sample {
+  /**
+   * Time of samples list creation
+   */
+  createdAt: Date;
+
+  /**
+   * Platform shard
+   */
+  shardId: Shard;
+
+  /**
+   * Identifies the studio & game
+   */
+  titleId: string;
+}
+
+export interface SampleMatches {
+  /**
+   * An array of sample matches containing their IDs & shards
+   */
+  data: Array<{
+    /**
+     * Match ID
+     *
+     * Used to lookup the full match object on the /matches endpoint
+     */
+    id: string;
+    /**
+     * Identifier for this object type
+     */
+    type: string;
+  }>;
+}

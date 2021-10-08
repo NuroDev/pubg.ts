@@ -6,21 +6,29 @@ import type { WithApiShard } from "../types/util";
 
 export interface PlayerSeasonOptions extends WithApiShard {}
 
-export interface PlayerSeasonResponse extends BaseResponse {}
+interface ApiPlayerSeasonResponse extends BaseResponse {}
+
+export type PlayerSeasonResponse = Promise<{}>;
 
 /**
  * Get data for a single season of a player(s) by a given id or name
  *
- * @todo
+ * @todo Unimplemented
  *
  * @param {Object} options - Player Season Options
+ * @param {string} options.apiKey - PUBG Developer API key
+ * @param {string | undefined} [options.shard] - Platform Shard
  */
-export async function usePlayerSeason({ ...rest }: PlayerSeasonOptions) {
+export async function usePlayerSeason({
+  ...rest
+}: PlayerSeasonOptions): PlayerSeasonResponse {
   try {
-    return await fetch<PlayerSeasonResponse>({
+    const {} = await fetch<ApiPlayerSeasonResponse>({
       ...rest,
       endpoint: "",
     });
+
+    return {};
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_PLAYER_SEASON, error);
     throw error;
