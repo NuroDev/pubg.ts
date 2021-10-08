@@ -65,6 +65,8 @@ export async function usePlayer({
       params,
     });
 
+    if (data.length === 1) return data[0];
+
     return data;
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_PLAYER, error);
