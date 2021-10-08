@@ -4,6 +4,7 @@ import type {
   Gamemode,
   Map,
   MatchType,
+  ResponseObjectType,
   SeasonState,
   Shard,
 } from ".";
@@ -14,42 +15,52 @@ interface MatchAttributes {
    * Time this match object was stored in the API
    */
   createdAt: Date;
+
   /**
    * Length of the match measured in seconds
    */
   duration: number;
+
   /**
    * Gamemode played
    */
   gameMode: Gamemode;
+
   /**
    * If this match is a custom match
    */
   isCustomMatch: boolean;
+
   /**
    * Name of the map
    */
   mapName: Map;
+
   /**
    * Type of match
    */
   matchType: MatchType;
+
   /**
    * The state of the season
    */
   seasonState: SeasonState;
+
   /**
    * Platform shard
    */
   shardId: Shard;
+
   /**
    * Unknown
    */
   stats: unknown | null;
+
   /**
    * Unknown
    */
   tags: unknown | null;
+
   /**
    * Identifies the studio & game
    */
@@ -62,6 +73,9 @@ interface MatchAttributes {
  * These are only meaningful within the context of a match and are not exposed as a standalone resource
  */
 export interface Roster {
+  /**
+   * Roster specific attributes / metadata
+   */
   attributes?: {
     /**
      * Platform shard
@@ -85,10 +99,12 @@ export interface Roster {
      */
     won: string;
   };
+
   /**
    * A randomly generated ID assigned to this resource object for linking elsewhere in the match response
    */
   id: string;
+
   relationships?: {
     /**
      * An array of references to participant objects that can be found in the included array
@@ -107,10 +123,11 @@ export interface Roster {
     };
     team: unknown;
   };
+
   /**
-   * Identifier for this object type ("roster")
+   * Identifier for this object type
    */
-  type: string;
+  type: ResponseObjectType.ROSTER;
 }
 
 /**
@@ -118,6 +135,9 @@ export interface Roster {
  * These are only meaningful within the context of a match and are not exposed as a standalone resource
  */
 export interface Participant {
+  /**
+   * Participant specific attributes / metadata
+   */
   attributes?: {
     /**
      * N/A
@@ -270,25 +290,36 @@ export interface Participant {
       winPlace: number;
     };
   };
+
   /**
    * A randomly generated ID assigned to this resource object for linking elsewhere in the match response
    */
   id: string;
+
   /**
-   * Identifier for this object type ("participant")
+   * Identifier for this object type
    */
-  type: string;
+  type: ResponseObjectType.PARTICIPANT;
 }
 
+/**
+ * Data about a complete match
+ *
+ * This includes data such as the gamemode played, duration, participated players, etc
+ *
+ * @see https://documentation.pubg.com/en/matches-endpoint.html
+ */
 export interface Match extends WithLinks {
   /**
    * Match specific attributes / metadata
    */
   attributes: MatchAttributes;
+
   /**
    * The ID of the match itself
    */
   id: string;
+
   /**
    * References to resource objects related to this match
    */
@@ -300,10 +331,11 @@ export interface Match extends WithLinks {
     rounds: unknown;
     spectators: unknown;
   };
+
   /**
    * Identifier for this object type
    */
-  type: string;
+  type: ResponseObjectType.MATCH;
 }
 
 export interface Tournament {
@@ -316,10 +348,12 @@ export interface Tournament {
      */
     createdAt: Date;
   };
+
   /**
    * The ID of the tournament itself
    */
   id: string;
+
   /**
    * References to resource objects related to this tournament
    */
@@ -339,8 +373,9 @@ export interface Tournament {
       }>;
     };
   };
+
   /**
    * Identifier for this object type
    */
-  type: string;
+  type: ResponseObjectType.TOURNAMENT;
 }
