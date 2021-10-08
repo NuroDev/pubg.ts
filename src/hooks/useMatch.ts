@@ -6,12 +6,12 @@ import type { WithApiShard } from "../types/util";
 
 export interface MatchOptions extends WithApiShard {
   /**
-   * The match ID
+   * The ID of the match
    */
   id: string;
 }
 
-export interface MatchResponse extends BaseResponse {
+export interface ApiMatchResponse extends BaseResponse {
   /**
    * Data about a complete match
    *
@@ -20,8 +20,16 @@ export interface MatchResponse extends BaseResponse {
    * @see https://documentation.pubg.com/en/matches-endpoint.html
    */
   data: Match;
+
   /**
-   * @todo Unknown
+   * An array of all participants & rosters who took part in the game
+   */
+  included: Array<Roster | Participant>;
+}
+
+export interface MatchResponse extends Match {
+  /**
+   * An array of all participants & rosters who took part in the game
    */
   included: Array<Roster | Participant>;
 }
@@ -30,13 +38,22 @@ export interface MatchResponse extends BaseResponse {
  * Get a match from a specificed match id
  *
  * @param {Object} options - Match Options
+ * @param {string} options.id - The ID of the match
  */
-export async function useMatch({ id, ...rest }: MatchOptions) {
+export async function useMatch({
+  id,
+  ...rest
+}: MatchOptions): Promise<MatchResponse> {
   try {
-    return await fetch<MatchResponse>({
+    const { data, included } = await fetch<ApiMatchResponse>({
       ...rest,
       endpoint: `matches/${id}`,
     });
+
+    return {
+      ...data,
+      included,
+    };
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_MATCH, error);
     throw error;
