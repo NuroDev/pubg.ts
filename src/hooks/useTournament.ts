@@ -1,10 +1,16 @@
 import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import type { ApiTournament, BaseResponse, Tournament } from "..";
-import type { WithApiShard } from "../types/util";
+import type {
+  ApiTournament,
+  BaseResponse,
+  Match,
+  Tournament,
+  Tournaments,
+} from "..";
+import type { WithApiKey } from "../types/util";
 
-export interface TournamentOptions extends WithApiShard {
+export interface TournamentOptions extends WithApiKey {
   /**
    * Tournament ID
    */
@@ -13,49 +19,42 @@ export interface TournamentOptions extends WithApiShard {
 
 interface ApiTournamentResponse extends BaseResponse {
   /**
+   * Data about a specified tournament
+   *
    * @see https://documentation.pubg.com/en/tournaments-endpoint.html
    */
-  data: Tournament | Array<ApiTournament>;
+  data: ApiTournament;
+
+  /**
+   * Matches related to the selected tournament
+   */
+  included: Array<Pick<Match, "attributes" | "id" | "type">>;
 }
 
-export type TournamentResponse = Promise<Tournament | Array<Tournament>>;
+export type TournamentResponse = Promise<Tournament | Array<Tournaments>>;
 
 /**
- * Gets all or a specific tournament using a provided match id
+ * Gets a specific tournament using a provided match id
  *
  * @param {Object} options - Tournament Options
  * @param {string} options.apiKey - PUBG Developer API key
- * @param {string | undefined} [options.id] - Tournament ID
- * @param {string | undefined} [options.shard] - Platform Shard
+ * @param {string} options.id - Tournament ID
  */
 export async function useTournament({
   apiKey,
   id,
-  shard,
 }: TournamentOptions): TournamentResponse {
   try {
-    const endpoint = id ? `tournaments/${id}` : "tournaments";
-
-    /**
-     * @todo Validate response types
-     */
-    const { data } = await fetch<ApiTournamentResponse>({
+    const { data, included } = await fetch<ApiTournamentResponse>({
       apiKey,
-      endpoint,
+      endpoint: `tournaments/${id}`,
       root: true,
-      shard,
     });
 
-    if (!Array.isArray(data))
-      return {
-        ...data,
-      };
-
-    return data.map(({ attributes, id, type }) => ({
-      createdAt: attributes.createdAt,
-      id,
-      type,
-    }));
+    return {
+      ...data,
+      matches: included,
+    };
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_TOURNAMENT, error);
     throw error;

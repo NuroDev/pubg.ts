@@ -10,7 +10,7 @@ import type {
 } from ".";
 import type { WithLinks } from "./util";
 
-interface MatchAttributes {
+export interface MatchAttributes {
   /**
    * Time this match object was stored in the API
    */
@@ -338,7 +338,7 @@ export interface Match extends WithLinks {
   type: ResponseObjectType.MATCH;
 }
 
-export type Tournament = {
+export interface Tournaments {
   /**
    * Time the match object was stored in the API
    */
@@ -353,9 +353,18 @@ export type Tournament = {
    * Identifier for this object type
    */
   type: ResponseObjectType.TOURNAMENT;
-};
+}
 
-export interface ApiTournament extends Omit<Tournament, "createdAt"> {
+type TournamentMatch = Pick<Match, "id" | "type">;
+
+export interface Tournament extends Pick<Tournaments, "id" | "type"> {
+  /**
+   * Matches related to the selected tournament
+   */
+  matches: Array<TournamentMatch>;
+}
+
+export interface ApiTournaments extends Pick<Tournaments, "id" | "type"> {
   /**
    * Tournament specific attributes / metadata
    */
@@ -364,6 +373,20 @@ export interface ApiTournament extends Omit<Tournament, "createdAt"> {
      * Time the match object was stored in the API
      */
     createdAt: Date;
+  };
+}
+
+export interface ApiTournament extends Omit<Tournaments, "createdAt"> {
+  /**
+   * References to resource objects related to this match
+   */
+  relationships: {
+    /**
+     * Matches related to the selected tournament
+     */
+    matches: {
+      data: Array<TournamentMatch>;
+    };
   };
 }
 

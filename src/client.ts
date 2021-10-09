@@ -8,6 +8,7 @@ import {
   useStatus,
   useTelemetry,
   useTournament,
+  useTournaments,
 } from ".";
 import { ErrorCode, Shard } from "./types";
 
@@ -162,10 +163,10 @@ export class Client {
    * @param {string | undefined} [options.id] - Tournament ID
    */
   public async getTournament({ id }: ClientFnOptions<TournamentOptions> = {}) {
-    return await useTournament({
+    if (id) return await useTournament({ apiKey: this._apiKey, id });
+
+    return await useTournaments({
       apiKey: this._apiKey,
-      id,
-      shard: this._shard,
     });
   }
 }

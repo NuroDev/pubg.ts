@@ -7,3 +7,4 @@ export * from "./useSeasons";
 export * from "./useStatus";
 export * from "./useTelemetry";
 export * from "./useTournament";
+export * from "./useTournaments";
