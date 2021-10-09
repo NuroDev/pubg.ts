@@ -1,6 +1,6 @@
 import { ResponseObjectType, Shard } from ".";
 
-import type { Match } from ".";
+import type { ApiMatch } from ".";
 import type { WithLinks } from "./util";
 
 interface PlayerAttributes {
@@ -59,7 +59,7 @@ export interface Player extends WithLinks {
       data: Array<unknown>;
     };
     matches: {
-      data: Array<Match>;
+      data: Array<ApiMatch>;
     };
   };
 

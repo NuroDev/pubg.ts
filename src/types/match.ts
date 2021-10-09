@@ -1,4 +1,5 @@
 import type {
+  ApiAssets,
   Assets,
   DeathType,
   Gamemode,
@@ -309,7 +310,7 @@ export interface Participant {
  *
  * @see https://documentation.pubg.com/en/matches-endpoint.html
  */
-export interface Match extends WithLinks {
+export interface ApiMatch extends WithLinks {
   /**
    * Match specific attributes / metadata
    */
@@ -324,7 +325,7 @@ export interface Match extends WithLinks {
    * References to resource objects related to this match
    */
   relationships: {
-    assets: Assets;
+    assets: ApiAssets;
     rosters: {
       data: Array<Roster>;
     };
@@ -336,6 +337,17 @@ export interface Match extends WithLinks {
    * Identifier for this object type
    */
   type: ResponseObjectType.MATCH;
+}
+
+export interface Match extends Pick<ApiMatch, "id" | "type">, MatchAttributes {
+  /**
+   * Any assets a part of the match
+   */
+  assets: Assets;
+  /**
+   * An array of all members (participants/rosters) who took part in the game
+   */
+  members: Array<Roster | Participant>;
 }
 
 export interface Tournaments {
@@ -355,7 +367,7 @@ export interface Tournaments {
   type: ResponseObjectType.TOURNAMENT;
 }
 
-type TournamentMatch = Pick<Match, "id" | "type">;
+type TournamentMatch = Pick<ApiMatch, "id" | "type">;
 
 export interface Tournament extends Pick<Tournaments, "id" | "type"> {
   /**

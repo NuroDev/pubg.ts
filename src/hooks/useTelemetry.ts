@@ -5,7 +5,7 @@ import { ErrorCode } from "..";
 
 import type { AxiosResponse } from "axios";
 
-import type { BaseResponse } from "..";
+import type { BaseResponse, Telemetry } from "..";
 import type { WithApiKey } from "../types/util";
 
 export interface TelemetryOptions extends WithApiKey {
@@ -20,12 +20,10 @@ interface ApiTelemetryResponse extends BaseResponse {}
 /**
  * @todo Mutate final resulting data structure
  */
-export type TelemetryResponse = Promise<{}>;
+export type TelemetryResponse = Promise<Telemetry>;
 
 /**
  * Fetches telemetry data from a provided URL
- *
- * @todo Test this functions correctly
  *
  * @param {Object} options - Telemetry Options
  * @param {string} options.apiKey - PUBG Developer API key

@@ -4,7 +4,7 @@ import { fetch } from "../util";
 import type {
   ApiTournament,
   BaseResponse,
-  Match,
+  ApiMatch,
   Tournament,
   Tournaments,
 } from "..";
@@ -28,7 +28,7 @@ interface ApiTournamentResponse extends BaseResponse {
   /**
    * Matches related to the selected tournament
    */
-  included: Array<Pick<Match, "attributes" | "id" | "type">>;
+  included: Array<Pick<ApiMatch, "attributes" | "id" | "type">>;
 }
 
 export type TournamentResponse = Promise<Tournament | Array<Tournaments>>;

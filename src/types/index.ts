@@ -4,3 +4,4 @@ export * from "./match";
 export * from "./platform";
 export * from "./player";
 export * from "./responses";
+export * from "./telemetry";

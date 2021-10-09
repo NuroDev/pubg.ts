@@ -1,7 +1,7 @@
 import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import type { BaseResponse, Match, Participant, Roster } from "..";
+import type { ApiMatch, BaseResponse, Match, Participant, Roster } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface MatchOptions extends WithApiShard {
@@ -19,22 +19,15 @@ interface ApiMatchResponse extends BaseResponse {
    *
    * @see https://documentation.pubg.com/en/matches-endpoint.html
    */
-  data: Match;
+  data: ApiMatch;
 
   /**
    * An array of all participants & rosters who took part in the game
    */
-  included: Array<Roster | Participant>;
+  included: Array<Participant | Roster>;
 }
 
-export type MatchResponse = Promise<
-  Match & {
-    /**
-     * An array of all participants & rosters who took part in the game
-     */
-    included: Array<Roster | Participant>;
-  }
->;
+export type MatchResponse = Promise<Match>;
 
 /**
  * Get a match from a specificed match id
@@ -52,8 +45,11 @@ export async function useMatch({ id, ...rest }: MatchOptions): MatchResponse {
     });
 
     return {
-      ...data,
-      included,
+      ...data.attributes,
+      assets: data.relationships.assets.data,
+      id: data.id,
+      members: included,
+      type: data.type,
     };
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_MATCH, error);

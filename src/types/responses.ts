@@ -54,9 +54,11 @@ export interface Asset {
   type: ResponseObjectType.ASSET;
 }
 
-export interface Assets {
-  data: Array<Asset | {}>;
+export interface ApiAssets {
+  data: Array<Asset>;
 }
+
+export type Assets = Array<Asset>;
 
 export interface BaseResponse extends WithLinks {
   /**
