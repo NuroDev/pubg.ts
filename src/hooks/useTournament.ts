@@ -15,10 +15,10 @@ interface ApiTournamentResponse extends BaseResponse {
   /**
    * @see https://documentation.pubg.com/en/tournaments-endpoint.html
    */
-  data: Array<ApiTournament>;
+  data: Tournament | Array<ApiTournament>;
 }
 
-export type TournamentResponse = Array<Tournament>;
+export type TournamentResponse = Promise<Tournament | Array<Tournament>>;
 
 /**
  * Gets all or a specific tournament using a provided match id
@@ -32,7 +32,7 @@ export async function useTournament({
   apiKey,
   id,
   shard,
-}: TournamentOptions): Promise<TournamentResponse> {
+}: TournamentOptions): TournamentResponse {
   try {
     const endpoint = id ? `tournaments/${id}` : "tournaments";
 
@@ -45,6 +45,11 @@ export async function useTournament({
       root: true,
       shard,
     });
+
+    if (!Array.isArray(data))
+      return {
+        ...data,
+      };
 
     return data.map(({ attributes, id, type }) => ({
       createdAt: attributes.createdAt,
