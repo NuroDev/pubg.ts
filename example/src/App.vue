@@ -54,36 +54,20 @@
       </div>
 
       <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-gray-50 dark:bg-gray-800 shadow rounded-lg">
-          <form class="space-y-6" action="#" method="POST">
-            <div>
-              <div class="mt-1 relative rounded-lg shadow-sm">
-                <div
-                  class="
-                    absolute
-                    inset-y-0
-                    left-0
-                    pl-3
-                    flex
-                    items-center
-                    pointer-events-none
-                  "
-                >
-                  <SearchIcon
-                    class="h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                </div>
-                <input
-                  type="text"
-                  name="search"
-                  id="search"
-                  class="search"
-                  placeholder="PlayerUnknown"
-                />
-              </div>
-            </div>
-          </form>
+        <div class="search">
+          <div class="searchInput">
+            <input
+              id="search"
+              name="search"
+              placeholder="Player Unknown"
+              type="text"
+            />
+          </div>
+
+          <button type="button">
+            <SearchIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+            <span>Search</span>
+          </button>
         </div>
       </div>
     </div>
@@ -101,13 +85,32 @@
   }
 
   .search {
-    @apply block w-full px-4 py-3 pl-10 \
-      bg-gray-50 dark:bg-gray-800 \
-        appearance-none rounded-lg shadow \
-        border-2 border-gray-200 dark:border-gray-700 \
-        sm:text-sm \
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+    @apply mt-1 flex rounded-md shadow-sm;
+
+    .searchInput {
+      @apply relative flex items-stretch flex-grow focus-within:z-10;
+
+      input {
+        @apply block w-full px-4 py-3 \
+          bg-gray-50 dark:bg-gray-800 \
+            appearance-none rounded-lg rounded-r-none shadow \
+            border-2 border-gray-200 dark:border-gray-700 \
+            sm:text-sm \
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+            transition ease-in-out duration-300;
+      }
+    }
+
+    button {
+      @apply relative inline-flex items-center space-x-2 \
+        -ml-px px-4 py-2 \
+        border-2 border-l-0 border-gray-200 dark:border-gray-700 \
+        text-sm font-medium text-gray-700 dark:text-gray-400 \
+        rounded-r-md shadow \
+        bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 \
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:border-blue-500 \
         transition ease-in-out duration-300;
+    }
   }
 </style>
 
