@@ -33,7 +33,7 @@ export async function useSeason({
     });
 
     return seasons.find((season) =>
-      id ? id === season.id : season.attributes.isCurrentSeason
+      id ? id === season.id : season.isCurrentSeason
     );
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_SEASON, error);

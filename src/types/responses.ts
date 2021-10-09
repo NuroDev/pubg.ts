@@ -14,7 +14,7 @@ export enum ResponseObjectType {
 
 export interface Links {
   /**
-   * @todo Unknown
+   * Unknown
    */
   schema?: string;
 

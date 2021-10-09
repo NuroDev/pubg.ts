@@ -131,7 +131,7 @@ export enum MatchType {
  *
  * @see https://documentation.pubg.com/en/seasons-endpoint.html
  */
-export interface Season {
+export interface ApiSeason {
   /**
    * Season specific attributes / metadata
    */
@@ -158,6 +158,18 @@ export interface Season {
    * Identifier for this object type ("season")
    */
   type: ResponseObjectType.SEASON;
+}
+
+export interface Season extends Pick<ApiSeason, "id" | "type"> {
+  /**
+   * Indicates if the season is active
+   */
+  isCurrentSeason: boolean;
+
+  /**
+   * Indicates if the season is not active
+   */
+  isOffseason: boolean;
 }
 
 /**

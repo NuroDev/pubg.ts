@@ -1,7 +1,7 @@
 import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import type { BaseResponse, Season } from "..";
+import type { ApiSeason, BaseResponse, Season } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SeasonsOptions extends WithApiShard {}
@@ -12,7 +12,7 @@ interface ApiSeasonsResponse extends BaseResponse {
    *
    * @see https://documentation.pubg.com/en/seasons-endpoint.html
    */
-  data: Array<Season>;
+  data: Array<ApiSeason>;
 }
 
 /**
@@ -36,7 +36,12 @@ export async function useSeasons(options: SeasonsOptions): SeasonsResponse {
       endpoint: "seasons",
     });
 
-    return data;
+    return data.map(({ attributes, id, type }) => ({
+      id,
+      isCurrentSeason: attributes.isCurrentSeason,
+      isOffseason: attributes.isOffseason,
+      type,
+    }));
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_SEASONS, error);
     throw error;
