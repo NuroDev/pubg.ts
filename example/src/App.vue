@@ -93,7 +93,7 @@
       input {
         @apply block w-full px-4 py-3 \
           bg-gray-50 dark:bg-gray-800 \
-            appearance-none rounded-lg rounded-r-none shadow \
+            appearance-none rounded-lg rounded-r-none shadow-sm \
             border-2 border-gray-200 dark:border-gray-700 \
             sm:text-sm \
             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
@@ -106,7 +106,7 @@
         -ml-px px-4 py-2 \
         border-2 border-l-0 border-gray-200 dark:border-gray-700 \
         text-sm font-medium text-gray-700 dark:text-gray-400 \
-        rounded-r-md shadow \
+        rounded-r-md shadow-sm \
         bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 \
         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:border-blue-500 \
         transition ease-in-out duration-300;
