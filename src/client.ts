@@ -157,7 +157,7 @@ export class Client {
   }
 
   /**
-   * Gets the tournament with the matching id
+   * Gets all or a specific tournament with a provided id
    *
    * @param {Object} options - Tournament Options
    * @param {string | undefined} [options.id] - Tournament ID
