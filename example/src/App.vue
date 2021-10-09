@@ -1,37 +1,28 @@
 <script setup lang="ts">
-  import { SearchIcon } from "@heroicons/vue/outline";
+  import {
+    CodeIcon,
+    MoonIcon,
+    SearchIcon,
+    SunIcon,
+  } from "@heroicons/vue/outline";
+  import { onMounted } from "vue";
+  import { useDark, useToggle } from "@vueuse/core";
 
-  import GitHubButton from "./components/GitHubButton.vue";
-  import ThemeButton from "./components/ThemeButton.vue";
+  import {} from "../../src";
+  import Button from "./components/Button.vue";
 
-  // import {
-  //   useMatch,
-  //   usePlayer,
-  //   useSeason,
-  //   useSeasons,
-  //   useStatus,
-  // } from "../../src";
-
-  // const apiKey = import.meta.env.VITE_PUBG_API_KEY;
-
-  // const [player, match, seasons, currentSeason, status] = await Promise.all([
-  //   usePlayer({ apiKey, value: import.meta.env.VITE_PUBG_PLAYER_NAME }),
-  //   useMatch({ apiKey, id: import.meta.env.VITE_PUBG_MATCH_ID }),
-  //   useSeasons({ apiKey }),
-  //   useSeason({ apiKey }),
-  //   useStatus({ apiKey }),
-  // ]);
-
-  // console.log("player", player);
-  // console.log("match", match);
-  // console.log("seasons", seasons);
-  // console.log("currentSeason", currentSeason);
-  // console.log("status", status);
+  const isDark = useDark();
+  const toggleTheme = useToggle(isDark);
 </script>
 
 <template>
-  <ThemeButton />
-  <GitHubButton />
+  <Button aria-label="Toggle Theme" @click="toggleTheme">
+    <MoonIcon class="icon" v-if="isDark" />
+    <SunIcon class="icon" v-else />
+  </Button>
+  <Button position="right" aria-label="GitHub" @click="toggleTheme">
+    <CodeIcon class="icon" />
+  </Button>
   <div
     class="
       min-h-screen
@@ -65,10 +56,10 @@
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-gray-50 shadow sm:rounded-lg">
+      <div class="bg-gray-50 dark:bg-gray-800 shadow rounded-lg">
         <form class="space-y-6" action="#" method="POST">
           <div>
-            <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="mt-1 relative rounded-lg shadow-sm">
               <div
                 class="
                   absolute
@@ -97,12 +88,12 @@
                   pl-10
                   border-2 border-gray-200
                   dark:border-gray-700
-                  rounded-md
+                  rounded-lg
                   shadow
                   focus:outline-none
-                  focus:ring-4
+                  focus:ring-2
+                  focus:ring-offset-2
                   focus:ring-blue-500
-                  focus:border-blue-500
                   sm:text-sm
                   transition
                   ease-in-out
@@ -117,3 +108,17 @@
     </div>
   </div>
 </template>
+
+<style lang="postcss" scoped>
+  .icon {
+    @apply w-6 h-6;
+  }
+</style>
+
+<style lang="postcss">
+  html.dark {
+    * {
+      --tw-ring-offset-color: #0c0e10;
+    }
+  }
+</style>

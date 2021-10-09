@@ -1,23 +1,27 @@
 <template>
-  <div class="container">
-    <a
-      rel="noopener noreferrer nofollow"
-      aria-label="GitHub"
-      class="button"
-      href="https://github.com/nurodev/pubg.ts"
-    >
-      <CodeIcon class="icon" />
-    </a>
+  <div
+    :class="['container', position === Position.LEFT ? 'left-0' : 'right-0']"
+  >
+    <button class="button">
+      <slot />
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { CodeIcon } from "@heroicons/vue/outline";
+  enum Position {
+    LEFT = "left",
+    RIGHT = "right",
+  }
+
+  const { position = Position.LEFT } = defineProps<{
+    position?: Position;
+  }>();
 </script>
 
 <style lang="postcss" scoped>
   .container {
-    @apply fixed top-0 right-0 w-12 m-8 z-10;
+    @apply fixed top-0 w-12 m-8 z-10;
   }
 
   .button {
@@ -29,9 +33,5 @@
       bg-gray-50 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800 \
       transition ease-in-out duration-300 \
       focus:outline-none focus:ring-4 focus:ring-blue-500;
-  }
-
-  .icon {
-    @apply w-6 h-6;
   }
 </style>
