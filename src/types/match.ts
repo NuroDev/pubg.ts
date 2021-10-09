@@ -397,20 +397,25 @@ export interface Sample {
   titleId: string;
 }
 
-export interface SampleMatches {
+/**
+ * An array of sample matches containing their IDs & shards
+ */
+export type SampleMatches = Array<{
+  /**
+   * Match ID
+   *
+   * Used to lookup the full match object on the /matches endpoint
+   */
+  id: string;
+  /**
+   * Identifier for this object type
+   */
+  type: string;
+}>;
+
+export interface ApiSampleMatches {
   /**
    * An array of sample matches containing their IDs & shards
    */
-  data: Array<{
-    /**
-     * Match ID
-     *
-     * Used to lookup the full match object on the /matches endpoint
-     */
-    id: string;
-    /**
-     * Identifier for this object type
-     */
-    type: string;
-  }>;
+  data: SampleMatches;
 }

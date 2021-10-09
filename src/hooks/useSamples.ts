@@ -1,7 +1,7 @@
 import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import type { Sample, SampleMatches } from "..";
+import type { ApiSampleMatches, Sample, SampleMatches } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SamplesOptions extends WithApiShard {
@@ -14,13 +14,25 @@ export interface SamplesOptions extends WithApiShard {
 }
 
 interface ApiSamplesResponse {
-  /**
-   * @see https://documentation.pubg.com/en/samples-endpoint.html
-   */
-  data: Sample;
+  data: {
+    /**
+     * Sample specific attributes / metadata
+     *
+     * @see https://documentation.pubg.com/en/samples-endpoint.html
+     */
+    attributes: Sample;
 
-  relationships: {
-    matches: SampleMatches;
+    /**
+     * ID of the sample
+     */
+    id: string;
+
+    /**
+     * References to resource objects related to this sample
+     */
+    relationships: {
+      matches: ApiSampleMatches;
+    };
   };
 }
 
@@ -29,6 +41,14 @@ interface ApiSamplesResponse {
  */
 export type SamplesResponse = Promise<
   Sample & {
+    /**
+     * ID of the sample
+     */
+    id: string;
+
+    /**
+     *
+     */
     matches: SampleMatches;
   }
 >;
@@ -36,31 +56,32 @@ export type SamplesResponse = Promise<
 /**
  * Get a list of all past matches from the api
  *
- * @todo Test this functions correctly
- *
  * @param {Object} options - Sample Options
  * @param {string} options.apiKey - PUBG Developer API key
  * @param {Date | undefined} options.createdAt - The starting search date for the matches in UTC
  * @param {string | undefined} [options.shard] - Platform Shard
  */
 export async function useSamples({
+  apiKey,
   createdAt,
-  ...rest
+  shard,
 }: SamplesOptions): SamplesResponse {
   try {
-    const { data, relationships } = await fetch<ApiSamplesResponse>({
-      ...rest,
+    const { data } = await fetch<ApiSamplesResponse>({
+      apiKey,
       endpoint: "samples",
       params: createdAt
         ? {
             "filter[createdAt]": createdAt.toISOString(),
           }
         : undefined,
+      shard,
     });
 
     return {
-      ...data,
-      matches: relationships.matches,
+      ...data.attributes,
+      id: data.id,
+      matches: data.relationships.matches.data,
     };
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_SAMPLES, error);
