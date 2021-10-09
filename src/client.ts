@@ -26,6 +26,8 @@ import type { WithApiShard } from "./types/util";
 
 interface ClientOptions extends WithApiShard {}
 
+type ClientFnOptions<T> = Omit<T, "apiKey" | "shard">;
+
 export class Client {
   /**
    * PUBG Developer API access token
@@ -36,6 +38,13 @@ export class Client {
    */
   private _shard: Shard;
 
+  /**
+   * PUBG API Wrapper client
+   *
+   * @param {Object} options - Client Options
+   * @param {string} options.apiKey - PUBG Developer API key
+   * @param {string} options.shard - Platform Shard
+   */
   constructor({ apiKey, shard = Shard.STEAM }: ClientOptions) {
     this._apiKey = apiKey;
     this._shard = shard;
@@ -48,19 +57,13 @@ export class Client {
    * Get a match from a match id
    *
    * @param {Object} options - Match Options
-   * @param {string} options.apiKey - PUBG Developer API key
    * @param {string} options.id - Match ID
-   * @param {string | undefined} [options.shard] - Platform Shard
    */
-  public async getMatch({
-    apiKey = this._apiKey,
-    shard = this._shard,
-    ...rest
-  }: MatchOptions) {
+  public async getMatch({ id }: ClientFnOptions<MatchOptions>) {
     return await useMatch({
-      apiKey,
-      shard,
-      ...rest,
+      apiKey: this._apiKey,
+      id,
+      shard: this._shard,
     });
   }
 
@@ -68,20 +71,15 @@ export class Client {
    * Get player by the given id or name
    *
    * @param {Object} options - Player Options
-   * @param {string} options.apiKey - PUBG Developer API key
-   * @param {boolean} options.id - Whether the provided value(s) are ID's, not player names
-   * @param {string | undefined} [options.shard] - Platform Shard
-   * @param {string | Array} - Player or array of players to fetch
+   * @param {boolean} [options.id] - Whether the provided value(s) are ID's, not player names
+   * @param {string | Array} options.value - Player or array of players to fetch
    */
-  public async getPlayer({
-    apiKey = this._apiKey,
-    shard = this._shard,
-    ...rest
-  }: PlayerOptions) {
+  public async getPlayer({ id, value }: ClientFnOptions<PlayerOptions>) {
     return await usePlayer({
-      apiKey,
-      shard,
-      ...rest,
+      apiKey: this._apiKey,
+      id,
+      shard: this._shard,
+      value,
     });
   }
 
@@ -89,18 +87,12 @@ export class Client {
    * Get data for a single season of a player(s) by a given id or name
    *
    * @param {Object} options - Player Season Options
-   * @param {string} options.apiKey - PUBG Developer API key
-   * @param {string | undefined} [options.shard] - Platform Shard
    */
-  public async getPlayerSeason({
-    apiKey = this._apiKey,
-    shard = this._shard,
-    ...rest
-  }: PlayerSeasonOptions) {
+  public async getPlayerSeason(options: ClientFnOptions<PlayerSeasonOptions>) {
     return await usePlayerSeason({
-      apiKey,
-      shard,
-      ...rest,
+      apiKey: this._apiKey,
+      shard: this._shard,
+      ...options,
     });
   }
 
@@ -108,19 +100,13 @@ export class Client {
    * Get a list of all past matches from the api
    *
    * @param {Object} options - Samples Options
-   * @param {string} options.apiKey - PUBG Developer API key
-   * @param {Date | undefined} options.createdAt - The starting search date for the matches in UTC
-   * @param {string | undefined} [options.shard] - Platform Shard
+   * @param {Date | undefined} [options.createdAt] - The starting search date for the matches in UTC
    */
-  public async getSamples({
-    apiKey = this._apiKey,
-    shard = this._shard,
-    ...rest
-  }: SamplesOptions) {
+  public async getSamples({ createdAt }: ClientFnOptions<SamplesOptions> = {}) {
     return await useSamples({
-      apiKey,
-      shard,
-      ...rest,
+      apiKey: this._apiKey,
+      createdAt,
+      shard: this._shard,
     });
   }
 
@@ -129,66 +115,45 @@ export class Client {
    * By default will fetch the current season
    *
    * @param {Object} options - Season Options
-   * @param {string} options.apiKey - PUBG Developer API key
    * @param {string | undefined} [options.id] - Season ID
-   * @param {string | undefined} [options.shard] - Platform Shard
    */
-  public async getSeason({
-    apiKey = this._apiKey,
-    shard = this._shard,
-    ...rest
-  }: SeasonOptions) {
+  public async getSeason({ id }: ClientFnOptions<SeasonOptions> = {}) {
     return await useSeason({
-      apiKey,
-      shard,
-      ...rest,
+      apiKey: this._apiKey,
+      id,
+      shard: this._shard,
     });
   }
 
   /**
-   * Get an array of all seasons of a provided shard
-   *
-   * @param {Object} options - Seasons Options
-   * @param {string} options.apiKey - PUBG Developer API key
-   * @param {string | undefined} [options.shard] - Platform Shard
+   * Get an array of all seasons
    */
-  public async getSeasons({
-    apiKey = this._apiKey,
-    shard = this._shard,
-    ...rest
-  }: SeasonsOptions) {
+  public async getSeasons() {
     return await useSeasons({
-      apiKey,
-      shard,
-      ...rest,
+      apiKey: this._apiKey,
+      shard: this._shard,
     });
   }
 
   /**
    * Gets the status of the API
-   *
-   * @param {Object} options - Status Options
-   * @param {string} options.apiKey - PUBG Developer API key
    */
-  public async getStatus({ apiKey = this._apiKey }: StatusOptions) {
-    return await useStatus({ apiKey });
+  public async getStatus() {
+    return await useStatus({
+      apiKey: this._apiKey,
+    });
   }
 
   /**
    * Fetches telemetry data object
    *
    * @param {Object} options - Telemetry Options
-   * @param {string} options.apiKey - PUBG Developer API key
-   * @param {string | undefined} [options.shard] - Platform Shard
    * @param {string} options.url - URL of the telemetry object
    */
-  public async getTelemetry({
-    apiKey = this._apiKey,
-    ...rest
-  }: TelemetryOptions) {
+  public async getTelemetry({ url }: ClientFnOptions<TelemetryOptions>) {
     return await useTelemetry({
-      apiKey,
-      ...rest,
+      apiKey: this._apiKey,
+      url,
     });
   }
 
@@ -196,19 +161,13 @@ export class Client {
    * Gets the tournament with the matching id
    *
    * @param {Object} options - Tournament Options
-   * @param {string} options.apiKey - PUBG Developer API key
-   * @param {string | undefined} [options.shard] - Platform Shard
    * @param {string | undefined} [options.id] - Tournament ID
    */
-  public async getTournament({
-    apiKey = this._apiKey,
-    shard = this._shard,
-    ...rest
-  }: TournamentOptions) {
+  public async getTournament({ id }: ClientFnOptions<TournamentOptions> = {}) {
     return await useTournament({
-      apiKey,
-      shard,
-      ...rest,
+      apiKey: this._apiKey,
+      id,
+      shard: this._shard,
     });
   }
 }
