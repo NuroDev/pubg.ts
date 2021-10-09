@@ -17,8 +17,6 @@ import type {
   PlayerSeasonOptions,
   SamplesOptions,
   SeasonOptions,
-  SeasonsOptions,
-  StatusOptions,
   TelemetryOptions,
   TournamentOptions,
 } from ".";
