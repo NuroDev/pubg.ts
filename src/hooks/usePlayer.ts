@@ -1,7 +1,7 @@
 import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import type { BaseResponse, Player } from "..";
+import type { ApiPlayer, BaseResponse, Player } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface PlayerOptions extends WithApiShard {
@@ -22,7 +22,7 @@ interface ApiPlayerResponse extends BaseResponse {
    *
    * @see https://documentation.pubg.com/en/players-endpoint.html/
    */
-  data: Array<Player>;
+  data: Array<ApiPlayer>;
 }
 
 /**
@@ -65,9 +65,25 @@ export async function usePlayer({
       params,
     });
 
-    if (data.length === 1) return data[0];
+    if (data.length === 1) {
+      const player = data[0];
 
-    return data;
+      return {
+        ...player.attributes,
+        assets: player.relationships.assets.data,
+        id: player.id,
+        matches: player.relationships.matches.data,
+        type: player.type,
+      };
+    }
+
+    return data.map(({ attributes, id, relationships, type }) => ({
+      ...attributes,
+      assets: relationships.assets.data,
+      id,
+      matches: relationships.matches.data,
+      type,
+    }));
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_PLAYER, error);
     throw error;

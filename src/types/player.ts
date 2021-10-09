@@ -40,7 +40,7 @@ interface PlayerAttributes {
   updatedAt: Date;
 }
 
-export interface Player extends WithLinks {
+export interface ApiPlayer extends WithLinks {
   /**
    * Player specific attributes / metadata
    */
@@ -67,4 +67,18 @@ export interface Player extends WithLinks {
    * Identifier for this object type
    */
   type: ResponseObjectType.PLAYER;
+}
+
+export interface Player
+  extends Pick<ApiPlayer, "id" | "type">,
+    PlayerAttributes {
+  /**
+   * Unknown
+   */
+  assets: Array<unknown>;
+
+  /**
+   * An array of API matches
+   */
+  matches: Array<ApiMatch>;
 }
