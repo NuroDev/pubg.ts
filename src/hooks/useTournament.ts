@@ -1,7 +1,7 @@
 import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import type { BaseResponse, Tournament } from "..";
+import type { ApiTournament, BaseResponse, Tournament } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface TournamentOptions extends WithApiShard {
@@ -15,7 +15,7 @@ interface ApiTournamentResponse extends BaseResponse {
   /**
    * @see https://documentation.pubg.com/en/tournaments-endpoint.html
    */
-  data: Array<Tournament>;
+  data: Array<ApiTournament>;
 }
 
 export type TournamentResponse = Array<Tournament>;
@@ -23,16 +23,15 @@ export type TournamentResponse = Array<Tournament>;
 /**
  * Gets all or a specific tournament using a provided match id
  *
- * @todo Test this functions correctly
- *
  * @param {Object} options - Tournament Options
  * @param {string} options.apiKey - PUBG Developer API key
- * @param {string | undefined} [options.shard] - Platform Shard
  * @param {string | undefined} [options.id] - Tournament ID
+ * @param {string | undefined} [options.shard] - Platform Shard
  */
 export async function useTournament({
+  apiKey,
   id,
-  ...rest
+  shard,
 }: TournamentOptions): Promise<TournamentResponse> {
   try {
     const endpoint = id ? `tournaments/${id}` : "tournaments";
@@ -41,11 +40,17 @@ export async function useTournament({
      * @todo Validate response types
      */
     const { data } = await fetch<ApiTournamentResponse>({
-      ...rest,
+      apiKey,
       endpoint,
+      root: true,
+      shard,
     });
 
-    return data;
+    return data.map(({ attributes, id, type }) => ({
+      createdAt: attributes.createdAt,
+      id,
+      type,
+    }));
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_TOURNAMENT, error);
     throw error;

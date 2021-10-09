@@ -338,7 +338,24 @@ export interface Match extends WithLinks {
   type: ResponseObjectType.MATCH;
 }
 
-export interface Tournament {
+export type Tournament = {
+  /**
+   * Time the match object was stored in the API
+   */
+  createdAt: Date;
+
+  /**
+   * The ID of the tournament itself
+   */
+  id: string;
+
+  /**
+   * Identifier for this object type
+   */
+  type: ResponseObjectType.TOURNAMENT;
+};
+
+export interface ApiTournament extends Omit<Tournament, "createdAt"> {
   /**
    * Tournament specific attributes / metadata
    */
@@ -348,36 +365,6 @@ export interface Tournament {
      */
     createdAt: Date;
   };
-
-  /**
-   * The ID of the tournament itself
-   */
-  id: string;
-
-  /**
-   * References to resource objects related to this tournament
-   */
-  relationships: {
-    matches: {
-      data: Array<{
-        /**
-         * Match ID
-         *
-         * Used to lookup the full match object on the /matches endpoint
-         */
-        id: string;
-        /**
-         * Identifier for this object type
-         */
-        type: string;
-      }>;
-    };
-  };
-
-  /**
-   * Identifier for this object type
-   */
-  type: ResponseObjectType.TOURNAMENT;
 }
 
 export interface Sample {
