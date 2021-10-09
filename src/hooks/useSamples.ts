@@ -72,7 +72,7 @@ export async function useSamples({
       endpoint: "samples",
       params: createdAt
         ? {
-            "filter[createdAt]": createdAt.toISOString(),
+            "filter[createdAt-start]": createdAt.toISOString(),
           }
         : undefined,
       shard,
