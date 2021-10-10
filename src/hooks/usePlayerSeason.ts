@@ -13,8 +13,6 @@ export type PlayerSeasonResponse = Promise<{}>;
 /**
  * Get data for a single season of a player(s) by a given id or name
  *
- * @todo Unimplemented
- *
  * @param {Object} options - Player Season Options
  * @param {string} options.apiKey - PUBG Developer API key
  * @param {string | undefined} [options.shard] - Platform Shard

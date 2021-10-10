@@ -17,9 +17,6 @@ export interface TelemetryOptions extends WithApiKey {
 
 interface ApiTelemetryResponse extends BaseResponse {}
 
-/**
- * @todo Mutate final resulting data structure
- */
 export type TelemetryResponse = Promise<Telemetry>;
 
 /**
