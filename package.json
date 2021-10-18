@@ -37,7 +37,6 @@
     "example:preview": "vite preview ./example/"
   },
   "devDependencies": {
-    "@headlessui/vue": "^1.4.1",
     "@heroicons/vue": "^1.0.4",
     "@types/node": "^16.10.2",
     "@vitejs/plugin-vue": "^1.9.2",
