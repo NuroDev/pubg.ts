@@ -49,6 +49,10 @@ npm i --save pubg.ts
 yarn add pubg.ts
 ```
 
+For use in the browser, check out the following:
+
+ - ⚛️ [`react-pubg`](https://github.com/nurodev/react-pubg)
+
 ## 🦄 Usage
 
 ### Sign for a developer account
