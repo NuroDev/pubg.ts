@@ -18,7 +18,7 @@ export type TournamentsResponse = Promise<Tournament | Array<Tournaments>>;
 /**
  * Gets all tournaments
  */
-export async function useTournaments({
+export async function getTournaments({
   apiKey,
 }: TournamentsOptions): TournamentsResponse {
   try {

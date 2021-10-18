@@ -5,10 +5,10 @@
     SearchIcon,
     SunIcon,
   } from "@heroicons/vue/outline";
-  import { onMounted } from "vue";
+  // import { onMounted } from "vue";
   import { useDark, useToggle } from "@vueuse/core";
 
-  import { useTournament } from "../../src";
+  import { getTournament } from "../../src";
   import Button from "./components/Button.vue";
 
   const isDark = useDark();
@@ -16,7 +16,7 @@
 
   // const apiKey = import.meta.env.VITE_PUBG_API_KEY;
   // onMounted(async () => {
-  //   const tournament = await useTournament({
+  //   const tournament = await getTournament({
   //     apiKey,
   //   });
   //   console.log("tournament", tournament);

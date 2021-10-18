@@ -61,7 +61,7 @@ export type SamplesResponse = Promise<
  * @param {Date | undefined} options.createdAt - The starting search date for the matches in UTC
  * @param {string | undefined} [options.shard] - Platform Shard
  */
-export async function useSamples({
+export async function getSamples({
   apiKey,
   createdAt,
   shard,

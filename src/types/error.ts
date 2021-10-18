@@ -2,7 +2,7 @@ export enum ErrorCode {
   // =======================
   // General
   // =======================
-  NO_API_KEY = "No API has been provided. An API key is required to use `pubg.ts`",
+  NO_API_KEY = "No API has been provided. An API key is required to get `pubg.ts`",
   INVALID_API_KEY = "An invalid API key has been provided. Please check the key is valid",
 
   // =======================
@@ -13,15 +13,15 @@ export enum ErrorCode {
   // =======================
   // Hooks
   // =======================
-  HOOK_FETCH_MATCH = "Failed to fetch data for useMatch hook",
-  HOOK_FETCH_PLAYER = "Failed to fetch data for usePlayer hook",
-  HOOK_FETCH_PLAYER_SEASON = "Failed to fetch data for usePlayerSeason hook",
-  HOOK_FETCH_SAMPLES = "Failed to fetch data for useSampels hook",
-  HOOK_FETCH_SEASON = "Failed to fetch data for useSeason hook",
-  HOOK_FETCH_SEASONS = "Failed to fetch data for useSeasons hook",
+  HOOK_FETCH_MATCH = "Failed to fetch data for getMatch hook",
+  HOOK_FETCH_PLAYER = "Failed to fetch data for getPlayer hook",
+  HOOK_FETCH_PLAYER_SEASON = "Failed to fetch data for getPlayerSeason hook",
+  HOOK_FETCH_SAMPLES = "Failed to fetch data for getSampels hook",
+  HOOK_FETCH_SEASON = "Failed to fetch data for getSeason hook",
+  HOOK_FETCH_SEASONS = "Failed to fetch data for getSeasons hook",
   HOOK_FETCH_STATUS = "Failed to fetch the status of the API",
-  HOOK_FETCH_TELEMETRY = "Failed to fetch data for useTelemetry hook",
-  HOOK_FETCH_TOURNAMENT = "Failed to fetch data for useTournament hook",
+  HOOK_FETCH_TELEMETRY = "Failed to fetch data for getTelemetry hook",
+  HOOK_FETCH_TOURNAMENT = "Failed to fetch data for getTournament hook",
 }
 
 export interface ResponseError {

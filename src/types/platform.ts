@@ -8,7 +8,7 @@
  */
 export enum Shard {
   /**
-   * Console - PSN/Xbox (used for the /matches and /samples endpoints)
+   * Console - PSN/Xbox (getd for the /matches and /samples endpoints)
    */
   CONSOLE = "console",
 
