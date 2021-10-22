@@ -27,7 +27,7 @@ export type TelemetryResponse = Promise<Telemetry>;
  * @param {string | undefined} [options.shard] - Platform Shard
  * @param {string} options.url - URL of the telemetry object
  */
-export async function useTelemetry({
+export async function getTelemetry({
   apiKey,
   url,
 }: TelemetryOptions): TelemetryResponse {

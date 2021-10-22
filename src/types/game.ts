@@ -150,7 +150,7 @@ export interface ApiSeason {
   /**
    * Season ID
    *
-   * Used to lookup a player's stats for this season on the /players endpoint
+   * getd to lookup a player's stats for this season on the /players endpoint
    */
   id: string;
 

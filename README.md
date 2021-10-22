@@ -49,6 +49,10 @@ npm i --save pubg.ts
 yarn add pubg.ts
 ```
 
+For use in the browser, check out the following:
+
+ - ⚛️ [`react-pubg`](https://github.com/nurodev/react-pubg)
+
 ## 🦄 Usage
 
 ### Sign for a developer account
@@ -64,39 +68,11 @@ With an account created, you can [create a new developer application](https://de
 Here's a few small examples of what you can do with this library
 
 ```typescript
-import { Shard, usePlayer, useMatch, useSeason } from "pubg.ts";
-
-// Get a single or multiple player(s) using their name or ID
-const player = await usePlayer({
-  apiKey: "your_key_goes_here",
-  value: "single_name_or_id_or_array_of_such",
-
-  // Optional for all hooks (Default: Steam)
-  shard: Shard.STEAM,
-});
-
-// Fetch a data from a single match
-const match = await useMatch({
-  apiKey: "your_key_goes_here",
-  id: "a036c694-be29-4dea-833d-b6ff84323de7",
-});
-
-// Get the current active season
-const activeSeason = await useSeason({
-  apiKey: "your_key_goes_here",
-});
-```
-
-Or you can use the Client class API instead
-
-```typescript
 import { Client, Shard } from "pubg.ts";
 
 const client = new Client({
   apiKey: "your_key_goes_here",
-
-  // Optional (Default: Steam)
-  shard: Shard.STEAM,
+  shard: Shard.STEAM, // Optional (Default: Steam)
 });
 
 // Get a single or multiple player(s) using their name or ID
@@ -111,6 +87,30 @@ const match = await client.getMatch({
 
 // Get the current active season
 const activeSeason = await client.getCurrentSeason();
+```
+
+Using individual fetchers
+
+```typescript
+import { Shard, getPlayer, getMatch, getSeason } from "pubg.ts";
+
+// Get a single or multiple player(s) using their name or ID
+const player = await getPlayer({
+  apiKey: "your_key_goes_here",
+  shard: Shard.STEAM, // Optional for all hooks (Default: Steam)
+  value: "single_name_or_id_or_array_of_such",
+});
+
+// Fetch a data from a single match
+const match = await getMatch({
+  apiKey: "your_key_goes_here",
+  id: "a036c694-be29-4dea-833d-b6ff84323de7",
+});
+
+// Get the current active season
+const activeSeason = await getSeason({
+  apiKey: "your_key_goes_here",
+});
 ```
 
 ## ❤️ Credits

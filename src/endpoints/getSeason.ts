@@ -1,4 +1,4 @@
-import { useSeasons } from ".";
+import { getSeasons } from ".";
 import { ErrorCode } from "..";
 
 import type { Season } from "..";
@@ -23,12 +23,12 @@ export type SeasonResponse = Promise<Season | undefined>;
  * @param {string | undefined} [options.id] - Season ID
  * @param {string | undefined} [options.shard] - Platform Shard
  */
-export async function useSeason({
+export async function getSeason({
   id,
   ...rest
 }: SeasonOptions): SeasonResponse {
   try {
-    const seasons = await useSeasons({
+    const seasons = await getSeasons({
       ...rest,
     });
 

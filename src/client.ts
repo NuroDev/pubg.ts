@@ -1,14 +1,14 @@
 import {
-  useMatch,
-  usePlayer,
-  usePlayerSeason,
-  useSamples,
-  useSeason,
-  useSeasons,
-  useStatus,
-  useTelemetry,
-  useTournament,
-  useTournaments,
+  getMatch,
+  getPlayer,
+  getPlayerSeason,
+  getSamples,
+  getSeason,
+  getSeasons,
+  getStatus,
+  getTelemetry,
+  getTournament,
+  getTournaments,
 } from ".";
 import { ErrorCode, Shard } from "./types";
 
@@ -33,7 +33,7 @@ export class Client {
    */
   private _apiKey: string;
   /**
-   * Default shard to use if none provided in methods
+   * Default shard to get if none provided in methods
    */
   private _shard: Shard;
 
@@ -59,7 +59,7 @@ export class Client {
    * @param {string} options.id - Match ID
    */
   public async getMatch({ id }: ClientFnOptions<MatchOptions>) {
-    return await useMatch({
+    return await getMatch({
       apiKey: this._apiKey,
       id,
       shard: this._shard,
@@ -74,7 +74,7 @@ export class Client {
    * @param {string | Array} options.value - Player or array of players to fetch
    */
   public async getPlayer({ id, value }: ClientFnOptions<PlayerOptions>) {
-    return await usePlayer({
+    return await getPlayer({
       apiKey: this._apiKey,
       id,
       shard: this._shard,
@@ -88,7 +88,7 @@ export class Client {
    * @param {Object} options - Player Season Options
    */
   public async getPlayerSeason(options: ClientFnOptions<PlayerSeasonOptions>) {
-    return await usePlayerSeason({
+    return await getPlayerSeason({
       apiKey: this._apiKey,
       shard: this._shard,
       ...options,
@@ -102,7 +102,7 @@ export class Client {
    * @param {Date | undefined} [options.createdAt] - The starting search date for the matches in UTC
    */
   public async getSamples({ createdAt }: ClientFnOptions<SamplesOptions> = {}) {
-    return await useSamples({
+    return await getSamples({
       apiKey: this._apiKey,
       createdAt,
       shard: this._shard,
@@ -117,7 +117,7 @@ export class Client {
    * @param {string | undefined} [options.id] - Season ID
    */
   public async getSeason({ id }: ClientFnOptions<SeasonOptions> = {}) {
-    return await useSeason({
+    return await getSeason({
       apiKey: this._apiKey,
       id,
       shard: this._shard,
@@ -128,7 +128,7 @@ export class Client {
    * Get an array of all seasons
    */
   public async getSeasons() {
-    return await useSeasons({
+    return await getSeasons({
       apiKey: this._apiKey,
       shard: this._shard,
     });
@@ -138,7 +138,7 @@ export class Client {
    * Gets the status of the API
    */
   public async getStatus() {
-    return await useStatus({
+    return await getStatus({
       apiKey: this._apiKey,
     });
   }
@@ -150,7 +150,7 @@ export class Client {
    * @param {string} options.url - URL of the telemetry object
    */
   public async getTelemetry({ url }: ClientFnOptions<TelemetryOptions>) {
-    return await useTelemetry({
+    return await getTelemetry({
       apiKey: this._apiKey,
       url,
     });
@@ -163,9 +163,9 @@ export class Client {
    * @param {string | undefined} [options.id] - Tournament ID
    */
   public async getTournament({ id }: ClientFnOptions<TournamentOptions> = {}) {
-    if (id) return await useTournament({ apiKey: this._apiKey, id });
+    if (id) return await getTournament({ apiKey: this._apiKey, id });
 
-    return await useTournaments({
+    return await getTournaments({
       apiKey: this._apiKey,
     });
   }

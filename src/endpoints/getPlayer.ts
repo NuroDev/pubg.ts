@@ -41,7 +41,7 @@ export type PlayerResponse = Promise<Player | Array<Player>>;
  * @param {string | undefined} [options.shard] - Platform Shard
  * @param {string | Array} - Player or array of players to fetch
  */
-export async function usePlayer({
+export async function getPlayer({
   id = false,
   value,
   ...rest

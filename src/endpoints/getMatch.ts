@@ -37,7 +37,7 @@ export type MatchResponse = Promise<Match>;
  * @param {string} options.id - Match ID
  * @param {string | undefined} [options.shard] - Platform Shard
  */
-export async function useMatch({ id, ...rest }: MatchOptions): MatchResponse {
+export async function getMatch({ id, ...rest }: MatchOptions): MatchResponse {
   try {
     const { data, included } = await fetch<ApiMatchResponse>({
       ...rest,

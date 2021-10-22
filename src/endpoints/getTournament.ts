@@ -40,7 +40,7 @@ export type TournamentResponse = Promise<Tournament | Array<Tournaments>>;
  * @param {string} options.apiKey - PUBG Developer API key
  * @param {string} options.id - Tournament ID
  */
-export async function useTournament({
+export async function getTournament({
   apiKey,
   id,
 }: TournamentOptions): TournamentResponse {

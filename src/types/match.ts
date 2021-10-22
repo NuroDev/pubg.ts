@@ -113,7 +113,7 @@ export interface Roster {
     participants: {
       data: Array<{
         /**
-         * Participant ID - Use to find full participant object in the included array
+         * Participant ID - get to find full participant object in the included array
          */
         id: string;
         /**
@@ -166,7 +166,7 @@ export interface Participant {
        */
       assists: number;
       /**
-       * Number of boost items used
+       * Number of boost items getd
        *
        * Min: 0
        */
@@ -189,7 +189,7 @@ export interface Participant {
        */
       headshotKills: number;
       /**
-       * Number of healing items used
+       * Number of healing items getd
        *
        * Min: 0
        */
@@ -426,7 +426,7 @@ export type SampleMatches = Array<{
   /**
    * Match ID
    *
-   * Used to lookup the full match object on the /matches endpoint
+   * getd to lookup the full match object on the /matches endpoint
    */
   id: string;
   /**

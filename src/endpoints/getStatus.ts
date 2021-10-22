@@ -33,7 +33,7 @@ export type StatusResponse = Promise<{
  * @param {Object} options - Status Options
  * @param {string} options.apiKey - PUBG Developer API key
  */
-export async function useStatus({ apiKey }: StatusOptions): StatusResponse {
+export async function getStatus({ apiKey }: StatusOptions): StatusResponse {
   try {
     const { data } = await fetch<ApiStatusResponse>({
       apiKey,

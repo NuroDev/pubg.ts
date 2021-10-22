@@ -29,7 +29,7 @@ export type SeasonsResponse = Promise<Array<Season>>;
  * @param {string} options.apiKey - PUBG Developer API key
  * @param {string | undefined} [options.shard] - Platform Shard
  */
-export async function useSeasons(options: SeasonsOptions): SeasonsResponse {
+export async function getSeasons(options: SeasonsOptions): SeasonsResponse {
   try {
     const { data } = await fetch<ApiSeasonsResponse>({
       ...options,

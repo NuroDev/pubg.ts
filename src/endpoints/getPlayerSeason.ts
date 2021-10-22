@@ -17,7 +17,7 @@ export type PlayerSeasonResponse = Promise<{}>;
  * @param {string} options.apiKey - PUBG Developer API key
  * @param {string | undefined} [options.shard] - Platform Shard
  */
-export async function usePlayerSeason({
+export async function getPlayerSeason({
   ...rest
 }: PlayerSeasonOptions): PlayerSeasonResponse {
   try {
