@@ -51,7 +51,7 @@ yarn add pubg.ts
 
 For use in the browser, check out the following:
 
- - ⚛️ [`react-pubg`](https://github.com/nurodev/react-pubg)
+- ⚛️ [`react-pubg`](https://github.com/nurodev/react-pubg)
 
 ## 🦄 Usage
 
@@ -86,7 +86,14 @@ const match = await client.getMatch({
 });
 
 // Get the current active season
-const activeSeason = await client.getCurrentSeason();
+const activeSeason = await client.getSeason();
+
+// Get season stats for a specific player
+const playerSeason = await client.getPlayerSeason({
+  player: player.id,
+  season: activeSeason,
+  ranked: false, // Optionally gets stats for ranked gamemodes
+});
 ```
 
 Using individual fetchers
@@ -110,6 +117,14 @@ const match = await getMatch({
 // Get the current active season
 const activeSeason = await getSeason({
   apiKey: "your_key_goes_here",
+});
+
+// Get season stats for a specific player
+const playerSeason = await getPlayerSeason({
+  apiKey: "your_key_goes_here",
+  player: player.id,
+  season: activeSeason,
+  ranked: false, // Optionally gets stats for ranked gamemodes
 });
 ```
 
