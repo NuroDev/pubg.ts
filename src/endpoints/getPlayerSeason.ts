@@ -1,4 +1,4 @@
-import { ErrorCode } from "..";
+import { ErrorCode, ResponseObjectType } from "..";
 import { fetch } from "../util";
 
 import type {
@@ -17,6 +17,11 @@ export interface PlayerSeasonOptions extends WithApiShard {
   player: Player | string;
 
   /**
+   * Fetch player ranked statistics
+   */
+  ranked?: boolean;
+
+  /**
    * Season object or id
    */
   season: Season | string;
@@ -24,9 +29,9 @@ export interface PlayerSeasonOptions extends WithApiShard {
 
 interface ApiPlayerSeasonResponse extends BaseResponse {
   /**
-   * Player(s) data & their recent matches (Up to 14 days old)
+   * A players stats & season data
    *
-   * @see https://documentation.pubg.com/en/players-endpoint.html/
+   * @see https://documentation.pubg.com/en/seasons-endpoint.html#/Season_Stats
    */
   data: ApiPlayerSeason;
 }
@@ -42,6 +47,7 @@ export type PlayerSeasonResponse = Promise<PlayerSeason>;
  */
 export async function getPlayerSeason({
   player,
+  ranked = false,
   season,
   ...rest
 }: PlayerSeasonOptions): PlayerSeasonResponse {
@@ -55,26 +61,38 @@ export async function getPlayerSeason({
   try {
     const { data } = await fetch<ApiPlayerSeasonResponse>({
       ...rest,
-      endpoint: `players/${playerId}/seasons/${seasonId}`,
+      endpoint: `players/${playerId}/seasons/${seasonId}${
+        ranked ? "/ranked" : ""
+      }`,
       shard,
     });
 
-    const matches = Object.fromEntries(
-      Object.entries(data.relationships).map(([key, value]) => {
-        if (key === "player" || key === "season") return [];
+    switch (data.type) {
+      case ResponseObjectType.PLAYER_SEASON:
+        const matches = Object.fromEntries(
+          Object.entries(data.relationships).map(([key, value]) => {
+            if (key === "player" || key === "season") return [];
 
-        return [key, value];
-      })
-    );
+            return [key, value];
+          })
+        );
 
-    return {
-      bestRankPoint: data.attributes.bestRankPoint ?? undefined,
-      gamemodeStats: data.attributes.gameModeStats,
-      matches,
-      playerId: data.relationships.player.data.id,
-      seasonId: data.relationships.season.data.id,
-      type: data.type,
-    };
+        return {
+          bestRankPoint: data.attributes.bestRankPoint ?? undefined,
+          gamemodeStats: data.attributes.gameModeStats,
+          matches,
+          playerId: data.relationships.player.data.id,
+          seasonId: data.relationships.season.data.id,
+          type: data.type,
+        };
+      case ResponseObjectType.RANKED_PLAYER_SEASON:
+        return {
+          playerId: data.relationships.player.data.id,
+          rankedGameModeStats: data.attributes.rankedGameModeStats,
+          seasonId: data.relationships.season.data.id,
+          type: data.type,
+        };
+    }
   } catch (error) {
     console.error(ErrorCode.HOOK_FETCH_PLAYER_SEASON, error);
     throw error;

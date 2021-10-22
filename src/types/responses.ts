@@ -7,6 +7,7 @@ export enum ResponseObjectType {
   PARTICIPANT = "participant",
   PLAYER = "player",
   PLAYER_SEASON = "playerSeason",
+  RANKED_PLAYER_SEASON = "rankedplayerstats",
   ROSTER = "roster",
   SEASON = "season",
   STATUS = "status",
