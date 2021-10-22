@@ -1,5 +1,3 @@
-import type { ResponseObjectType } from ".";
-
 /**
  * Death Type
  *
@@ -127,76 +125,6 @@ export enum MatchType {
 }
 
 /**
- * Season
- *
- * @see https://documentation.pubg.com/en/seasons-endpoint.html
- */
-export interface ApiSeason {
-  /**
-   * Season specific attributes / metadata
-   */
-  attributes: {
-    /**
-     * Indicates if the season is active
-     */
-    isCurrentSeason: boolean;
-
-    /**
-     * Indicates if the season is not active
-     */
-    isOffseason: boolean;
-  };
-
-  /**
-   * Season ID
-   *
-   * getd to lookup a player's stats for this season on the /players endpoint
-   */
-  id: string;
-
-  /**
-   * Identifier for this object type ("season")
-   */
-  type: ResponseObjectType.SEASON;
-}
-
-export interface Season extends Pick<ApiSeason, "id" | "type"> {
-  /**
-   * Indicates if the season is active
-   */
-  isCurrentSeason: boolean;
-
-  /**
-   * Indicates if the season is not active
-   */
-  isOffseason: boolean;
-}
-
-/**
- * Season State
- *
- * What state the season is currently in
- *
- * @see https://documentation.pubg.com/en/seasons-endpoint.html
- */
-export enum SeasonState {
-  /**
-   * @todo Unknown
-   */
-  CLOSED = "closed",
-
-  /**
-   * @todo Unknown
-   */
-  PREPARE = "prepare",
-
-  /**
-   * @todo Unknown
-   */
-  PROGRESS = "progress",
-}
-
-/**
  * Gamemodes
  *
  * For some requests, a gamemode is also required to be speicifed in the request URL
@@ -316,8 +244,6 @@ export enum Gamemode {
 
   /**
    * Solo's (Third Person Perspective)
-   *
-   * 1 player per team, third person perspective
    */
   SOLO = "solo",
 
