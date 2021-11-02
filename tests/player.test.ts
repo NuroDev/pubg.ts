@@ -1,7 +1,7 @@
-import { Client, getPlayer } from "..";
+import { Client, getPlayer } from "../dist";
 import { playerNames, playerIds } from "./data";
 
-import type { Player } from "..";
+import type { Player } from "../dist";
 
 const apiKey = process.env.PUBG_API_KEY as string;
 const singlePlayer = {
