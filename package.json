@@ -44,6 +44,7 @@
     "@vitejs/plugin-vue": "^1.9.2",
     "@vueuse/core": "^6.5.3",
     "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
     "jest": "^27.3.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.7",
