@@ -1,7 +1,6 @@
 import { getSeasons } from ".";
-import { ErrorCode } from "..";
 
-import type { Season } from "..";
+import type { Result, Season } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SeasonOptions extends WithApiShard {
@@ -11,7 +10,7 @@ export interface SeasonOptions extends WithApiShard {
   id?: string;
 }
 
-export type SeasonResponse = Promise<Season | undefined>;
+export type SeasonResponse = Result<Season | undefined>;
 
 /**
  * Get data on a specified season. Whether current or a player(s)
@@ -27,16 +26,14 @@ export async function getSeason({
   id,
   ...rest
 }: SeasonOptions): SeasonResponse {
-  try {
-    const seasons = await getSeasons({
-      ...rest,
-    });
+  // TODO: Pass through override error code
+  const seasons = await getSeasons({
+    ...rest,
+  });
 
-    return seasons.find((season) =>
-      id ? id === season.id : season.isCurrentSeason
-    );
-  } catch (error) {
-    console.error(ErrorCode.HOOK_FETCH_SEASON, error);
-    throw error;
-  }
+  if ("error" in seasons) return seasons;
+
+  return seasons.find((season) =>
+    id ? id === season.id : season.isCurrentSeason
+  );
 }

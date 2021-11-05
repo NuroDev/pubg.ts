@@ -1,7 +1,6 @@
-import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import type { ApiSampleMatches, Sample, SampleMatches } from "..";
+import type { ApiSampleMatches, Result, Sample, SampleMatches } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SamplesOptions extends WithApiShard {
@@ -39,7 +38,7 @@ interface ApiSamplesResponse {
 /**
  * @see https://documentation.pubg.com/en/samples-endpoint.html
  */
-export type SamplesResponse = Promise<
+export type SamplesResponse = Result<
   Sample & {
     /**
      * ID of the sample
@@ -66,25 +65,22 @@ export async function getSamples({
   createdAt,
   shard,
 }: SamplesOptions): SamplesResponse {
-  try {
-    const { data } = await fetch<ApiSamplesResponse>({
-      apiKey,
-      endpoint: "samples",
-      params: createdAt
-        ? {
-            "filter[createdAt-start]": createdAt.toISOString(),
-          }
-        : undefined,
-      shard,
-    });
+  const response = await fetch<ApiSamplesResponse>({
+    apiKey,
+    endpoint: "samples",
+    params: createdAt
+      ? {
+          "filter[createdAt-start]": createdAt.toISOString(),
+        }
+      : undefined,
+    shard,
+  });
 
-    return {
-      ...data.attributes,
-      id: data.id,
-      matches: data.relationships.matches.data,
-    };
-  } catch (error) {
-    console.error(ErrorCode.HOOK_FETCH_SAMPLES, error);
-    throw error;
-  }
+  if ("error" in response) return response;
+
+  return {
+    ...response.data.attributes,
+    id: response.data.id,
+    matches: response.data.relationships.matches.data,
+  };
 }

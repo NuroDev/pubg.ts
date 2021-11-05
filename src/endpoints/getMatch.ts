@@ -1,7 +1,13 @@
-import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import type { ApiMatch, BaseResponse, Match, Participant, Roster } from "..";
+import type {
+  ApiMatch,
+  BaseResponse,
+  Match,
+  Participant,
+  Result,
+  Roster,
+} from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface MatchOptions extends WithApiShard {
@@ -27,7 +33,7 @@ interface ApiMatchResponse extends BaseResponse {
   included: Array<Participant | Roster>;
 }
 
-export type MatchResponse = Promise<Match>;
+export type MatchResponse = Result<Match>;
 
 /**
  * Get a match from a specificed match id
@@ -38,21 +44,18 @@ export type MatchResponse = Promise<Match>;
  * @param {string | undefined} [options.shard] - Platform Shard
  */
 export async function getMatch({ id, ...rest }: MatchOptions): MatchResponse {
-  try {
-    const { data, included } = await fetch<ApiMatchResponse>({
-      ...rest,
-      endpoint: `matches/${id}`,
-    });
+  const response = await fetch<ApiMatchResponse>({
+    ...rest,
+    endpoint: `matches/${id}`,
+  });
 
-    return {
-      ...data.attributes,
-      assets: data.relationships.assets.data,
-      id: data.id,
-      members: included,
-      type: data.type,
-    };
-  } catch (error) {
-    console.error(ErrorCode.HOOK_FETCH_MATCH, error);
-    throw error;
-  }
+  if ("error" in response) return response;
+
+  return {
+    ...response.data.attributes,
+    assets: response.data.relationships.assets.data,
+    id: response.data.id,
+    members: response.included,
+    type: response.data.type,
+  };
 }

@@ -1,7 +1,12 @@
-import { ErrorCode } from "..";
 import { fetch } from "../util";
 
-import type { ApiTournaments, BaseResponse, Tournament, Tournaments } from "..";
+import type {
+  ApiTournaments,
+  BaseResponse,
+  Result,
+  Tournament,
+  Tournaments,
+} from "..";
 import type { WithApiKey } from "../types/util";
 
 export interface TournamentsOptions extends WithApiKey {}
@@ -13,7 +18,7 @@ interface ApiTournamentsResponse extends BaseResponse {
   data: Array<ApiTournaments>;
 }
 
-export type TournamentsResponse = Promise<Tournament | Array<Tournaments>>;
+export type TournamentsResponse = Result<Tournament | Array<Tournaments>>;
 
 /**
  * Gets all tournaments
@@ -21,20 +26,17 @@ export type TournamentsResponse = Promise<Tournament | Array<Tournaments>>;
 export async function getTournaments({
   apiKey,
 }: TournamentsOptions): TournamentsResponse {
-  try {
-    const { data } = await fetch<ApiTournamentsResponse>({
-      apiKey,
-      endpoint: "tournaments",
-      root: true,
-    });
+  const response = await fetch<ApiTournamentsResponse>({
+    apiKey,
+    endpoint: "tournaments",
+    root: true,
+  });
 
-    return data.map(({ attributes, id, type }) => ({
-      createdAt: attributes.createdAt,
-      id,
-      type,
-    }));
-  } catch (error) {
-    console.error(ErrorCode.HOOK_FETCH_TOURNAMENT, error);
-    throw error;
-  }
+  if ("error" in response) return response;
+
+  return response.data.map(({ attributes, id, type }) => ({
+    createdAt: attributes.createdAt,
+    id,
+    type,
+  }));
 }

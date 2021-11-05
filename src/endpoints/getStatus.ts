@@ -1,6 +1,6 @@
-import { ErrorCode, ResponseObjectType } from "..";
 import { fetch } from "../util";
 
+import type { ResponseObjectType, Result } from "..";
 import type { WithApiKey } from "../types/util";
 
 export interface StatusOptions extends WithApiKey {}
@@ -22,7 +22,7 @@ interface ApiStatusResponse {
  *
  * @see https://documentation.pubg.com/en/samples-endpoint.html
  */
-export type StatusResponse = Promise<{
+export type StatusResponse = Result<{
   id: string;
   type: ResponseObjectType.STATUS;
 }>;
@@ -34,16 +34,13 @@ export type StatusResponse = Promise<{
  * @param {string} options.apiKey - PUBG Developer API key
  */
 export async function getStatus({ apiKey }: StatusOptions): StatusResponse {
-  try {
-    const { data } = await fetch<ApiStatusResponse>({
-      apiKey,
-      endpoint: "status",
-      root: true,
-    });
+  const response = await fetch<ApiStatusResponse>({
+    apiKey,
+    endpoint: "status",
+    root: true,
+  });
 
-    return data;
-  } catch (error) {
-    console.error(ErrorCode.HOOK_FETCH_STATUS, error);
-    throw error;
-  }
+  if ("error" in response) return response;
+
+  return response.data;
 }

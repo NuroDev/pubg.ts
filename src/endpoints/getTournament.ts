@@ -1,10 +1,10 @@
-import { ErrorCode } from "..";
 import { fetch } from "../util";
 
 import type {
   ApiTournament,
   BaseResponse,
   ApiMatch,
+  Result,
   Tournament,
   Tournaments,
 } from "..";
@@ -31,7 +31,7 @@ interface ApiTournamentResponse extends BaseResponse {
   included: Array<Pick<ApiMatch, "attributes" | "id" | "type">>;
 }
 
-export type TournamentResponse = Promise<Tournament | Array<Tournaments>>;
+export type TournamentResponse = Result<Tournament | Array<Tournaments>>;
 
 /**
  * Gets a specific tournament using a provided match id
@@ -44,19 +44,16 @@ export async function getTournament({
   apiKey,
   id,
 }: TournamentOptions): TournamentResponse {
-  try {
-    const { data, included } = await fetch<ApiTournamentResponse>({
-      apiKey,
-      endpoint: `tournaments/${id}`,
-      root: true,
-    });
+  const response = await fetch<ApiTournamentResponse>({
+    apiKey,
+    endpoint: `tournaments/${id}`,
+    root: true,
+  });
 
-    return {
-      ...data,
-      matches: included,
-    };
-  } catch (error) {
-    console.error(ErrorCode.HOOK_FETCH_TOURNAMENT, error);
-    throw error;
-  }
+  if ("error" in response) return response;
+
+  return {
+    ...response.data,
+    matches: response.included,
+  };
 }

@@ -1,7 +1,6 @@
 import axios from "axios";
 
 import { BASE_HEADERS } from "../constants";
-import { ErrorCode } from "..";
 
 import type { AxiosResponse } from "axios";
 
@@ -31,18 +30,15 @@ export async function getTelemetry({
   apiKey,
   url,
 }: TelemetryOptions): TelemetryResponse {
-  try {
-    const { data }: AxiosResponse<ApiTelemetryResponse> = await axios(url, {
-      headers: {
-        ...BASE_HEADERS,
-        Authorization: `Bearer ${apiKey}`,
-      },
-      responseType: "json",
-    });
+  const response: AxiosResponse<ApiTelemetryResponse> = await axios(url, {
+    headers: {
+      ...BASE_HEADERS,
+      Authorization: `Bearer ${apiKey}`,
+    },
+    responseType: "json",
+  });
 
-    return data;
-  } catch (error) {
-    console.error(ErrorCode.HOOK_FETCH_TELEMETRY, error);
-    throw error;
-  }
+  if ("error" in response) return response;
+
+  return response.data;
 }

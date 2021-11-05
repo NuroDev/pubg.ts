@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { BASE_HEADERS, BASE_URL } from "../constants";
-import { ErrorCode, PubgResponseError, ResponseError, Shard } from "../types";
+import { PubgResponseError, ResponseError, Shard } from "../types";
 
 import type { AxiosResponse } from "axios";
 import type { WithApiShard } from "../types/util";
@@ -11,11 +11,6 @@ interface FetchOptions extends WithApiShard {
    * Endpoint to hit of the api
    */
   endpoint: string;
-
-  /**
-   * Error code to print if the request fails
-   */
-  errorCode?: ErrorCode;
 
   /**
    * Additional headers to apply to the request
@@ -42,7 +37,6 @@ interface FetchOptions extends WithApiShard {
 export async function fetch<T = never>({
   apiKey,
   endpoint,
-  errorCode,
   headers = {},
   params = {},
   root = false,
@@ -56,7 +50,7 @@ export async function fetch<T = never>({
     : `${BASE_URL}/shards/${shard}/${endpoint}`;
 
   try {
-    const { data }: AxiosResponse<T> = await axios(url, {
+    const response: AxiosResponse<T> = await axios(url, {
       headers: {
         ...BASE_HEADERS,
         Authorization: `Bearer ${apiKey}`,
@@ -66,7 +60,7 @@ export async function fetch<T = never>({
       responseType: "json",
     });
 
-    return data;
+    return response.data;
   } catch ({ response }) {
     const { data, status } = response as {
       data: {
@@ -77,7 +71,7 @@ export async function fetch<T = never>({
 
     const error = data.errors[0];
 
-    console.error(`${errorCode} - ${error.title}: ${error.detail}`);
+    console.error(`${error.title}: ${error.detail}`);
     return {
       error,
       status,
