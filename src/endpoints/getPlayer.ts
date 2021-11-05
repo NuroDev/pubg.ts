@@ -51,7 +51,9 @@ export async function getPlayer({
 
   const params = id
     ? isArray
-      ? { "filter[playerIds]": value.join(",") }
+      ? {
+          "filter[playerIds]": value.join(","),
+        }
       : undefined
     : {
         "filter[playerNames]": isArray ? value.join(",") : value,
@@ -63,30 +65,34 @@ export async function getPlayer({
     params,
   });
 
-  if ("error" in response) return response;
+  if (response.error) return response;
 
-  const { data } = response;
+  const { data } = response.data;
   const isDataArray = Array.isArray(data);
 
   if (!isDataArray || (isDataArray && data.length === 1)) {
     const player = isDataArray ? data[0] : data;
 
     return {
-      ...player.attributes,
-      assets: player.relationships.assets.data,
-      id: player.id,
-      matches: player.relationships.matches.data,
-      type: player.type,
+      data: {
+        ...player.attributes,
+        assets: player.relationships.assets.data,
+        id: player.id,
+        matches: player.relationships.matches.data,
+        type: player.type,
+      },
+      error: null,
     };
   }
 
-  return (response.data as Array<ApiPlayer>).map(
-    ({ attributes, id, relationships, type }) => ({
+  return {
+    data: data.map(({ attributes, id, relationships, type }) => ({
       ...attributes,
       assets: relationships.assets.data,
       id,
       matches: relationships.matches.data,
       type,
-    })
-  );
+    })),
+    error: null,
+  };
 }

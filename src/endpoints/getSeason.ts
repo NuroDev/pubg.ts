@@ -31,9 +31,12 @@ export async function getSeason({
     ...rest,
   });
 
-  if ("error" in seasons) return seasons;
+  if (seasons.error) return seasons;
 
-  return seasons.find((season) =>
-    id ? id === season.id : season.isCurrentSeason
-  );
+  return {
+    data: seasons.data.find((season) =>
+      id ? id === season.id : season.isCurrentSeason
+    ),
+    error: null,
+  };
 }

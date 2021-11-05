@@ -76,11 +76,16 @@ export async function getSamples({
     shard,
   });
 
-  if ("error" in response) return response;
+  if (response.error) return response;
+
+  const { data } = response.data;
 
   return {
-    ...response.data.attributes,
-    id: response.data.id,
-    matches: response.data.relationships.matches.data,
+    data: {
+      ...data.attributes,
+      id: data.id,
+      matches: data.relationships.matches.data,
+    },
+    error: null,
   };
 }

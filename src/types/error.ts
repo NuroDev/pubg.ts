@@ -1,14 +1,3 @@
-export interface ResponseError {
-  /**
-   * Response from PUBG API as to why the request failed
-   */
-  error: PubgResponseError;
-  /**
-   * Status code returned by the request
-   */
-  status?: number;
-}
-
 export enum ErrorCode {
   // General
   NO_API_KEY = "No API has been provided. An API key is required to get `pubg.ts`",

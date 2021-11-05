@@ -32,11 +32,16 @@ export async function getTournaments({
     root: true,
   });
 
-  if ("error" in response) return response;
+  if (response.error) return response;
 
-  return response.data.map(({ attributes, id, type }) => ({
-    createdAt: attributes.createdAt,
-    id,
-    type,
-  }));
+  const { data } = response.data;
+
+  return {
+    data: data.map(({ attributes, id, type }) => ({
+      createdAt: attributes.createdAt,
+      id,
+      type,
+    })),
+    error: null,
+  };
 }

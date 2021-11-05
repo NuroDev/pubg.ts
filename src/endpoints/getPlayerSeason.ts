@@ -67,12 +67,14 @@ export async function getPlayerSeason({
     shard,
   });
 
-  if ("error" in response) return response;
+  if (response.error) return response;
 
-  switch (response.data.type) {
+  const { data } = response.data;
+
+  switch (data.type) {
     case ResponseObjectType.PLAYER_SEASON:
       const matches = Object.fromEntries(
-        Object.entries(response.data.relationships).map(([key, value]) => {
+        Object.entries(data.relationships).map(([key, value]) => {
           if (key === "player" || key === "season") return [];
 
           return [key, value];
@@ -80,19 +82,25 @@ export async function getPlayerSeason({
       );
 
       return {
-        bestRankPoint: response.data.attributes.bestRankPoint ?? undefined,
-        gamemodeStats: response.data.attributes.gameModeStats,
-        matches,
-        playerId: response.data.relationships.player.data.id,
-        seasonId: response.data.relationships.season.data.id,
-        type: response.data.type,
+        data: {
+          bestRankPoint: data.attributes.bestRankPoint ?? undefined,
+          gamemodeStats: data.attributes.gameModeStats,
+          matches,
+          playerId: data.relationships.player.data.id,
+          seasonId: data.relationships.season.data.id,
+          type: data.type,
+        },
+        error: null,
       };
     case ResponseObjectType.RANKED_PLAYER_SEASON:
       return {
-        playerId: response.data.relationships.player.data.id,
-        rankedGameModeStats: response.data.attributes.rankedGameModeStats,
-        seasonId: response.data.relationships.season.data.id,
-        type: response.data.type,
+        data: {
+          playerId: data.relationships.player.data.id,
+          rankedGameModeStats: data.attributes.rankedGameModeStats,
+          seasonId: data.relationships.season.data.id,
+          type: data.type,
+        },
+        error: null,
       };
   }
 }

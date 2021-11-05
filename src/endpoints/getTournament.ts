@@ -50,10 +50,15 @@ export async function getTournament({
     root: true,
   });
 
-  if ("error" in response) return response;
+  if (response.error) return response;
+
+  const { data, included } = response.data;
 
   return {
-    ...response.data,
-    matches: response.included,
+    data: {
+      ...data,
+      matches: included,
+    },
+    error: null,
   };
 }

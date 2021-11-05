@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { BASE_HEADERS, BASE_URL } from "../constants";
-import { ErrorCode, PubgResponseError, ResponseError, Shard } from "../types";
+import { ErrorCode, PubgResponseError, Result, Shard } from "../types";
 
 import type { AxiosResponse } from "axios";
 import type { WithApiShard } from "../types/util";
@@ -41,7 +41,7 @@ export async function fetch<T = never>({
   params = {},
   root = false,
   shard = Shard.STEAM,
-}: FetchOptions): Promise<T | ResponseError> {
+}: FetchOptions): Result<T> {
   if (!Object.values(Shard).includes(shard))
     throw new Error(ErrorCode.INVALID_SHARD);
 
@@ -60,7 +60,10 @@ export async function fetch<T = never>({
       responseType: "json",
     });
 
-    return response.data;
+    return {
+      data: response.data,
+      error: null,
+    };
   } catch ({ response }) {
     const { data, status } = response as {
       data: {
@@ -72,7 +75,9 @@ export async function fetch<T = never>({
     const error = data.errors[0];
 
     console.error(`${error.title}: ${error.detail}`);
+
     return {
+      data: null,
       error,
       status,
     };

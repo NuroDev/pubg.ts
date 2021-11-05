@@ -40,7 +40,10 @@ export async function getStatus({ apiKey }: StatusOptions): StatusResponse {
     root: true,
   });
 
-  if ("error" in response) return response;
+  if (response.error) return response;
 
-  return response.data;
+  return {
+    data: response.data.data,
+    error: null,
+  };
 }

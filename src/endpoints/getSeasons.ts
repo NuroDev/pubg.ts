@@ -34,12 +34,17 @@ export async function getSeasons(options: SeasonsOptions): SeasonsResponse {
     endpoint: "seasons",
   });
 
-  if ("error" in response) return response;
+  if (response.error) return response;
 
-  return response.data.map(({ attributes, id, type }) => ({
-    id,
-    isCurrentSeason: attributes.isCurrentSeason,
-    isOffseason: attributes.isOffseason,
-    type,
-  }));
+  const { data } = response.data;
+
+  return {
+    data: data.map(({ attributes, id, type }) => ({
+      id,
+      isCurrentSeason: attributes.isCurrentSeason,
+      isOffseason: attributes.isOffseason,
+      type,
+    })),
+    error: null,
+  };
 }

@@ -49,13 +49,18 @@ export async function getMatch({ id, ...rest }: MatchOptions): MatchResponse {
     endpoint: `matches/${id}`,
   });
 
-  if ("error" in response) return response;
+  if (response.error) return response;
+
+  const { data, included } = response.data;
 
   return {
-    ...response.data.attributes,
-    assets: response.data.relationships.assets.data,
-    id: response.data.id,
-    members: response.included,
-    type: response.data.type,
+    data: {
+      ...data.attributes,
+      assets: data.relationships.assets.data,
+      id: data.id,
+      members: included,
+      type: data.type,
+    },
+    error: null,
   };
 }
