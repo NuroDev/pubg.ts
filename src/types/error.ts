@@ -1,3 +1,14 @@
+export interface ResponseError {
+  /**
+   * Response from PUBG API as to why the request failed
+   */
+  error: PubgResponseError;
+  /**
+   * Status code returned by the request
+   */
+  status?: number;
+}
+
 export enum ErrorCode {
   // =======================
   // General
@@ -24,7 +35,7 @@ export enum ErrorCode {
   HOOK_FETCH_TOURNAMENT = "Failed to fetch data for getTournament hook",
 }
 
-export interface ResponseError {
+export interface PubgResponseError {
   detail: string;
   title: string;
 }
@@ -39,7 +50,7 @@ enum PlayerError {
 }
 
 export const PlayerErrors: {
-  [Error in PlayerError]: ResponseError;
+  [Error in PlayerError]: PubgResponseError;
 } = {
   [PlayerError.NOT_FOUND]: {
     detail: "No player(s) found matching the criteria",

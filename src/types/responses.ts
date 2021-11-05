@@ -1,4 +1,4 @@
-import type { ResponseError } from ".";
+import type { PubgResponseError } from ".";
 import type { WithLinks } from "./util";
 
 export enum ResponseObjectType {
@@ -70,5 +70,5 @@ export interface BaseResponse extends WithLinks {
 }
 
 export interface ErrorsResponse {
-  errors: ResponseError;
+  errors: PubgResponseError;
 }

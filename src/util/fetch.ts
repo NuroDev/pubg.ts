@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { BASE_HEADERS, BASE_URL } from "../constants";
-import { ErrorCode, Shard } from "../types";
+import { ErrorCode, PubgResponseError, ResponseError, Shard } from "../types";
 
 import type { AxiosResponse } from "axios";
 import type { WithApiShard } from "../types/util";
@@ -11,6 +11,11 @@ interface FetchOptions extends WithApiShard {
    * Endpoint to hit of the api
    */
   endpoint: string;
+
+  /**
+   * Error code to print if the request fails
+   */
+  errorCode?: ErrorCode;
 
   /**
    * Additional headers to apply to the request
@@ -37,11 +42,12 @@ interface FetchOptions extends WithApiShard {
 export async function fetch<T = never>({
   apiKey,
   endpoint,
+  errorCode,
   headers = {},
   params = {},
   root = false,
   shard = Shard.STEAM,
-}: FetchOptions) {
+}: FetchOptions): Promise<T | ResponseError> {
   if (!Object.values(Shard).includes(shard))
     throw new Error(ErrorCode.INVALID_SHARD);
 
@@ -61,8 +67,20 @@ export async function fetch<T = never>({
     });
 
     return data;
-  } catch (error) {
-    console.error(error);
-    throw error;
+  } catch ({ response }) {
+    const { data, status } = response as {
+      data: {
+        errors: Array<PubgResponseError>;
+      };
+      status: number;
+    };
+
+    const error = data.errors[0];
+
+    console.error(`${errorCode} - ${error.title}: ${error.detail}`);
+    return {
+      error,
+      status,
+    };
   }
 }
