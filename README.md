@@ -15,26 +15,13 @@
     A lightweight PUBG TypeScript API Wrapper</em>
     <br />
     <br />
-    <a href="https://www.npmjs.com/package/pubg.ts">
-       <img src="https://img.shields.io/npm/v/pubg.ts?label=%20&style=for-the-badge" alt="Package Version" />
-    </a>
-    <a href="https://www.npmjs.com/package/pubg.ts">
-      <img src="https://img.shields.io/npm/dm/pubg.ts?label=%20&style=for-the-badge" alt="Package Monthly Downloads" />
-    </a>
-    <a href="https://github.com/nurodev/pubg.ts">
-      <img src="https://img.shields.io/badge/-Docs-blue.svg?style=for-the-badge" alt="Docs" />
-    </a>
-    <a href="https://documentation.pubg.com/">
-      <img src="https://img.shields.io/badge/-API-yellow.svg?style=for-the-badge" alt="API" />
-    </a>
-    <a href="https://github.com/nurodev/pubg.ts">
-      <img src="https://img.shields.io/badge/-Example-white.svg?style=for-the-badge" alt="Example" />
-    </a>
   </sup>
-  <br />
-  <br />
-  <br />
-  <br />
+  
+  [![Tests](https://img.shields.io/github/workflow/status/nurodev/pubg.ts/CI?label=%20&logo=github&logoColor=white&style=for-the-badge)](https://github.com/nurodev/pubg.ts)
+  [![Package Version](https://img.shields.io/npm/v/pubg.ts?label=%20&style=for-the-badge)](https://www.npmjs.com/package/pubg.ts)
+  [![Package Monthly Downloads](https://img.shields.io/npm/dm/pubg.ts?color=blue&label=%20&style=for-the-badge)](https://www.npmjs.com/package/pubg.ts)
+  [![API](https://img.shields.io/badge/-API-yellow.svg?style=for-the-badge)](https://documentation.pubg.com)
+  
 </div>
 
 ## 🚀 Install
