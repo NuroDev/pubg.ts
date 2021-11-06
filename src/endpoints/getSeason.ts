@@ -1,6 +1,6 @@
 import { getSeasons } from ".";
 
-import type { Result, Season } from "..";
+import type { PromiseResult, Season } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SeasonOptions extends WithApiShard {
@@ -10,7 +10,7 @@ export interface SeasonOptions extends WithApiShard {
   id?: string;
 }
 
-export type SeasonResponse = Result<Season | undefined>;
+export type SeasonResponse = PromiseResult<Season | undefined>;
 
 /**
  * Get data on a specified season. Whether current or a player(s)

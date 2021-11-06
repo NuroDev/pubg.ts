@@ -1,47 +1,20 @@
 import axios from "axios";
 
 import { BASE_HEADERS, BASE_URL } from "../constants";
-import { ErrorCode, PubgResponseError, Result, Shard } from "../types";
+import { ErrorCode, PubgResponseError, Shard } from "../types";
 
 import type { AxiosResponse } from "axios";
-import type { WithApiShard } from "../types/util";
+import type { PromiseResult, Result } from "..";
+import type { FetchOptions } from "../types/util";
 
-interface FetchOptions extends WithApiShard {
-  /**
-   * Endpoint to hit of the api
-   */
-  endpoint: string;
-
-  /**
-   * Additional headers to apply to the request
-   *
-   * @default undefined
-   */
-  headers?: Record<string, string>;
-
-  /**
-   * Additional parameters to apply to the request
-   *
-   * @default undefined
-   */
-  params?: any;
-
-  /**
-   * Concatenate the endpoint to the root domain / base URL rather than on top of a shard
-   *
-   * @default false
-   */
-  root?: boolean;
-}
-
-export async function fetch<T = never>({
+export async function fetch<T>({
   apiKey,
   endpoint,
   headers = {},
   params = {},
   root = false,
   shard = Shard.STEAM,
-}: FetchOptions): Result<T> {
+}: FetchOptions): PromiseResult<T> {
   if (!Object.values(Shard).includes(shard))
     throw new Error(ErrorCode.INVALID_SHARD);
 
@@ -82,4 +55,20 @@ export async function fetch<T = never>({
       status,
     };
   }
+}
+
+export async function fetchAll<T>(
+  options: Array<FetchOptions>
+): Promise<Array<Result<T>>> {
+  const responses = (await Promise.all(
+    options.map((option) => fetch<T>(option))
+  )) as Array<Result<T>>;
+
+  responses.forEach((res) => {
+    if (res.error) return res;
+
+    return;
+  });
+
+  return responses;
 }

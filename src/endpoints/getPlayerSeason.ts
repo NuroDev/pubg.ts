@@ -6,7 +6,7 @@ import type {
   BaseResponse,
   Player,
   PlayerSeason,
-  Result,
+  PromiseResult,
   Season,
 } from "..";
 import type { WithApiShard } from "../types/util";
@@ -37,7 +37,7 @@ interface ApiPlayerSeasonResponse extends BaseResponse {
   data: ApiPlayerSeason;
 }
 
-export type PlayerSeasonResponse = Result<PlayerSeason>;
+export type PlayerSeasonResponse = PromiseResult<PlayerSeason>;
 
 /**
  * Get data for a single season of a player(s) by a given id or name

@@ -73,11 +73,16 @@ export class Client {
    * @param {boolean} [options.id] - Whether the provided value(s) are ID's, not player names
    * @param {string | Array} options.value - Player or array of players to fetch
    */
-  public async getPlayer({ id, value }: ClientFnOptions<PlayerOptions>) {
+  public async getPlayer({
+    id,
+    skipFailed,
+    value,
+  }: ClientFnOptions<PlayerOptions>) {
     return await getPlayer({
       apiKey: this._apiKey,
       id,
       shard: this._shard,
+      skipFailed,
       value,
     });
   }

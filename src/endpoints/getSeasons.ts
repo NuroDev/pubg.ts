@@ -1,6 +1,6 @@
 import { fetch } from "../util";
 
-import type { ApiSeason, BaseResponse, Result, Season } from "..";
+import type { ApiSeason, BaseResponse, PromiseResult, Season } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SeasonsOptions extends WithApiShard {}
@@ -19,7 +19,7 @@ interface ApiSeasonsResponse extends BaseResponse {
  *
  * @see https://documentation.pubg.com/en/seasons-endpoint.html
  */
-export type SeasonsResponse = Result<Array<Season>>;
+export type SeasonsResponse = PromiseResult<Array<Season>>;
 
 /**
  * Get an array of all seasons of a provided shard

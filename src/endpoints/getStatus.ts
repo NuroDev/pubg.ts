@@ -1,6 +1,6 @@
 import { fetch } from "../util";
 
-import type { ResponseObjectType, Result } from "..";
+import type { ResponseObjectType, PromiseResult } from "..";
 import type { WithApiKey } from "../types/util";
 
 export interface StatusOptions extends WithApiKey {}
@@ -22,7 +22,7 @@ interface ApiStatusResponse {
  *
  * @see https://documentation.pubg.com/en/samples-endpoint.html
  */
-export type StatusResponse = Result<{
+export type StatusResponse = PromiseResult<{
   id: string;
   type: ResponseObjectType.STATUS;
 }>;

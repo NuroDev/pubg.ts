@@ -1,6 +1,6 @@
-import { fetch } from "../util";
+import { chunkify, fetchAll } from "../util";
 
-import type { ApiPlayer, BaseResponse, Player, Result } from "..";
+import type { ApiPlayer, BaseResponse, Player, PromiseResult } from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface PlayerOptions extends WithApiShard {
@@ -8,6 +8,18 @@ export interface PlayerOptions extends WithApiShard {
    * Whether the provided value(s) are ID's, not player names
    */
   id?: boolean;
+
+  /**
+   * Throw an error if not all players are returned / found
+   *
+   * By default this will throw an error if the length of the array of player names / id's
+   * and length of response data objects are not the same.
+   * This is because if you provide a valid & invalid name to the PUBG api it will return the valid
+   * name & swallow the invalid name with no errors or warnings.
+   *
+   * @default false
+   */
+  skipFailed?: boolean;
 
   /**
    * Player or array of players to fetch
@@ -29,7 +41,7 @@ interface ApiPlayerResponse extends BaseResponse {
  *
  * @see https://documentation.pubg.com/en/players-endpoint.html/
  */
-export type PlayerResponse = Result<Player | Array<Player>>;
+export type PlayerResponse = PromiseResult<Array<Player>>;
 
 /**
  * Get player(s) by a given name(s) or id(s)
@@ -42,6 +54,7 @@ export type PlayerResponse = Result<Player | Array<Player>>;
  */
 export async function getPlayer({
   id = false,
+  skipFailed = false,
   value,
   ...rest
 }: PlayerOptions): PlayerResponse {
@@ -49,39 +62,45 @@ export async function getPlayer({
 
   const endpoint = !isArray && id ? `players/${value}` : "players";
 
-  const params =
-    id && !isArray
-      ? undefined
-      : {
-          [`filter[${id ? "playerIds" : "playerNames"}]`]: isArray
-            ? value.join(",")
-            : value,
-        };
+  const options = isArray
+    ? chunkify([...value]).map((chunk) => ({
+        ...rest,
+        endpoint,
+        params: {
+          [`filter[${id ? "playerIds" : "playerNames"}]`]: chunk.join(","),
+        },
+      }))
+    : [
+        {
+          ...rest,
+          endpoint,
+          params: id
+            ? undefined
+            : {
+                "filter[playerNames]": value,
+              },
+        },
+      ];
 
-  const response = await fetch<ApiPlayerResponse>({
-    ...rest,
-    endpoint,
-    params,
-  });
+  const responses = await fetchAll<ApiPlayerResponse>(options);
 
-  if (response.error) return response;
+  const error = responses.find((res) => res.error !== null);
+  if (error && error.error) return error;
 
-  const { data } = response.data;
-  const isDataArray = Array.isArray(data);
+  const data = responses.map(({ data }) => data!.data).flat();
 
-  if (!isDataArray || (isDataArray && data.length === 1)) {
-    const player = isDataArray ? data[0] : data;
-
-    return {
-      data: {
-        ...player.attributes,
-        assets: player.relationships.assets.data,
-        id: player.id,
-        matches: player.relationships.matches.data,
-        type: player.type,
-      },
-      error: null,
-    };
+  if (!skipFailed) {
+    if (isArray && value.length !== data.length) {
+      return {
+        data: null,
+        error: {
+          title: "Failed data length validation",
+          detail:
+            "Input array length does not match response length. Some data might be missing from the response.",
+        },
+        status: 400,
+      };
+    }
   }
 
   return {
