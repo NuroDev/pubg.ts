@@ -1,41 +1,13 @@
 import axios from "axios";
 
 import { BASE_HEADERS, BASE_URL } from "../constants";
-import { ErrorCode, PubgResponseError, PromiseResult, Shard } from "../types";
+import { ErrorCode, PubgResponseError, Shard } from "../types";
 
 import type { AxiosResponse } from "axios";
-import type { Result } from "..";
-import type { WithApiShard } from "../types/util";
+import type { PromiseResult, Result } from "..";
+import type { FetchOptions } from "../types/util";
 
-export interface FetchOptions extends WithApiShard {
-  /**
-   * Endpoint to hit of the api
-   */
-  endpoint: string;
-
-  /**
-   * Additional headers to apply to the request
-   *
-   * @default undefined
-   */
-  headers?: Record<string, string>;
-
-  /**
-   * Additional parameters to apply to the request
-   *
-   * @default undefined
-   */
-  params?: any;
-
-  /**
-   * Concatenate the endpoint to the root domain / base URL rather than on top of a shard
-   *
-   * @default false
-   */
-  root?: boolean;
-}
-
-async function fetchSingle<T = never>({
+export async function fetch<T>({
   apiKey,
   endpoint,
   headers = {},
@@ -46,7 +18,9 @@ async function fetchSingle<T = never>({
   if (!Object.values(Shard).includes(shard))
     throw new Error(ErrorCode.INVALID_SHARD);
 
-  const url = `${BASE_URL}/${root ? endpoint : `shards/${shard}/${endpoint}`}`;
+  const url = root
+    ? `${BASE_URL}/${endpoint}`
+    : `${BASE_URL}/shards/${shard}/${endpoint}`;
 
   try {
     const response: AxiosResponse<T> = await axios(url, {
@@ -83,14 +57,12 @@ async function fetchSingle<T = never>({
   }
 }
 
-export async function fetch<T, U = Result<T>>(
-  options: FetchOptions | Array<FetchOptions>
-): Promise<U> {
-  if (!Array.isArray(options)) return await fetchSingle<T>(options);
-
-  const responses = await Promise.all(
-    options.map((option) => fetchSingle<T>(option))
-  );
+export async function fetchAll<T>(
+  options: Array<FetchOptions>
+): Promise<Array<Result<T>>> {
+  const responses = (await Promise.all(
+    options.map((option) => fetch<T>(option))
+  )) as Array<Result<T>>;
 
   responses.forEach((res) => {
     if (res.error) return res;
