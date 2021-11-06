@@ -3,7 +3,7 @@ import { fetch } from "../util";
 import type {
   ApiTournaments,
   BaseResponse,
-  Result,
+  PromiseResult,
   Tournament,
   Tournaments,
 } from "..";
@@ -18,7 +18,9 @@ interface ApiTournamentsResponse extends BaseResponse {
   data: Array<ApiTournaments>;
 }
 
-export type TournamentsResponse = Result<Tournament | Array<Tournaments>>;
+export type TournamentsResponse = PromiseResult<
+  Tournament | Array<Tournaments>
+>;
 
 /**
  * Gets all tournaments

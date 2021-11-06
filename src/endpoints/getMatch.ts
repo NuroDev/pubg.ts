@@ -5,7 +5,7 @@ import type {
   BaseResponse,
   Match,
   Participant,
-  Result,
+  PromiseResult,
   Roster,
 } from "..";
 import type { WithApiShard } from "../types/util";
@@ -33,7 +33,7 @@ interface ApiMatchResponse extends BaseResponse {
   included: Array<Participant | Roster>;
 }
 
-export type MatchResponse = Result<Match>;
+export type MatchResponse = PromiseResult<Match>;
 
 /**
  * Get a match from a specificed match id

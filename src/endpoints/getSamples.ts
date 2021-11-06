@@ -1,6 +1,11 @@
 import { fetch } from "../util";
 
-import type { ApiSampleMatches, Result, Sample, SampleMatches } from "..";
+import type {
+  ApiSampleMatches,
+  PromiseResult,
+  Sample,
+  SampleMatches,
+} from "..";
 import type { WithApiShard } from "../types/util";
 
 export interface SamplesOptions extends WithApiShard {
@@ -38,7 +43,7 @@ interface ApiSamplesResponse {
 /**
  * @see https://documentation.pubg.com/en/samples-endpoint.html
  */
-export type SamplesResponse = Result<
+export type SamplesResponse = PromiseResult<
   Sample & {
     /**
      * ID of the sample

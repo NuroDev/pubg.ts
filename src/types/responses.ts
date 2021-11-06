@@ -1,7 +1,7 @@
 import type { PubgResponseError } from ".";
 import type { WithLinks } from "./util";
 
-export type Result<T> = Promise<
+export type Result<T> =
   | {
       data: T;
       error: null;
@@ -10,8 +10,9 @@ export type Result<T> = Promise<
       data: null;
       error: PubgResponseError;
       status?: number;
-    }
->;
+    };
+
+export type PromiseResult<T> = Promise<Result<T>>;
 
 export enum ResponseObjectType {
   ASSET = "asset",

@@ -1,6 +1,13 @@
-import { fetch } from "../util";
+import { chunkify, fetch } from "../util";
 
-import type { ApiPlayer, BaseResponse, Player, Result } from "..";
+import type {
+  ApiPlayer,
+  BaseResponse,
+  Player,
+  PromiseResult,
+  Result,
+} from "..";
+import type { FetchOptions } from "../util";
 import type { WithApiShard } from "../types/util";
 
 export interface PlayerOptions extends WithApiShard {
@@ -29,7 +36,7 @@ interface ApiPlayerResponse extends BaseResponse {
  *
  * @see https://documentation.pubg.com/en/players-endpoint.html/
  */
-export type PlayerResponse = Result<Player | Array<Player>>;
+export type PlayerResponse = PromiseResult<Player | Array<Player>>;
 
 /**
  * Get player(s) by a given name(s) or id(s)
@@ -49,28 +56,34 @@ export async function getPlayer({
 
   const endpoint = !isArray && id ? `players/${value}` : "players";
 
-  const params =
-    id && !isArray
-      ? undefined
-      : {
-          [`filter[${id ? "playerIds" : "playerNames"}]`]: isArray
-            ? value.join(",")
-            : value,
-        };
+  const fetchOptions: FetchOptions | Array<FetchOptions> = isArray
+    ? chunkify(value).map((chunk) => ({
+        ...rest,
+        endpoint,
+        params: {
+          [`filter[${id ? "playerIds" : "playerNames"}]`]: chunk.join(","),
+        },
+      }))
+    : {
+        ...rest,
+        endpoint,
+        params: id
+          ? undefined
+          : {
+              "filter[playerNames]": value,
+            },
+      };
 
-  const response = await fetch<ApiPlayerResponse>({
-    ...rest,
-    endpoint,
-    params,
-  });
+  const response = await fetch<
+    ApiPlayerResponse,
+    Result<ApiPlayerResponse> | Array<Result<ApiPlayerResponse>>
+  >(fetchOptions);
 
-  if (response.error) return response;
+  if (!Array.isArray(response)) {
+    if (response.error) return response;
 
-  const { data } = response.data;
-  const isDataArray = Array.isArray(data);
-
-  if (!isDataArray || (isDataArray && data.length === 1)) {
-    const player = isDataArray ? data[0] : data;
+    const { data } = response.data;
+    const player = Array.isArray(data) ? data[0] : data;
 
     return {
       data: {
@@ -83,6 +96,16 @@ export async function getPlayer({
       error: null,
     };
   }
+
+  response.forEach((res) => {
+    if (res.error) return res;
+
+    return;
+  });
+
+  const data = response
+    .map(({ data }) => data?.data)
+    .flat() as Array<ApiPlayer>;
 
   return {
     data: data.map(({ attributes, id, relationships, type }) => ({

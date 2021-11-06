@@ -4,7 +4,7 @@ import type {
   ApiTournament,
   BaseResponse,
   ApiMatch,
-  Result,
+  PromiseResult,
   Tournament,
   Tournaments,
 } from "..";
@@ -31,7 +31,7 @@ interface ApiTournamentResponse extends BaseResponse {
   included: Array<Pick<ApiMatch, "attributes" | "id" | "type">>;
 }
 
-export type TournamentResponse = Result<Tournament | Array<Tournaments>>;
+export type TournamentResponse = PromiseResult<Tournament | Array<Tournaments>>;
 
 /**
  * Gets a specific tournament using a provided match id
