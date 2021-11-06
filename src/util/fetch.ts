@@ -46,10 +46,7 @@ async function fetchSingle<T = never>({
   if (!Object.values(Shard).includes(shard))
     throw new Error(ErrorCode.INVALID_SHARD);
 
-  // TODO: Cleanup
-  const url = root
-    ? `${BASE_URL}/${endpoint}`
-    : `${BASE_URL}/shards/${shard}/${endpoint}`;
+  const url = `${BASE_URL}/${root ? endpoint : `shards/${shard}/${endpoint}`}`;
 
   try {
     const response: AxiosResponse<T> = await axios(url, {
@@ -94,7 +91,6 @@ export async function fetch<T, U = Result<T>>(
   const responses = await Promise.all(
     options.map((option) => fetchSingle<T>(option))
   );
-  console.log("responses", responses);
 
   responses.forEach((res) => {
     if (res.error) return res;
