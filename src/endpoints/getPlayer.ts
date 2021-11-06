@@ -49,15 +49,14 @@ export async function getPlayer({
 
   const endpoint = !isArray && id ? `players/${value}` : "players";
 
-  const params = id
-    ? isArray
-      ? {
-          "filter[playerIds]": value.join(","),
-        }
-      : undefined
-    : {
-        "filter[playerNames]": isArray ? value.join(",") : value,
-      };
+  const params =
+    id && !isArray
+      ? undefined
+      : {
+          [`filter[${id ? "playerIds" : "playerNames"}]`]: isArray
+            ? value.join(",")
+            : value,
+        };
 
   const response = await fetch<ApiPlayerResponse>({
     ...rest,
