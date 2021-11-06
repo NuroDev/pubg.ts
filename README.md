@@ -24,6 +24,14 @@
   
 </div>
 
+## ✨ Features
+
+- ❗ Stirctly typed
+- ⚡ Request batching
+- ✍️ Verbose documentation
+- 🪝 Hooks support
+- ⚠️ Error handling
+
 ## 🚀 Install
 
 Install it locally in your project
@@ -63,20 +71,21 @@ const client = new Client({
 });
 
 // Get a single or multiple player(s) using their name or ID
-const player = await api.getPlayer({
+const { data: player } = await api.getPlayer({
+  skipFailed: false, // Optional: fail silently (Default: false)
   value: "single_name_or_id_or_array_of_such",
 });
 
 // Fetch a data from a single match
-const match = await client.getMatch({
+const { data: match } = await client.getMatch({
   id: "a036c694-be29-4dea-833d-b6ff84323de7",
 });
 
 // Get the current active season
-const activeSeason = await client.getSeason();
+const { data: activeSeason } = await client.getSeason();
 
 // Get season stats for a specific player
-const playerSeason = await client.getPlayerSeason({
+const { data: playerSeason } = await client.getPlayerSeason({
   player: player.id,
   season: activeSeason,
   ranked: false, // Optionally gets stats for ranked gamemodes
@@ -89,25 +98,26 @@ Using individual fetchers
 import { Shard, getPlayer, getMatch, getSeason } from "pubg.ts";
 
 // Get a single or multiple player(s) using their name or ID
-const player = await getPlayer({
+const { data: player } = await getPlayer({
   apiKey: "your_key_goes_here",
-  shard: Shard.STEAM, // Optional for all hooks (Default: Steam)
+  shard: Shard.STEAM, // Optional: for all hooks (Default: Steam)
+  skipFailed: false, // Optional: fail silently (Default: false)
   value: "single_name_or_id_or_array_of_such",
 });
 
 // Fetch a data from a single match
-const match = await getMatch({
+const { data: match } = await getMatch({
   apiKey: "your_key_goes_here",
   id: "a036c694-be29-4dea-833d-b6ff84323de7",
 });
 
 // Get the current active season
-const activeSeason = await getSeason({
+const { data: activeSeason } = await getSeason({
   apiKey: "your_key_goes_here",
 });
 
 // Get season stats for a specific player
-const playerSeason = await getPlayerSeason({
+const { data: playerSeason } = await getPlayerSeason({
   apiKey: "your_key_goes_here",
   player: player.id,
   season: activeSeason,
