@@ -95,8 +95,12 @@ export async function getPlayer({
         data: null,
         error: {
           title: "Failed data length validation",
-          detail:
-            "Input array length does not match response length. Some data might be missing from the response.",
+          detail: `Input array length does not match response length. Players missing: ${value
+            .filter(
+              (v) =>
+                data.map(({ attributes }) => attributes.name).indexOf(v) === -1
+            )
+            .join(", ")}`,
         },
         status: 400,
       };
