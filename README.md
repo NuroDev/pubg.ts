@@ -88,7 +88,6 @@ const { data: activeSeason } = await client.getSeason();
 const { data: playerSeason } = await client.getPlayerSeason({
   player: player.id,
   season: activeSeason,
-  ranked: false, // Optionally gets stats for ranked gamemodes
 });
 ```
 
@@ -121,7 +120,6 @@ const { data: playerSeason } = await getPlayerSeason({
   apiKey: "your_key_goes_here",
   player: player.id,
   season: activeSeason,
-  ranked: false, // Optionally gets stats for ranked gamemodes
 });
 ```
 
