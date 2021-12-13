@@ -1,10 +1,10 @@
 import { ResponseObjectType } from "..";
-import { fetch } from "../util";
+import { chunkify, fetch, fetchAll } from "../util";
 
 import type {
   ApiPlayerSeason,
   BaseResponse,
-  Player,
+  GameModeStatGamemode,
   PlayerSeason,
   PromiseResult,
   Season,
@@ -13,14 +13,14 @@ import type { WithApiShard } from "../types/util";
 
 export interface PlayerSeasonOptions extends WithApiShard {
   /**
-   * Player object or id
+   * Gamemode type
    */
-  player: Player | string;
+  gamemode: GameModeStatGamemode;
 
   /**
-   * Fetch player ranked statistics
+   * Player object or id
    */
-  ranked?: boolean;
+  player: string | Array<string>;
 
   /**
    * Season object or id
@@ -37,7 +37,9 @@ interface ApiPlayerSeasonResponse extends BaseResponse {
   data: ApiPlayerSeason;
 }
 
-export type PlayerSeasonResponse = PromiseResult<PlayerSeason>;
+export type PlayerSeasonResponse = PromiseResult<
+  PlayerSeason | Array<PlayerSeason>
+>;
 
 /**
  * Get data for a single season of a player(s) by a given id or name
@@ -47,60 +49,71 @@ export type PlayerSeasonResponse = PromiseResult<PlayerSeason>;
  * @param {string | undefined} [options.shard] - Platform Shard
  */
 export async function getPlayerSeason({
+  gamemode,
   player,
-  ranked = false,
   season,
   ...rest
 }: PlayerSeasonOptions): PlayerSeasonResponse {
-  const { playerId, shard } =
-    typeof player === "object"
-      ? { playerId: player.id, shard: player.shardId }
-      : { playerId: player, shard: rest.shard };
-
   const seasonId = typeof season === "object" ? season.id : season;
+
+  // TODO: Add ranked support
+
+  if (Array.isArray(player)) {
+    const fetchOptions = chunkify(player).map((chunk) => ({
+      ...rest,
+      endpoint: `seasons/${seasonId}/gameMode/${gamemode}/players`,
+      params: {
+        ["filter[playerIds]"]: chunk.join(","),
+      },
+    }));
+
+    const responses = await fetchAll<ApiPlayerSeasonResponse>(fetchOptions);
+
+    const error = responses.find((res) => res.error !== null);
+    if (error && error.error) return error;
+
+    const data = responses.map(({ data }) => data!.data).flat();
+
+    return {
+      data: data.map((d) => handlePlayerSeasonData(d)),
+      error: null,
+    };
+  }
 
   const response = await fetch<ApiPlayerSeasonResponse>({
     ...rest,
-    endpoint: `players/${playerId}/seasons/${seasonId}${
-      ranked ? "/ranked" : ""
-    }`,
-    shard,
+    endpoint: `players/${player}/seasons/${seasonId}`,
   });
 
   if (response.error) return response;
 
-  const { data } = response.data;
+  return {
+    data: handlePlayerSeasonData(response.data.data),
+    error: null,
+  };
+}
 
+function handlePlayerSeasonData(data: ApiPlayerSeason): PlayerSeason {
   switch (data.type) {
     case ResponseObjectType.PLAYER_SEASON:
-      const matches = Object.fromEntries(
-        Object.entries(data.relationships).map(([key, value]) => {
-          if (key === "player" || key === "season") return [];
-
-          return [key, value];
-        })
-      );
-
       return {
-        data: {
-          bestRankPoint: data.attributes.bestRankPoint ?? undefined,
-          gamemodeStats: data.attributes.gameModeStats,
-          matches,
-          playerId: data.relationships.player.data.id,
-          seasonId: data.relationships.season.data.id,
-          type: data.type,
-        },
-        error: null,
+        bestRankPoint: data.attributes.bestRankPoint ?? undefined,
+        gamemodeStats: data.attributes.gameModeStats,
+        matches: Object.fromEntries(
+          Object.entries(data.relationships).map(([key, value]) =>
+            key === "player" || key === "season" ? [] : [key, value]
+          )
+        ),
+        playerId: data.relationships.player.data.id,
+        seasonId: data.relationships.season.data.id,
+        type: data.type,
       };
     case ResponseObjectType.RANKED_PLAYER_SEASON:
       return {
-        data: {
-          playerId: data.relationships.player.data.id,
-          rankedGameModeStats: data.attributes.rankedGameModeStats,
-          seasonId: data.relationships.season.data.id,
-          type: data.type,
-        },
-        error: null,
+        playerId: data.relationships.player.data.id,
+        rankedGameModeStats: data.attributes.rankedGameModeStats,
+        seasonId: data.relationships.season.data.id,
+        type: data.type,
       };
   }
 }

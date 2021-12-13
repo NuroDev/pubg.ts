@@ -4,6 +4,7 @@ import { BASE_HEADERS, BASE_URL } from "../constants";
 import { ErrorCode, PubgResponseError, Shard } from "../types";
 
 import type { AxiosResponse } from "axios";
+
 import type { PromiseResult, Result } from "..";
 import type { FetchOptions } from "../types/util";
 
