@@ -23,6 +23,11 @@ export interface PlayerSeasonOptions extends WithApiShard {
   player: string | Array<string>;
 
   /**
+   * Fetch player ranked statistics
+   */
+  ranked?: boolean;
+
+  /**
    * Season object or id
    */
   season: Season | string;
@@ -51,12 +56,20 @@ export type PlayerSeasonResponse = PromiseResult<
 export async function getPlayerSeason({
   gamemode,
   player,
+  ranked = false,
   season,
   ...rest
 }: PlayerSeasonOptions): PlayerSeasonResponse {
   const seasonId = typeof season === "object" ? season.id : season;
 
-  // TODO: Add ranked support
+  if (ranked)
+    return {
+      data: null,
+      error: {
+        title: "Unimplemented",
+        detail: "Ranked player season stats are currently not supported",
+      },
+    };
 
   if (Array.isArray(player)) {
     const fetchOptions = chunkify(player).map((chunk) => ({
