@@ -29,9 +29,9 @@
     "README.md"
   ],
   "scripts": {
-    "dev": "npm run build -- --watch",
+    "dev": "yarn build --watch",
     "build": "rimraf dist && tsup",
-    "build:prod": "cross-env NODE_ENV=production npm run build"
+    "build:prod": "cross-env NODE_ENV=production yarn build"
   },
   "dependencies": {
     "axios": "^0.22.0"
