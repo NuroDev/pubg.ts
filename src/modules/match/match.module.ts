@@ -29,7 +29,7 @@ interface ApiMatchResponse extends BaseResponse {
 }
 
 /**
- * `getMatch`
+ * @name `getMatch`
  *
  * @description Get a match from a specificed match id
  *

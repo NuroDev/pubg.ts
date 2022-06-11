@@ -37,7 +37,9 @@ interface ApiPlayerResponse extends BaseResponse {
 }
 
 /**
- * Get player(s) by a given name(s) or id(s)
+ * @name `getPlayer``
+ *
+ * @description Get player(s) by a given name(s) or id(s)
  *
  * @param {Object} options - Player Options
  * @param {string} options.apiKey - PUBG Developer API key
