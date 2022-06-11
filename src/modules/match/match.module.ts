@@ -1,12 +1,7 @@
 import { fetch } from "~/util";
 
 import type { BaseResponse, Module, Result, WithApiShard } from "~/util/types";
-import type {
-  ApiMatch,
-  Match,
-  Participant,
-  Roster,
-} from "~/modules/match/match.types";
+import type { ApiMatch, Match, Participant, Roster } from "./match.types";
 
 export interface MatchOptions extends WithApiShard {
   id: string;

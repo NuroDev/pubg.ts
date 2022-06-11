@@ -1,7 +1,7 @@
 import { chunkify, fetchAll } from "~/util";
 
 import type { BaseResponse, Module, Result, WithApiShard } from "~/util/types";
-import type { ApiPlayer, Player } from "~/modules/player/player.types";
+import type { ApiPlayer, Player } from "./player.types";
 
 export interface PlayerOptions extends WithApiShard {
   /**
