@@ -11,21 +11,3 @@ export interface PubgResponseError {
   detail: string;
   title: string;
 }
-
-enum PlayerError {
-  /**
-   * Not Found
-   *
-   * No player(s) found matching the criteria
-   */
-  NOT_FOUND = "not-found",
-}
-
-export const PlayerErrors: {
-  [Error in PlayerError]: PubgResponseError;
-} = {
-  [PlayerError.NOT_FOUND]: {
-    detail: "No player(s) found matching the criteria",
-    title: "Not found",
-  },
-};

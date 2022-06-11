@@ -1,19 +1,9 @@
-import { fetch } from "../util";
+import { fetch } from "~/util";
 
-import type {
-  ApiMatch,
-  BaseResponse,
-  Match,
-  Participant,
-  PromiseResult,
-  Roster,
-} from "..";
-import type { WithApiShard } from "../types/util";
+import type { BaseResponse, Module, Result, WithApiShard } from "~/util/types";
+import type { ApiMatch, Match, Participant, Roster } from "./match.types";
 
 export interface MatchOptions extends WithApiShard {
-  /**
-   * Match ID
-   */
   id: string;
 }
 
@@ -33,17 +23,19 @@ interface ApiMatchResponse extends BaseResponse {
   included: Array<Participant | Roster>;
 }
 
-export type MatchResponse = PromiseResult<Match>;
-
 /**
- * Get a match from a specificed match id
+ * @name `getMatch`
  *
- * @param {Object} options - Match Options
- * @param {string} options.apiKey - PUBG Developer API key
- * @param {string} options.id - Match ID
- * @param {string | undefined} [options.shard] - Platform Shard
+ * @description Get a match from a specificed match id
+ *
+ * @param {String} options.apiKey - PUBG Developer API key
+ * @param {String} options.id - Match ID
+ * @param {String} [options.shard="Steam"] - Platform Shard
  */
-export async function getMatch({ id, ...rest }: MatchOptions): MatchResponse {
+export const getMatch: Module<MatchOptions, Result<Match>> = async ({
+  id,
+  ...rest
+}) => {
   const response = await fetch<ApiMatchResponse>({
     ...rest,
     endpoint: `matches/${id}`,
@@ -63,4 +55,4 @@ export async function getMatch({ id, ...rest }: MatchOptions): MatchResponse {
     },
     error: null,
   };
-}
+};

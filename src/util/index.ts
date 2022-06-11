@@ -1,2 +1,3 @@
-export * from "./chunkify";
-export * from "./fetch";
+export { chunkify } from "./chunkify";
+
+export { fetch, fetchAll } from "./fetch";

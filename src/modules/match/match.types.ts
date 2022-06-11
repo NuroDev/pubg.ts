@@ -1,15 +1,17 @@
 import type {
-  ApiAssets,
-  Assets,
   DeathType,
   Gamemode,
   Map,
   MatchType,
-  ResponseObjectType,
   SeasonState,
   Shard,
-} from ".";
-import type { WithLinks } from "./util";
+} from "~/types";
+import type {
+  ApiAssets,
+  Asset,
+  ResponseObjectType,
+  WithLinks,
+} from "~/util/types";
 
 export interface MatchAttributes {
   /**
@@ -53,12 +55,12 @@ export interface MatchAttributes {
   shardId: Shard;
 
   /**
-   * Unknown
+   * @todo Unknown
    */
   stats: unknown | null;
 
   /**
-   * Unknown
+   * @todo Unknown
    */
   tags: unknown | null;
 
@@ -215,7 +217,7 @@ export interface Participant {
        */
       kills: number;
       /**
-       * Unknown
+       * @todo Unknown
        *
        * Min: 0
        */
@@ -343,7 +345,7 @@ export interface Match extends Pick<ApiMatch, "id" | "type">, MatchAttributes {
   /**
    * Any assets a part of the match
    */
-  assets: Assets;
+  assets: Array<Asset>;
   /**
    * An array of all members (participants/rosters) who took part in the game
    */

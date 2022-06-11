@@ -135,32 +135,32 @@ export enum Gamemode {
   /**
    * Conquest Duo's (Third Person Perspective)
    */
-  CONQUEST_DUO = "conquest_duo",
+  CONQUEST_DUO = "conquest-duo",
 
   /**
    * Conquest Duo's (First Person Perspective)
    */
-  CONQUEST_DUO_FPP = "conquest_duo_fpp",
+  CONQUEST_DUO_FPP = "conquest-duo-fpp",
 
   /**
    * Conquest Solo's (Third Person Perspective)
    */
-  CONQUEST_SOLO = "conquest_solo",
+  CONQUEST_SOLO = "conquest-solo",
 
   /**
    * Conquest Solos' (First Person Perspective)
    */
-  CONQUEST_SOLO_FPP = "conquest_solo_fpp",
+  CONQUEST_SOLO_FPP = "conquest-solo-fpp",
 
   /**
    * Conquest Squad (Third Person Perspective)
    */
-  CONQUEST_SQUAD = "conquest_squad",
+  CONQUEST_SQUAD = "conquest-squad",
 
   /**
    * Conquest Squad (First Person Perspective)
    */
-  CONQUEST_SQUAD_FPP = "conquest_squad_fpp",
+  CONQUEST_SQUAD_FPP = "conquest-squad-fpp",
 
   /**
    * Duo's (Third Person Perspective)
@@ -170,77 +170,77 @@ export enum Gamemode {
   /**
    * Duo's (First Person Perspective)
    */
-  DUO_FPP = "duo_fpp",
+  DUO_FPP = "duo-fpp",
 
   /**
    * Esports Duo's (Third Person Perspective)
    */
-  ESPORTS_DUO = "esports_duo",
+  ESPORTS_DUO = "esports-duo",
 
   /**
    * Esports Duo's (First Person Perspective)
    */
-  ESPORTS_DUO_FPP = "esports_duo_fpp",
+  ESPORTS_DUO_FPP = "esports-duo-fpp",
 
   /**
    * Esports Solo's (Third Person Perspective)
    */
-  ESPORTS_SOLO = "esports_solo",
+  ESPORTS_SOLO = "esports-solo",
 
   /**
    * Esports Solo's (First Person Perspective)
    */
-  ESPORTS_SOLO_FPP = "esports_solo_fpp",
+  ESPORTS_SOLO_FPP = "esports-solo-fpp",
 
   /**
    * Esports Squad (Third Person Perspective)
    */
-  ESPORTS_SQUAD = "esports_squad",
+  ESPORTS_SQUAD = "esports-squad",
 
   /**
    * Esports Squad (First Person Perspective)
    */
-  ESPORTS_SQUAD_FPP = "esports_squad_fpp",
+  ESPORTS_SQUAD_FPP = "esports-squad-fpp",
 
   /**
-   * Unknown (First Person Perspective)
+   * @todo Unknown (First Person Perspective)
    */
-  LAB_FPP = "lab_fpp",
+  LAB_FPP = "lab-fpp",
 
   /**
-   * Unknown (Third Person Perspective)
+   * @todo Unknown (Third Person Perspective)
    */
-  LAB_TPP = "lab_tpp",
+  LAB_TPP = "lab-tpp",
 
   /**
    * Normal Duo's (Third Person Perspective)
    */
-  NORMAL_DUO = "normal_duo",
+  NORMAL_DUO = "normal-duo",
 
   /**
    * Normal Duo's (First Person Perspective)
    */
-  NORMAL_DUO_FPP = "normal_duo_fpp",
+  NORMAL_DUO_FPP = "normal-duo-fpp",
 
   /**
    * Normal Solo's (Third Person Perspective)
    */
-  NORMAL_SOLO = "normal_solo",
+  NORMAL_SOLO = "normal-solo",
 
   /**
    * Normal Solo's (First Person Perspective)
    */
-  NORMAL_SOLO_FPP = "normal_solo_fpp",
+  NORMAL_SOLO_FPP = "normal-solo-fpp",
 
   /**
    * Normal Squad (Third Person Perspective)
    */
-  NORMAL_SQUAD = "normal_squad",
+  NORMAL_SQUAD = "normal-squad",
 
   /**
    * Normal Squad (First Person Perspective)
    */
-  NORMAL_SQUAD_FPP = "normal_squad_fpp",
+  NORMAL_SQUAD_FPP = "normal-squad-fpp",
 
   /**
    * Solo's (Third Person Perspective)
@@ -250,7 +250,7 @@ export enum Gamemode {
   /**
    * Solo's (First Person Perspective)
    */
-  SOLO_FPP = "solo_fpp",
+  SOLO_FPP = "solo-fpp",
 
   /**
    * Squad (Third Person Perspective)
@@ -260,7 +260,7 @@ export enum Gamemode {
   /**
    * Squad (First Person Perspective)
    */
-  SQUAD_FPP = "squad_fpp",
+  SQUAD_FPP = "squad-fpp",
 
   /**
    * Team Deathmatch
@@ -270,60 +270,60 @@ export enum Gamemode {
   /**
    * War Duo's (Third Person Perspective)
    */
-  WAR_DUO = "war_duo",
+  WAR_DUO = "war-duo",
 
   /**
    * War Duo's (First Person Perspective)
    */
-  WAR_DUO_FPP = "war_duo_fpp",
+  WAR_DUO_FPP = "war-duo-fpp",
 
   /**
    * War Solo's (Third Person Perspective)
    */
-  WAR_SOLO = "war_solo",
+  WAR_SOLO = "war-solo",
 
   /**
    * War Solo's (First Person Perspective)
    */
-  WAR_SOLO_FPP = "war_solo_fpp",
+  WAR_SOLO_FPP = "war-solo-fpp",
 
   /**
    * War Squad (Third Person Perspective)
    */
-  WAR_SQUAD = "war_squad",
+  WAR_SQUAD = "war-squad",
 
   /**
    * War Squad (First Person Perspective)
    */
-  WAR_SQUAD_FPP = "war_squad_fpp",
+  WAR_SQUAD_FPP = "war-squad-fpp",
 
   /**
    * Zombie Duo's (Third Person Perspective)
    */
-  ZOMBIE_DUO = "zombie_duo",
+  ZOMBIE_DUO = "zombie-duo",
 
   /**
    * Zombie Duo's (First Person Perspective)
    */
-  ZOMBIE_DUO_FPP = "zombie_duo_fpp",
+  ZOMBIE_DUO_FPP = "zombie-duo-fpp",
 
   /**
    * Zombie Solo's (Third Person Perspective)
    */
-  ZOMBIE_SOLO = "zombie_solo",
+  ZOMBIE_SOLO = "zombie-solo",
 
   /**
    * Zombie Solo's (First Person Perspective)
    */
-  ZOMBIE_SOLO_FPP = "zombie_solo_fpp",
+  ZOMBIE_SOLO_FPP = "zombie-solo-fpp",
 
   /**
    * Zombie Squad (Third Person Perspective)
    */
-  ZOMBIE_SQUAD = "zombie_squad",
+  ZOMBIE_SQUAD = "zombie-squad",
 
   /**
    * Zombie Squad (First Person Perspective)
    */
-  ZOMBIE_SQUAD_FPP = "zombie_squad_fpp",
+  ZOMBIE_SQUAD_FPP = "zombie-squad-fpp",
 }

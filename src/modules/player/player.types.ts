@@ -1,7 +1,6 @@
-import { ResponseObjectType, Shard } from ".";
-
-import type { ApiMatch } from ".";
-import type { WithLinks } from "./util";
+import type { ApiMatch } from "~/modules/match/match.types";
+import type { Shard } from "~/types";
+import type { ResponseObjectType, WithLinks } from "~/util/types";
 
 interface PlayerAttributes {
   /**

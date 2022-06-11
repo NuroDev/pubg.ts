@@ -1,4 +1,6 @@
-export * from "./client";
-export * from "./endpoints";
+import * as modules from "./modules";
 
-export * from "./types";
+export * from "./client";
+export * from "./modules";
+
+export default modules;
