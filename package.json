@@ -1,6 +1,6 @@
 {
   "name": "pubg.ts",
-  "version": "0.1.7",
+  "version": "1.1.0",
   "description": "A lightweight PUBG TypeScript API Wrapper",
   "repository": {
     "type": "git",
