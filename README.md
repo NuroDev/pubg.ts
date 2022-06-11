@@ -29,7 +29,6 @@
 - ❗ Stirctly typed
 - ⚡ Request batching
 - ✍️ Verbose documentation
-- 🪝 Hooks support
 - ⚠️ Error handling
 
 ## 🚀 Install
@@ -58,72 +57,110 @@ You'll first need to [sign up on the PUBG developer API site](https://developer.
 
 With an account created, you can [create a new developer application](https://developer.playbattlegrounds.com/apps/new?locale=en) that will provide you with your API key.
 
-### Make something!
+### Basic
 
-Here's a few small examples of what you can do with this library
+As a basic example here's how to fetch player data:
 
 ```typescript
-import { Client, Shard } from "pubg.ts";
+import { getPlayer } from "pubg.ts";
+
+const { data, error } = await getPlayer({
+  value: "YOUR_NAME_HERE",
+});
+
+console.log({ data, error });
+```
+
+## 📕 Documentation
+
+Here is a breakdown of all modules that the package provides & how to use them:
+
+<details>
+  <summary>Match</summary>
+  
+  ## Match
+
+Get a match from a specificed match id.
+
+---
+
+Get started using the module function:
+
+```typescript
+import { getMatch } from "pubg.ts";
+
+const { data, error } = await getMatch({
+  apiKey: "...",
+  id: "a036c694-be29-4dea-833d-b6ff84323de7",
+});
+```
+
+Or using the client:
+
+```typescript
+import { Client } from "pubg.ts";
 
 const client = new Client({
-  apiKey: "your_key_goes_here",
-  shard: Shard.STEAM, // Optional (Default: Steam)
+  apiKey: "...",
 });
 
-// Get a single or multiple player(s) using their name or ID
-const { data: player } = await api.getPlayer({
-  skipFailed: false, // Optional: fail silently (Default: false)
-  value: "single_name_or_id_or_array_of_such",
-});
-
-// Fetch a data from a single match
-const { data: match } = await client.getMatch({
+const { data, error } = await getMatch({
   id: "a036c694-be29-4dea-833d-b6ff84323de7",
-});
-
-// Get the current active season
-const { data: activeSeason } = await client.getSeason();
-
-// Get season stats for a specific player
-const { data: playerSeason } = await client.getPlayerSeason({
-  player: player.id,
-  season: activeSeason,
-  ranked: false, // Optionally gets stats for ranked gamemodes
 });
 ```
 
-Using individual fetchers
+</details>
+
+<details>
+  <summary>Player</summary>
+  
+  ## Player
+
+Get player(s) by a given name(s) or id(s).
+
+---
+
+Get started using the module function:
 
 ```typescript
-import { Shard, getPlayer, getMatch, getSeason } from "pubg.ts";
+import { getPlayer } from "pubg.ts";
 
-// Get a single or multiple player(s) using their name or ID
-const { data: player } = await getPlayer({
-  apiKey: "your_key_goes_here",
-  shard: Shard.STEAM, // Optional: for all hooks (Default: Steam)
-  skipFailed: false, // Optional: fail silently (Default: false)
-  value: "single_name_or_id_or_array_of_such",
+// Using a player name
+const { data, error } = await getPlayer({
+  apiKey: "...",
+  value: "YOUR_NAME_HERE",
 });
 
-// Fetch a data from a single match
-const { data: match } = await getMatch({
-  apiKey: "your_key_goes_here",
-  id: "a036c694-be29-4dea-833d-b6ff84323de7",
-});
-
-// Get the current active season
-const { data: activeSeason } = await getSeason({
-  apiKey: "your_key_goes_here",
-});
-
-// Get season stats for a specific player
-const { data: playerSeason } = await getPlayerSeason({
-  apiKey: "your_key_goes_here",
-  player: player.id,
-  season: activeSeason,
-  ranked: false, // Optionally gets stats for ranked gamemodes
+// Using a player ID
+const { data, error } = await getPlayer({
+  apiKey: "...",
+  id: true,
+  value: "account.ABC123",
 });
 ```
+
+Or using the client:
+
+```typescript
+import { Client } from "pubg.ts";
+
+const client = new Client({
+  apiKey: "...",
+});
+
+// Using a player name
+const { data, error } = await getPlayer({
+  value: "YOUR_NAME_HERE",
+});
+
+// Using a player ID
+const { data, error } = await getPlayer({
+  id: true,
+  value: "account.ABC123",
+});
+```
+
+</details>
 
 ## ❤️ Credits
 
