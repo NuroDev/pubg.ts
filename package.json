@@ -56,18 +56,26 @@
     }
   },
   "scripts": {
+    "coverage": "vitest run --coverage",
     "dev": "yarn build --watch",
     "build": "rimraf dist && tsup",
-    "build:prod": "cross-env NODE_ENV=production yarn build"
+    "build:prod": "cross-env NODE_ENV=production yarn build",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:ui": "vitest watch --ui"
   },
   "dependencies": {
     "axios": "^0.27.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.41",
+    "@vitest/ui": "^0.14.2",
+    "c8": "^7.11.3",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
     "rimraf": "^3.0.2",
     "tsup": "^6.1.0",
-    "typescript": "^4.7.3"
+    "typescript": "^4.7.3",
+    "vitest": "^0.14.2"
   }
 }
