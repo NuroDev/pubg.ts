@@ -8,7 +8,7 @@
  */
 export enum Shard {
   /**
-   * Console - PSN/Xbox (getd for the /matches and /samples endpoints)
+   * Console - Playstation Network / Xbox (getd for the /matches and /samples endpoints)
    */
   CONSOLE = "console",
 
@@ -18,7 +18,7 @@ export enum Shard {
   KAKAO = "kakao",
 
   /**
-   * PayStation Network
+   * PlayStation Network
    */
   PSN = "psn",
 

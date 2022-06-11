@@ -1,27 +1,7 @@
-import type { Links, Shard } from "./index";
+import type { PubgResponseError } from "~/types";
+import type { WithApiShard } from "~/util/types";
 
-export type WithApiKey<T = {}> = T & {
-  /**
-   * PUBG Developer App API access token
-   */
-  apiKey: string;
-};
-
-export type WithShard<T = {}> = T & {
-  /**
-   * The server shard to send the request to
-   */
-  shard?: Shard;
-};
-
-export type WithApiShard<T = {}> = T & WithApiKey & WithShard;
-
-export type WithLinks<T = {}> = T & {
-  /**
-   * Links to relevant / current objects
-   */
-  links: Links;
-};
+export type Module<TOptions, TReturn> = (options: TOptions) => Promise<TReturn>;
 
 export interface FetchOptions extends WithApiShard {
   /**
@@ -50,3 +30,14 @@ export interface FetchOptions extends WithApiShard {
    */
   root?: boolean;
 }
+
+export type Result<T> =
+  | {
+      data: T;
+      error: null;
+    }
+  | {
+      data: null;
+      error: PubgResponseError;
+      status?: number;
+    };

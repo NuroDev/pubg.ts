@@ -1,7 +1,7 @@
 const CHUNK_SIZE = 10 as const;
 
 /**
- * Chunkify - Splits up an array into chnks of arrays of a specified size
+ * Chunkify - Splits up an array into chunks of arrays of a specified size
  *
  * @param {Array} array - The input array that will be chunkified
  * @param {number} [chunkSize] - The size of each chunk

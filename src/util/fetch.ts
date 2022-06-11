@@ -1,12 +1,9 @@
 import axios from "axios";
 
-import { BASE_HEADERS, BASE_URL } from "../constants";
-import { ErrorCode, PubgResponseError, Shard } from "../types";
+import { BASE_HEADERS, BASE_URL } from "~/constants";
+import { ErrorCode, PubgResponseError, Shard } from "~/types";
 
-import type { AxiosResponse } from "axios";
-
-import type { PromiseResult, Result } from "..";
-import type { FetchOptions } from "../types/util";
+import type { FetchOptions, Result } from "~/util/types";
 
 export async function fetch<T>({
   apiKey,
@@ -15,7 +12,7 @@ export async function fetch<T>({
   params = {},
   root = false,
   shard = Shard.STEAM,
-}: FetchOptions): PromiseResult<T> {
+}: FetchOptions): Promise<Result<T>> {
   if (!Object.values(Shard).includes(shard))
     throw new Error(ErrorCode.INVALID_SHARD);
 
@@ -24,7 +21,7 @@ export async function fetch<T>({
     : `${BASE_URL}/shards/${shard}/${endpoint}`;
 
   try {
-    const response: AxiosResponse<T> = await axios(url, {
+    const response = await axios.get<T>(url, {
       headers: {
         ...BASE_HEADERS,
         Authorization: `Bearer ${apiKey}`,

@@ -1,7 +1,7 @@
-import { chunkify, fetchAll } from "../util";
+import { chunkify, fetchAll } from "~/util";
 
-import type { ApiPlayer, BaseResponse, Player, PromiseResult } from "..";
-import type { WithApiShard } from "../types/util";
+import type { BaseResponse, Module, Result, WithApiShard } from "~/util/types";
+import type { ApiPlayer, Player } from "~/modules/player/player.types";
 
 export interface PlayerOptions extends WithApiShard {
   /**
@@ -37,13 +37,6 @@ interface ApiPlayerResponse extends BaseResponse {
 }
 
 /**
- * Player(s) data & their recent matches (Up to 14 days old)
- *
- * @see https://documentation.pubg.com/en/players-endpoint.html/
- */
-export type PlayerResponse = PromiseResult<Array<Player>>;
-
-/**
  * Get player(s) by a given name(s) or id(s)
  *
  * @param {Object} options - Player Options
@@ -52,12 +45,12 @@ export type PlayerResponse = PromiseResult<Array<Player>>;
  * @param {string | undefined} [options.shard] - Platform Shard
  * @param {string | Array} - Player or array of players to fetch
  */
-export async function getPlayer({
+export const getPlayer: Module<PlayerOptions, Result<Array<Player>>> = async ({
   id = false,
   skipFailed = false,
   value,
   ...rest
-}: PlayerOptions): PlayerResponse {
+}) => {
   const isArray = Array.isArray(value);
 
   const endpoint = !isArray && id ? `players/${value}` : "players";
@@ -118,4 +111,4 @@ export async function getPlayer({
     })),
     error: null,
   };
-}
+};
