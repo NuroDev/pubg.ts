@@ -146,8 +146,12 @@ describe("Get Player", () => {
   });
 
   describe.concurrent("Client", () => {
-    const client = new Client({
-      apiKey,
+    let client: Client;
+
+    beforeAll(() => {
+      client = new Client({
+        apiKey,
+      });
     });
 
     it.concurrent("Single player name", async () => {

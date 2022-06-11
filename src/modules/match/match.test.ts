@@ -69,8 +69,12 @@ describe("Get Match", () => {
   });
 
   describe.concurrent("Client", () => {
-    const client = new Client({
-      apiKey,
+    let client: Client;
+
+    beforeAll(() => {
+      client = new Client({
+        apiKey,
+      });
     });
 
     it.concurrent("Single Match", async () => {
